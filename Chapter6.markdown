@@ -383,3 +383,206 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 你可能还会注意到`compile`函数好哦的了一个`transclude`属性函数. 这里, 你还有机会以编写一个函数以编程的方式transcludes内容, 对于简单的的基于模板不足以transclusion的情况.
 
 最后, `compile`可以返回一个`preLink`和`postLink`函数, 而`link`仅仅指向一个`posyLink`函数. `preLink`, 正如它的名字所暗示的, 它运行在编译阶段之后, 但是会在指令链接到子元素之前. 同样的, `postLink`会运行在所有的子元素指令被链接之后. 这意味着如果你需要改变DOM结构, 你将在`posyLink`中处理. 在`preLink`中处理将会混淆流程并导致一个错误.
+
+###作用域
+
+你会经常希望从指令中访问作用域来监控模型的值并在它们改变时更新UI, 同时在外部时间造成模型改变时通知Angular. 者时最常见的, 当你从jQuery, Closure或者其他库中包裹一些非Angular组件或者实现简单的DOM事件时. 然后将Angular表达式作为属性传递到你的指令中来执行. 
+
+这也是你期望使用一个作用域的原因之一, 你可以获得三种类型的作用域选项:
+
+1. 从指令的DOM元素中获得**现有的作用域**.
+2. 创建一个**新作用域**, 它继承自你闭合的控制器作用域. 这里, 你见过能够访问树上层作用域中的所有值. 这个作用域将会请求这种作用域与你DOM元素中其他任意指令共享它并被用于与它们通信.
+3. 从它的父层**隔离出来的作用域**不带有模型属性. 当你在创建可重用的组件而需要从父作用域中隔离指令操作时, 你将会希望使用这个选项.
+
+你可以使用下面的语法来创建这些作用域类型的配置:
+
+<table>
+	<thead>
+		<tr>
+			<th>Scope Type</th>
+			<th>Syntax</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>existing scope</td>
+			<td>scope: false(如果不指定将使用这个默认值)
+		</tr>
+		<tr>
+			<td>new scope</td>
+			<td>scope: true</td>
+		</tr>
+		<tr>
+			<td>isolate scope</td>
+			<td>scope: { /* attribute names and binding style */ }</td>
+		</tr>
+	<tbody>
+</table>
+
+当你创建一个隔离的作用域时, 默认情况下你不需要访问父作用域中模型中的任何东西. 然而, 你也可以指定你想要的特定属性传递到你的指令中. 你可以认为是吧这些属性名作为参数传递给函数的.
+
+注意, 虽然隔离的作用域不就成模型属性, 但它们仍然是其副作用域的成员. 就像所有其他作用域一样, 它们都有一个`$parent`属性引用到它们的父级.
+
+你可以通过传递一个指令属性名的映射的方式从父作用域传递特定的属性到隔离的作用域中. 这里有三种合适的方式从父作用域中传递数据. 我们称这些传递数据不同的方式为"绑定策略". 你也可以可选的指定一个局部别名给属性名称.
+
+以下是没有别名的语法:
+
+	scope: {
+		attributeName1: 'BINDING_STRATEGY',
+		attributeName2: 'BINDING_STRATEGY',...
+	}
+
+以下是使用别名的方式:
+
+	scope: {
+		attributeAlias: 'BINDING_STRATEGY' + 'templateAttributeName',...
+	}
+
+绑定策略被定义为表6-4中的符号:
+
+表6-4 绑定策略
+
+<table>
+	<thead>
+		<tr>
+			<th>Symbol</th>
+			<td>Meaning</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>@</td>
+			<td>将属性作为字符串传递. 你也可以通过在属性值中使用插值符号{{}}来从闭合的作用域中绑定数据值.</td>
+		</tr>
+		<tr>
+			<td>=</td>
+			<td>使用你的指令的副作用域中的一个属性绑定数据到属性中.</td>
+		</tr>
+		<tr>
+			<td>&</td>
+			<td>从父作用域中传递到一个函数中, 以后调用.</td>
+		</tr>
+	</tbody>
+</table>
+
+这些都是相当抽象的概念, 因此让我们来看一个具体的例子上的变化来进行说明. 比方说我们希望创建一个`expander`指令在标题栏被点击时显示额外的内容.
+
+收缩时它看起来如图6-2所示.
+
+![6-2](figure/6-2.png)
+
+图6-2 Expander in closed state
+
+展开时它看起来如图6-3所示.
+
+![6-3](figure/6-3.png)
+
+图6-3 Expander in open state
+
+我们会编写如下代码:
+
+	<div ng-controller="SomeController">
+		<expander class="expander" expander-title="title">
+			{{text}}
+		</expander>
+	</div>
+
+标题(Cliked me to expand)和文本(Hi there folks...)的值来自于闭合的作用域中. 我们可以像下面这样来设置一个控制器:
+
+	function SomeController($scope) {
+		$scope.title = 'Clicked me to expand';
+		$scope.text = 'Hi there folks, I am the content that was hidden but is now shown.';
+	}
+
+然后我们可以来编写指令:
+
+	angular.module('expanderModule', [])
+		.directive('expander', function(){
+			return {
+				restrict: 'EA',
+				replace: true,
+				transclude: true,
+				scope: { title: '=expanderTitle'},
+				template: '<div>' +
+						'<div class="title" ng-click="toggle()">{{title}}</div>' +
+						'<div class="body" ng-show="showMe" ng-tansclude></div>' +
+						'</div>',
+				link: function(scope, element, attris){
+					scope.showMe = false;
+					scope.toggle = function toggle(){
+						scope.showMe = !scope.showMe;
+					}
+				}
+			}
+		});
+
+然后编写下面的样式:
+
+	.expander {
+		border: 1px solid black;
+		width: 250px;
+	}
+	.expander > .title {
+		background-colo: black;
+		color: white;
+		padding: .1em .3em;
+		cursor: pointer;
+	}
+	.expander > .body {
+		padding: .1em .3em;
+	}
+
+接下来让我们来看看指令中的每个选项是做什么的, 在表6-5中.
+
+表6-5 Functions of elements
+
+<table>
+	<thead>
+		<tr>
+			<th>FunctionName</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>restrict: EA</td>
+			<td>一个元素或者属性都可以调用这个指令. 也就是说, \<expander ...\>...\</expander\>与\<div expander...\>...\</div\>是等价</td>
+		</tr>
+		<tr>
+			<td>replace:true</td>
+			<td>使用我们提供的模板替换原始元素</td>
+		</tr>
+		<tr>
+			<td>transclude:true</td>
+			<td>将原始元素的内容移动到我们所提供的模板的另外一个位置.</td>
+		</tr>
+		<tr>
+			<td>scope: {title: =expanderTitle}</td>
+			<td>创建一个称为`title`的局部作用域, 将父作用域的属性数据绑定到声明的`expanderTitle`属性中. 这里, 我们重命名title为更方便的expanderTitle. 我们可以编写`scope: { expanderTitle: '='}`, 那么在模板中我们就要使用`expanderTitle`了. 但是在其他指令也有一个`title`属性的情况下, 在API中消除title的歧义和只是重命名它用于在局部使用是有意义的. 请注意, 这里自定义指令也使用了相同的驼峰式命名方式作为指令名.</td>
+		</tr>
+		<tr>
+			<td>template: \<'div'\>+</td>
+			<td>声明这个指令要插入的模板. 注意我们使用了`ng-click`和`ng-show`来显示和隐藏自身并使用`ng-transclude`声明了原始内容会去哪里. 还要注意的是transcluded的内容能够访问父作用域, 而不是指令闭合中的作用域.</td>
+		</tr>
+		<tr>
+			<td>link...</td>
+			<td>设置`showMe`模型来检测expander的展开/关闭状态, 同时定义在用于点击`title`这个div的时候调用定义的`toggle()`函数.</td>
+		</tr>
+	</tbody>
+</table>
+
+如果我们像使用更多有意义的东西来在模板中定义`expander title`而不是在模型中, 我们还可以使用传递通过在作用域声明中使用`@`符号传递一个字符串风格的属性, 就像下面这样:
+
+	scope: { title: '@expanderTitle'},
+
+在模板中我们就可以实现相同的效果:
+
+	<expander class="expander" expander-title="Click mr to expand">
+		{{text}}
+	</expander>
+
+注意, 对于@策略我们仍然可以通过使用插入法将title数据绑定到我们的控制器作用域中:
+
+	<expander class="expander" expander-title="{{title}}">
+		{{text}}
+	</expander>
