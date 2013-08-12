@@ -1,16 +1,16 @@
-#指令
+#���O
 
-对于指令, 你可以扩展HTML来以添加声明性语法来做任何你喜欢做的事情. 通过这样做, 你可以替换一些特定于你的应用程序的通用的\<div\>s和\<span\>s元素和属性的实际意义. 它们都带有Angular提供的基础功能, 但是你可以创建特定于应用程序的你自己想做的事情.
+�����O, �A�i�H�X�RHTML�ӥH�K�[�n���ʻy�k�Ӱ�����A���w�����Ʊ�. �g�ѳo�˰�, �A�i�H�����@�ǯS�w��A�����ε{�����q�Ϊ�\<div\>s�M\<span\>s�����M�ݩʪ���ڷN�q. ���̳��a��Angular���Ѫ���¦�\��, ���O�A�i�H�إ߯S�w�����ε{�����A�ۤv�Q�����Ʊ�.
 
-首先我们要复习以下指令API以及它在Angular启动和运行生命周期里是如何运作的. 从那里, 我们将使用这些只是来创建一个指令类型. 在本将完成时我们将学习到如何编写指令的单元测试和使它们运行得更快.
+�����ڭ̭n�ƲߥH�U���OAPI�H�Υ��bAngular�ҰʩM�B��ͩR�g���̬O�p��B�@��. �q����, �ڭ̱N�ϥγo�ǥu�O�ӫإߤ@�ӫ��O����. �b���N�����ɧڭ̱N�ǲߨ�p��s�g���O���椸���թM�ϥ��̹B��o���.
 
-但是首先, 我们来看看一些使用指令的语法说明.
+���O����, �ڭ̨Ӭݬݤ@�ǨϥΫ��O���y�k����.
 
-##指令和HTML验证
+##���O�MHTML����
 
-在本书中, 我们已经使用了Angular内置指令的`ng-directive-name`语法. 例如`ng-repeat`, `ng-view`和`ng-controller`. 这里, `ng`部分是Angular的命名空间, 并且dash之后的部分便是指令的名称.
+�b���Ѥ�, �ڭ̤w�g�ϥΤFAngular���m���O��`ng-directive-name`�y�k. �Ҧp`ng-repeat`, `ng-view`�M`ng-controller`. �o��, `ng`�����OAngular���R�W�Ŷ�, �åBdash���᪺�����K�O���O���W��.
 
-虽然我们喜欢这个方便输入的语法, 但是在大部分的HTML验证机制中它不是有效的. 为了支持这些, Angular指令允许你以几种方式调用任意的指令. 以下在表6-1中列出的语法, 都是等价的并能够让你偏爱的[首选的]验证器正常工作
+���M�ڭ̳��w�o�Ӥ�K��J���y�k, ���O�b�j������HTML���Ҿ�������O���Ī�. ���F����o��, Angular���O���\�A�H�X�ؤ覡�I�s���N�����O. �H�U�b��6-1���C�X���y�k, ���O�������ï�����A���R��[���諸]���Ҿ����`�u�@
 
 Table 6-1 HTML Validation Schemes
 
@@ -46,13 +46,13 @@ Table 6-1 HTML Validation Schemes
 	</tbody>
 </table>
 
-由于你可以使用任意的这些形式, [AngularJS文档](http://docs.angularjs.org/)中列出了一个驼峰式的指令, 而不是任何这些选项. 例如, 在`ngRepeat`标题下你可以找到`ng-repeat`. 稍后你会看到, 在你定义你自己的指令时你将会使用这种命名格式.
+�ѩ�A�i�H�ϥΥ��N���o�ǧΦ�, [AngularJS���](http://docs.angularjs.org/)���C�X�F�@�Ӿm�p�������O, �Ӥ��O����o�ǿﶵ. �Ҧp, �b`ngRepeat`���D�U�A�i�H���`ng-repeat`. �y��A�|�ݨ�, �b�A�w�q�A�ۤv�����O�ɧA�N�|�ϥγo�ةR�W�榡.
 
-如果你不适用HTML验证器(大多数人都不使用), 你可以很好的使用在目前你所见过的例子中的命名空间-指令[namespace-directive]语法
+�p�G�A���A��HTML���Ҿ�(�j�h�ƤH�����ϥ�), �A�i�H�ܦn���ϥΦb�ثe�A�Ҩ��L���Ҥl�����R�W�Ŷ�-���O[namespace-directive]�y�k
 
-##API预览
+##API�w��
 
-下面是一个创建任意指令伪代码模板
+�U���O�@�ӫإߥ��N���O���N�X�˪O
 
 	var myModule = angular.module(...);
 
@@ -78,11 +78,11 @@ Table 6-1 HTML Validation Schemes
 		return directiveDefinitionObject;
 	});
 
-有些选项是互相排斥的, 它们大多数都是可选的, 并且它们都有有价值的详细说明:
+���ǿﶵ�O���۱ƥ���, ���̤j�h�Ƴ��O�i�諸, �åB���̳��������Ȫ��Բӻ���:
 
-当你使用每个选项时, 表6-2提供了一个概述.
+���A�ϥΨC�ӿﶵ��, ��6-2���ѤF�@�ӷ��z.
 
-Table 6-2 指令定义选项
+Table 6-2 ���O�w�q�ﶵ
 
 <table>
 	<thead>
@@ -94,74 +94,74 @@ Table 6-2 指令定义选项
 	<tbody>
 		<tr>
 			<td>restrict</td>
-			<td>声明指令可以作为一个元素, 属性, 类, 注释或者任意的组合如何用于模板中</td>
+			<td>�n�����O�i�H�@���@�Ӥ���, �ݩ�, ��, �����Ϊ̥��N���զX�p��Ω�˪O��</td>
 		</tr>
 		<tr>
 			<td>priority</td>
-			<td>设置模板中相对于其他元素上指令的执行顺序</td>
+			<td>�]�w�˪O���۹���L�����W���O�����涶��</td>
 		</tr>
 		<tr>
 			<td>template</td>
-			<td>指令一个作为字符串的内联模板. 如果你指定一个模板URL就不要使用这个模板属性.</td>
+			<td>���O�@�ӧ@���r�Ŧꪺ���p�˪O. �p�G�A���w�@�Ӽ˪OURL�N���n�ϥγo�Ӽ˪O�ݩ�.</td>
 		</tr>
 		<tr>
 			<td>templateUrl</td>
-			<td>指定通过URL加载的模板. 如果你指定了字符串的内联模板就不需要使用这个.</td>
+			<td>���w�g��URL�[�����˪O. �p�G�A���w�F�r�Ŧꪺ���p�˪O�N���ݭn�ϥγo��.</td>
 		</tr>
 		<tr>
 			<td>replace</td>
-			<td>如果为true, 则替换当前元素. 如果为false或者未指定, 则将这个指令追加到当前元素上.</td>
+			<td>�p�G��true, �h�������e����. �p�G��false�Ϊ̥����w, �h�N�o�ӫ��O�l�[����e�����W.</td>
 		</tr>
 		<tr>
 			<td>transclude</td>
-			<td>让你将一个指令的原始自节点移动到心模板位置内.</td>
+			<td>���A�N�@�ӫ��O����l�۸`�I���ʨ�߼˪O��m��.</td>
 		</tr>
 		<tr>
 			<td>scope</td>
-			<td>为这个指令创建一个新的作用域而不是继承父作用域.</td>
+			<td>���o�ӫ��O�إߤ@�ӷs���@�ΰ�Ӥ��O�~�Ӥ��@�ΰ�.</td>
 		</tr>
 		<tr>
 			<td>controller</td>
-			<td>为跨指令通信创建一个发布的API.</td>
+			<td>������O�q�H�إߤ@�ӵo�G��API.</td>
 		</tr>
 		<tr>
 			<td>require</td>
-			<td>需要其他指令服务于这个指令来正确的发挥作用.</td>
+			<td>�ݭn��L���O�A�ȩ�o�ӫ��O�ӥ��T���o���@��.</td>
 		</tr>
 		<tr>
 			<td>link</td>
-			<td>以编程的方式修改生成的DOM元素实例, 添加事件监听器, 设置数据绑定.</td>
+			<td>�H�s�{���覡�קﲣ�ͪ�DOM�������, �K�[�ƥ��ť��, �]�w���ô��.</td>
 		</tr>
 		<tr>
 			<td>compile</td>
-			<td>以编程的方式修改一个指令的DOM模板的副本特性, 如同使用`ng-repeat`时. 你的编译函数也可以返回链接函数来修改生成元素的实例.</td>
+			<td>�H�s�{���覡�ק�@�ӫ��O��DOM�˪O���ƥ��S��, �p�P�ϥ�`ng-repeat`��. �A���sĶ��Ƥ]�i�H��^�챵��ƨӭקﲣ�ͤ��������.</td>
 		</tr>
 	</tbody>
 </table>
 
-下面让我们深入细节来看看.
+�U�����ڭ̲`�J�Ӹ`�Ӭݬ�.
 
-###为你的指令命名
+###���A�����O�R�W
 
-你可以用模块的指令函数为你的指令创建一个名称, 如下所示:
+�A�i�H�μҲժ����O��Ƭ��A�����O�إߤ@�ӦW��, �p�U�ҥ�:
 
 	myModule.directive('directiveName', function factory(injectables){...});
 
-虽然你可以使用任何你喜欢的名字命名你的指令, 该符号会选择一个前缀命名空间标识你的指令, 同时避免与可能包含在你的项目中的外部指令冲突.
+���M�A�i�H�ϥΥ���A���w���W�r�R�W�A�����O, �ӲŸ��|��ܤ@�ӫe��R�W�Ŷ����ѧA�����O, �P���קK�P�i��]�t�b�A�����ؤ����~�����O�Ĭ�.
 
-你当然不希望它们使用一个`ng-`前缀, 因为这可能与Angular自带的指令相冲突. 如果你从事于SuperDuper MegaCorp, 你可以选择一个super-, superduper-, 或者甚至是superduper-megacorp-, 虽然你可能选择第一个选项, 只是为了方便输入.
+�A���M���Ʊ楦�̨ϥΤ@��`ng-`�e��, �]���o�i��PAngular�۱a�����O�۽Ĭ�. �p�G�A�q�Ʃ�SuperDuper MegaCorp, �A�i�H��ܤ@��super-, superduper-, �Ϊ̬ƦܬOsuperduper-megacorp-, ���M�A�i���ܲĤ@�ӿﶵ, �u�O���F��K��J.
 
-正如前面所描述的, Angular使用一个标准化的指令命名机制, 并且试图有效的在模板中使用驼峰式的指令命名方式来确保在5个不同的友好的验证器中正常工作. 例如, 如果你已经选择了`super-`作为你的前缀, 并且你在编写一个日期选择(datepicker)组件, 你可能将它命名为`superDatePicker`. 在模板中, 你可以像这样来使用它: `super-date-picker`, `super:date-picker`, `data-super-date-picker`或者其他多样的形式.
+���p�e���Ҵy�z��, Angular�ϥΤ@�ӼзǤƪ����O�R�W����, �åB�չϦ��Ī��b�˪O���ϥξm�p�������O�R�W�覡�ӽT�O�b5�Ӥ��P���ͦn�����Ҿ������`�u�@. �Ҧp, �p�G�A�w�g��ܤF`super-`�@���A���e��, �åB�A�b�s�g�@�Ӥ�����(datepicker)�ե�, �A�i��N���R�W��`superDatePicker`. �b�˪O��, �A�i�H���o�˨ӨϥΥ�: `super-date-picker`, `super:date-picker`, `data-super-date-picker`�Ϊ̨�L�h�˪��Φ�.
 
-###指令定义对象
+###���O�w�q�ﹳ
 
-正如前面提到的, 在指令定义中大多数的选项都是可选的. 实际上, 这里并没有硬性的要求必须选择哪些选项, 并且你可以构造出许多有利于指令的子集参数. 让我们来逐步讨论这些选项是做什么的.
+���p�e�����쪺, �b���O�w�q���j�h�ƪ��ﶵ���O�i�諸. ��ڤW, �o�̨èS���w�ʪ��n�D������ܭ��ǿﶵ, �åB�A�i�H�c�y�X�\�h���Q����O���l���Ѽ�. ���ڭ̨ӳv�B�Q�׳o�ǿﶵ�O������.
 
 ####restrict
 
-`restrict`属性允许你指定你的指令声明风格--也就是说, 它是否能够用于作为元素名称, 属性, 类[className], 或者注释. 你可以根据表6-3来指定一个或多个声明风格, 只需要使用一个字符串来表示其中的每一中风格:
+`restrict`�ݩʤ��\�A���w�A�����O�n������--�]�N�O��, ���O�_����Ω�@�������W��, �ݩ�, ��[className], �Ϊ̵���. �A�i�H�ھڪ�6-3�ӫ��w�@�өΦh���n������, �u�ݭn�ϥΤ@�Ӧr�Ŧ�Ӫ��ܨ䤤���C�@������:
 
-Table 6-3 指令声明用法选项
+Table 6-3 ���O�n���Ϊk�ﶵ
 
 <table>
 	<thead>
@@ -195,29 +195,29 @@ Table 6-3 指令声明用法选项
 	</tbody>
 </table>
 
-如果你希望你的指令用作一个元素或者一个属性, 那么你应该传递`EA`作为`restrict`字符串.
+�p�G�A�Ʊ�A�����O�Χ@�@�Ӥ����Ϊ̤@���ݩ�, ����A���Ӷǻ�`EA`�@��`restrict`�r�Ŧ�.
 
-如果你忽略了`restrict`属性, 则默认为`A`, 并且你的指令只能用作一个属性(属性指令).
+�p�G�A�����F`restrict`�ݩ�, �h�q�{��`A`, �åB�A�����O�u��Χ@�@���ݩ�(�ݩʫ��O).
 
-如果你计划支持IE8, 那么基于attribute-和class-的指令就是你最好的选择, 因为它需要额外的努力来使新元素正常工作. 可以查看Angular文档来详细了解这一点.
+�p�G�A�p�����IE8, ������attribute-�Mclass-�����O�N�O�A�̦n�����, �]�����ݭn�B�~���V�O�ӨϷs�������`�u�@. �i�H�d��Angular���ӸԲ��A�ѳo�@�I.
 
 ####Priorities
 
-在你有多个指令绑定在一个单独的DOM元素并要确定它们的应用顺序的情况下, 你可以使用`priority`属性来指定应用的顺序. 数值高的首先运行. 如果你没有指定, 则默认的priority为0.
+�b�A���h�ӫ��O�j�w�b�@�ӳ�W��DOM�����ín�T�w���̪����ζ��Ǫ����p�U, �A�i�H�ϥ�`priority`�ݩʨӫ��w���Ϊ�����. �ƭȰ��������B��. �p�G�A�S�����w, �h�q�{��priority��0.
 
-很难发生需要设置优先级的情况. 一个需要设置优先级例子是`ng-repeat`指令. 当重复元素时, 我们希望Angular在应用指令之前床在一个模板元素的副本. 如果不这么做, 其他的指令将会应用到标准的模板元素上而不是我们所希望在应用程序中重复我们的元素.
+�����o�ͻݭn�]�w�u���Ū����p. �@�ӻݭn�]�w�u���ŨҤl�O`ng-repeat`���O. �����Ƥ�����, �ڭ̧Ʊ�Angular�b���Ϋ��O���e�ɦb�@�Ӽ˪O�������ƥ�. �p�G���o��, ��L�����O�N�|���Ψ�зǪ��˪O�����W�Ӥ��O�ڭ̩ҧƱ�b���ε{�������Ƨڭ̪�����.
 
-虽然它(proority)不在文档中, 但是你可以搜索Angular资源中少数几个使用`priority`的其他指令. 对于`ng-repeat`, 我们使用优先级值为1000, 这样就有足够的优先级处理优先处理它.
+���M��(proority)���b���, ���O�A�i�H�j�MAngular�귽���ּƴX�Өϥ�`priority`����L���O. ���`ng-repeat`, �ڭ̨ϥ��u���ŭȬ�1000, �o�˴N���������u���ųB�z�u���B�z��.
 
 ####Templates
 
-当创建组件, 挂件, 控制器一起其他东西时, Angular允许你提供一个模板替换或者包裹元素的内容. 例如, 如果你在视图中创建一组tab选项卡, 可能会呈现出如图6-1所示视图.
+���إ߲ե�, ����, ����@�_��L�F���, Angular���\�A���Ѥ@�Ӽ˪O�����Ϊ̥]�q���������e. �Ҧp, �p�G�A�b���Ϥ��إߤ@��tab�ﶵ�d, �i��|�e�{�X�p��6-1�ҥܵ���.
 
 ![tab](figure/tab.png)
 
-图6-1 tab选项卡视图
+��6-1 tab�ﶵ�d����
 
-并不是一堆\<div\>, \<ul\>\<li\>和\<a\>元素, 你可以创建一个\<tab-set\>和\<tab\>指令, 用来声明每个单独的tab选项卡的结构. 然后你的HTML可以做的更好来表达你的模板意图. 最终结果可能看起来像这样:
+�ä��O�@��\<div\>, \<ul\>\<li\>�M\<a\>����, �A�i�H�إߤ@��\<tab-set\>�M\<tab\>���O, �Ψ��n���C�ӳ�W��tab�ﶵ�d�����c. �M��A��HTML�i�H������n�Ӫ��F�A���˪O�N��. �̲׵��G�i��ݰ_�ӹ��o��:
 
 	<tab-set>
 		<tab title="Home">
@@ -228,11 +228,11 @@ Table 6-3 指令声明用法选项
 		</tab>
 	</tab-set>
 
-你还可以给title绑定一个字符串数据, 通过在\<tab\>或者\<tab-set\>上绑定控制器处理tab选项内容. 它不仅限于用在tabs上--你还可以用于菜单, 手风琴, 弹窗, dialog对话框或者其他任何你希望以这种方式实现的地方.
+�A�٥i�H��title�j�w�@�Ӧr�Ŧ���, �g�Ѧb\<tab\>�Ϊ�\<tab-set\>�W�j�w����B�ztab�ﶵ���e. �����ȭ���Φbtabs�W--�A�٥i�H�Ω���, �⭷�^, �u��, dialog��ܮةΪ̨�L����A�Ʊ�H�o�ؤ覡��{���a��.
 
-你可以通过`template`或者`templateUrl`属性来指定替换的DOM元素. 使用`template`通过字符串来设置模板内容, 或者使用`templateUrl`来从服务器的一个文件上来加载模板. 正如你在接下来的例子中会看到, 你可以预先缓存这些模板来减少GET请求, 这有利于提高应用的性能.
+�A�i�H�g��`template`�Ϊ�`templateUrl`�ݩʨӫ��w������DOM����. �ϥ�`template`�g�Ѧr�Ŧ�ӳ]�w�˪O���e, �Ϊ̨ϥ�`templateUrl`�ӱq���A�����@�Ӥ��W�ӥ[���˪O. ���p�A�b���U�Ӫ��Ҥl���|�ݨ�, �A�i�H�w���֨��o�Ǽ˪O�Ӵ��GET�ШD, �o���Q�󴣰����Ϊ��ʯ�.
 
-让我们来编写一个dumb指令: 一个\<hello\>元素, 只是用于使用\<div\>Hi there\</div\>来替换自身. 在这里, 我们将设置`restrict`来允许元素和设置`template`显示我们所希望的东西. 由于默认的行为只将内容追加到元素中, 因此我们将设置`replace`属性为true来替换原来的模板:
+���ڭ̨ӽs�g�@��dumb���O: �@��\<hello\>����, �u�O�Ω�ϥ�\<div\>Hi there\</div\>�Ӵ����ۨ�. �b�o��, �ڭ̱N�]�w`restrict`�Ӥ��\�����M�]�w`template`��ܧڭ̩ҧƱ檺�F��. �ѩ��q�{���欰�u�N���e�l�[�줸����, �]���ڭ̱N�]�w`replace`�ݩʬ�true�Ӵ�����Ӫ��˪O:
 
 	var appModule = angular.module('app', []);
 	appModule.directive('hello', function(){
@@ -243,7 +243,7 @@ Table 6-3 指令声明用法选项
 		};
 	});
 
-在页面中我们可以像这样使用它:
+�b�������ڭ̥i�H���o�˨ϥΥ�:
 
 	<html lang="en" ng-app="app">
 	...
@@ -252,19 +252,19 @@ Table 6-3 指令声明用法选项
 	</body>
 	...
 
-将它载入到浏览器中, 我们会看到"Hi there".
+�N�����J���s������, �ڭ̷|�ݨ�"Hi there".
 
-如果你查看页面的源代码, 在页面上你仍然会看到\<hello\>\</hello\>, 但是如果你查看生成的源代码(在Chrome中, 你可以在"Hi there"上右击然后选择审查元素), 你会看到:
+�p�G�A�d�ݭ�������l�X, �b�����W�A���M�|�ݨ�\<hello\>\</hello\>, ���O�p�G�A�d�ݲ��ͪ���l�X(�bChrome��, �A�i�H�b"Hi there"�W�k���M���ܼf�d����), �A�|�ݨ�:
 
 	<body>
 		<div>Hi there</div>
 	</body>
 
-\<hello\>\</hello\>被模板中的\<div\>替换了.
+\<hello\>\</hello\>�Q�˪O����\<div\>�����F.
 
-如果你从指令定义中移除`replace: true`, 那么你会看到\<hello\>\<div\>Hi there\</div\>\</hello\>.
+�p�G�A�q���O�w�q������`replace: true`, ����A�|�ݨ�\<hello\>\<div\>Hi there\</div\>\</hello\>.
 
-通常你会希望使用`templateUrl`而不是`template`, 因为输入HTML字符串并不是那么有趣. `template`属性通常有利于非常小的模板. 使用templateUrl`同样非常有用, 可以设置适当的头来使模板可缓存. 我们可以像下面这样重写我们的`hello`指令:
+�q�`�A�|�Ʊ�ϥ�`templateUrl`�Ӥ��O`template`, �]����JHTML�r�Ŧ�ä��O���򦳽�. `template`�ݩʳq�`���Q��D�`�p���˪O. �ϥ�templateUrl`�P�˫D�`����, �i�H�]�w�A�����Y�Өϼ˪O�i�֨�. �ڭ̥i�H���U���o�˭��g�ڭ̪�`hello`���O:
 
 	var appModule = angular.module('app', []);
 	appModule.directive('hello', function(){
@@ -275,26 +275,26 @@ Table 6-3 指令声明用法选项
 		};
 	});
 
-在`helloTemplate.html`中, 你只需要输入:
+�b`helloTemplate.html`��, �A�u�ݭn��J:
 
 	<div>Hi there</div>
 
-如果你使用Chrome浏览器, 它的"同源策略"会组织Chrome从`file://`中加载这些模板, 并且你会得到一个类似"Origin null is not allowed by Access-Control-Allow-Origin."的错误. 那么在这里, 你有两个选择:
+�p�G�A�ϥ�Chrome�s����, ����"�P������"�|��´Chrome�q`file://`���[���o�Ǽ˪O, �åB�A�|�o��@������"Origin null is not allowed by Access-Control-Allow-Origin."�����~. ����b�o��, �A����ӿ��:
 
-+ 通过服务器来加载应用
-+ 在Chrome中设置一个标志. 你可以通过在命令行中使用`chrome --allow-file-access-from-files`命令来运行Chrome做到这一点.
++ �g�Ѧ��A���ӥ[������
++ �bChrome���]�w�@�Ӽлx. �A�i�H�g�Ѧb�R�O�椤�ϥ�`chrome --allow-file-access-from-files`�R�O�ӹB��Chrome����o�@�I.
 
-这将会通过`templateUrl`加载这些文件, 然而, 这会让你的用户要等待到指令加载. 如果你希望在首页加载模板, 你可以在一个`script`标签中将它作为这个页面的一部分包含进来, 就像这样:
+�o�N�|�g��`templateUrl`�[���o�Ǥ��, �M��, �o�|���A���Τ�n���ݨ���O�[��. �p�G�A�Ʊ�b�����[���˪O, �A�i�H�b�@��`script`���Ҥ��N���@���o�ӭ������@�����]�t�i��, �N���o��:
 
 	<script type="text/ng-template" id="helloTemplateInline.html">
 		<div>Hi there</div>
 	</script>
 
-这里的id属性很重要, 因为这是Angular用来存储模板的URL键. 稍候你将会使用这个id在指令的`templateUrl`中指定要插入的模板.
+�o�̪�id�ݩʫܭ��n, �]���o�OAngular�ΨӦs�x�˪O��URL��. �y�ԧA�N�|�ϥγo��id�b���O��`templateUrl`�����w�n���J���˪O.
 
-这个版本能够很好的载入而不需要服务器, 因为没有必要的`XMLHttpRequest`来获取内容.
+�o�Ӫ�������ܦn�����J�Ӥ��ݭn���A��, �]���S�����n��`XMLHttpRequest`�Ө��o���e.
 
-最后, 你可以越过`$http`或者以其他机制来加载你自己的模板, 然后将它们直接设置在Angular中称为`$templateCache`的对象上. 我们希望在指令运行之前缓存中的这个模板可用, 因此我们将通过module上的run函数来调用它.
+�̫�, �A�i�H�V�L`$http`�Ϊ̥H��L����ӥ[���A�ۤv���˪O, �M��N���̪����]�w�bAngular���٬�`$templateCache`����H�W. �ڭ̧Ʊ�b���O�B�椧�e�֨������o�Ӽ˪O�i��, �]���ڭ̱N�g��module�W��run��ƨөI�s��.
 
 	var appModule = angular.module('app', []);
 
@@ -310,13 +310,13 @@ Table 6-3 指令声明用法选项
 		};
 	});
 
-你可能希望在产品中这么做, 仅仅作为一个减少所需的GET请求数量的技术. 你可以运行一个脚本将所有的模板合并到一个单独的文件中, 并在一个新的模块中加载它, 然后你就可以从你的主应用程序模块中引用它.
+�A�i��Ʊ�b���~���o��, �ȶȧ@���@�Ӵ�֩һݪ�GET�ШD�ƶq���޳N. �A�i�H�B��@�Ӹ}���N�Ҧ����˪O�X�֨�@�ӳ�W�����, �æb�@�ӷs���Ҳդ��[����, �M��A�N�i�H�q�A���D���ε{���Ҳդ��ޥΥ�.
 
 ####Transclusion
 
-除了替换或者追加内容, 你还可以通过`transclude`属性将原来的内容移到新模板中. 当设置为true时, 指令将删除原来的内容, 但是在你的模板中通过一个名为`ng-transclude`的指令重新插入来使它可用. 
+���F�����Ϊ̰l�[���e, �A�٥i�H�g��`transclude`�ݩʱN��Ӫ����e����s�˪O��. ���]�w��true��, ���O�N�R����Ӫ����e, ���O�b�A���˪O���g�Ѥ@�ӦW��`ng-transclude`�����O���s���J�Өϥ��i��. 
 
-我们可以使用transclusion来改变我们的示例:
+�ڭ̥i�H�ϥ�transclusion�ӧ��ܧڭ̪��d��:
 
 	appModule.directive('hello', function() {
 		return {
@@ -325,37 +325,37 @@ Table 6-3 指令声明用法选项
 		};
 	});
 
-像这样来应用它:
+���o�˨����Υ�:
 
 	<div hello>Bob</div>
 
-你会看到: "Hi there Bob."
+�A�|�ݨ�: "Hi there Bob."
 
-###编译和链接功能
+###�sĶ�M�챵�\��
 
-虽然插入模板是有用的, 任何指令真正有趣的工作发生在它的`compile`和它的`link`函数中.
+���M���J�˪O�O���Ϊ�, ������O�u�����쪺�u�@�o�ͦb����`compile`�M����`link`��Ƥ�.
 
-`compile`和`link`函数被指定为Angular用来创建应用程序实际视图的后两个阶段. 让我们从更高层次来看看Angular的初始化过程, 按一定的顺序:
+`compile`�M`link`��ƳQ���w��Angular�Ψӫإ����ε{����ڵ��Ϫ����Ӷ��q. ���ڭ̱q�󰪼h���Ӭݬ�Angular����l�ƹL�{, ���@�w������:
 
 **Script loads**
 
-Angular加载和查找`ng-app`指令来判定应用程序界限.
+Angular�[���M�d��`ng-app`���O�ӧP�w���ε{���ɭ�.
 
-**Compile phase(阶段)**
+**Compile phase(���q)**
 
-在这个阶段, Angular会遍历DOM节点以确定所有注册在模板中的指令. 对于每一个指令, 然后基于指令的规则(`template`,`replace`,`transclude`等等)转换DOM, 并且如果它存在就调用`compile`函数. 它的返回结果是一个编译过的`template`函数, 这将从所有的指令中调用`link`函数来收集.
+�b�o�Ӷ��q, Angular�|�M��DOM�`�I�H�T�w�Ҧ����U�b�˪O�������O. ���C�@�ӫ��O, �M������O���W�h(`template`,`replace`,`transclude`����)�ഫDOM, �åB�p�G���s�b�N�I�s`compile`���. ������^���G�O�@�ӽsĶ�L��`template`���, �o�N�q�Ҧ������O���I�s`link`��ƨӦ���.
 
-**Link phase(阶段)**
+**Link phase(���q)**
 
-创建动态的视图, 然后Angular会对每个指令运行一个`link`函数. `link`函数通常在DOM或者模型上创建监听器. 这些监听器用于视图和模型在所有的时间里都保持同步.
+�إ߰ʺA������, �M��Angular�|��C�ӫ��O�B��@��`link`���. `link`��Ƴq�`�bDOM�Ϊ̼ҫ��W�إߺ�ť��. �o�Ǻ�ť���Ω���ϩM�ҫ��b�Ҧ����ɶ��̳��O���P�B.
 
-因此我们必须在编译阶段处理模板的转换, 同时在链接阶段处理在视图中修改数据. 按照这个思路, 指令中的`compile`和`link`函数之间主要的区别是`compile`函数处理模板自身的转换, 而`link`函数处理在模型和视图之间创造一个动态的连接. 作用域挂接到编译过的`link`函数正是在这个第二阶段, 并且通过数据绑定将指令变成活动的.
+�]���ڭ̥����b�sĶ���q�B�z�˪O���ഫ, �P�ɦb�챵���q�B�z�b���Ϥ��ק���. ���ӳo�ӫ��, ���O����`compile`�M`link`��Ƥ����D�n���ϧO�O`compile`��ƳB�z�˪O�ۨ����ഫ, ��`link`��ƳB�z�b�ҫ��M���Ϥ����гy�@�ӰʺA���s��. �@�ΰ챾����sĶ�L��`link`��ƥ��O�b�o�ӲĤG���q, �åB�g�Ѹ��ô���N���O�ܦ����ʪ�.
 
-出于性能的考虑, 者两个阶段才分开的. `compile`函数仅在编译阶段执行一次, 而`link`函数会被执行多次, 对每个指令实例. 例如, 让我们来说说你上面使用的`ng-repeat`指令. 你并不想小勇`compile`, 这回导致在每次`ng-repeat`重复时都产生一个DOM遍历的操作. 相反, 你会希望一次编译, 然后链接.
+�X��ʯ઺�Ҽ{, �̨�Ӷ��q�~���}��. `compile`��ƶȦb�sĶ���q����@��, ��`link`��Ʒ|�Q����h��, ��C�ӫ��O���. �Ҧp, ���ڭ̨ӻ����A�W���ϥΪ�`ng-repeat`���O. �A�ä��Q�p�i`compile`, �o�^�ɭP�b�C��`ng-repeat`���Ʈɳ����ͤ@��DOM�M�����ާ@. �ۤ�, �A�|�Ʊ�@���sĶ, �M���챵.
 
-虽然你毫无疑问的应该学习编译和链接之间的不同, 以及每个功能, 你需要编写的大部分的指令都不需要转换模板; 你还会编写大部分的链接函数.
+���M�A�@�L�ðݪ����Ӿǲ߽sĶ�M�챵���������P, �H�ΨC�ӥ\��, �A�ݭn�s�g���j���������O�����ݭn�ഫ�˪O; �A�ٷ|�s�g�j�������챵���.
 
-让我们再看看每个语法来比较一下, 我们有:
+���ڭ̦A�ݬݨC�ӻy�k�Ӥ���@�U, �ڭ̦�:
 
 	compile: function compile(tElement, tAttrs, transclude) {
 		return {
@@ -364,37 +364,37 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 		}
 	}
 
-以及链接:
+�H���챵:
 
 	link: function postLink(scope, iElement, iAttrs) {...}
 
-注意这里有一点不同的是`link`函数获得了一个作用域的访问, 而`compile`没有. 这是因为在编译阶段期间, 作用域并不存在. 然而你有能力从`compile`函数返回`link`函数. 这些`link`函数能够访问到作用域.
+�`�N�o�̦��@�I���P���O`link`�����o�F�@�ӧ@�ΰ쪺�X��, ��`compile`�S��. �o�O�]���b�sĶ���q����, �@�ΰ�ä��s�b. �M�ӧA����O�q`compile`��ƪ�^`link`���. �o��`link`��Ư���X�ݨ�@�ΰ�.
 
-还要注意的是`compile`和`link`都会获得一个到它们对应的DOM袁术和这些元素属性[attributes]列表的引用. 这里的一点区别是`compile`函数是从模板中获得模板元素和属性, 并且会获取到`t`前缀. 而`link`函数使用模板创建的视图实例中获得它们的, 它们会获取到`i`前缀.
+�٭n�`�N���O`compile`�M`link`���|��o�@�Ө쥦�̹�����DOM�K�N�M�o�Ǥ����ݩ�[attributes]�C�����ޥ�. �o�̪��@�I�ϧO�O`compile`��ƬO�q�˪O����o�˪O�����M�ݩ�, �åB�|���o��`t`�e��. ��`link`��ƨϥμ˪O�إߪ����Ϲ�Ҥ���o���̪�, ���̷|���o��`i`�e��.
 
-这种区别只存在于当指令位于其他指令中制造模板副本的时候. `ng-repeat`就是一个很好的例子.
+�o�ذϧO�u�s�b������O����L���O���s�y�˪O�ƥ����ɭ�. `ng-repeat`�N�O�@�ӫܦn���Ҥl.
 
 	<div ng-repeat="thing in things">
 		<my-widget config="thing"></my-widget>
 	</div>
 
-这里, `compile`函数将只被调用一次, 而`link`函数在每次复制`my-widget`时都会被调用一次--等价于元素在things中的数量. 因此, 如果`my-widget`需要到所有`my-widget`副本(实例)中修改一些公共的东西, 为了提升效率, 正确的做法是在`compile`函数中处理. 
+�o��, `compile`��ƱN�u�Q�I�s�@��, ��`link`��Ʀb�C���ƻs`my-widget`�ɳ��|�Q�I�s�@��--�����󤸯��bthings�����ƶq. �]��, �p�G`my-widget`�ݭn��Ҧ�`my-widget`�ƥ�(���)���ק�@�Ǥ��@���F��, ���F���ɮĲv, ���T�����k�O�b`compile`��Ƥ��B�z. 
 
-你可能还会注意到`compile`函数好哦的了一个`transclude`属性函数. 这里, 你还有机会以编写一个函数以编程的方式transcludes内容, 对于简单的的基于模板不足以transclusion的情况.
+�A�i���ٷ|�`�N��`compile`��Ʀn�@���F�@��`transclude`�ݩʨ��. �o��, �A�٦����|�H�s�g�@�Ө�ƥH�s�{���覡transcludes���e, ���²�檺�����˪O�����Htransclusion�����p.
 
-最后, `compile`可以返回一个`preLink`和`postLink`函数, 而`link`仅仅指向一个`posyLink`函数. `preLink`, 正如它的名字所暗示的, 它运行在编译阶段之后, 但是会在指令链接到子元素之前. 同样的, `postLink`会运行在所有的子元素指令被链接之后. 这意味着如果你需要改变DOM结构, 你将在`posyLink`中处理. 在`preLink`中处理将会混淆流程并导致一个错误.
+�̫�, `compile`�i�H��^�@��`preLink`�M`postLink`���, ��`link`�ȶȫ��V�@��`posyLink`���. `preLink`, ���p�����W�r�ҷt�ܪ�, ���B��b�sĶ���q����, ���O�|�b���O�챵��l�������e. �P�˪�, `postLink`�|�B��b�Ҧ����l�������O�Q�챵����. �o�N���ۦp�G�A�ݭn����DOM���c, �A�N�b`posyLink`���B�z. �b`preLink`���B�z�N�|�V�c�y�{�þɭP�@�ӿ��~.
 
-###作用域
+###�@�ΰ�
 
-你会经常希望从指令中访问作用域来监控模型的值并在它们改变时更新UI, 同时在外部时间造成模型改变时通知Angular. 者时最常见的, 当你从jQuery, Closure或者其他库中包裹一些非Angular组件或者实现简单的DOM事件时. 然后将Angular表达式作为属性传递到你的指令中来执行. 
+�A�|�g�`�Ʊ�q���O���X�ݧ@�ΰ�Ӻʱ��ҫ����Ȩæb���̧��ܮɧ�sUI, �P�ɦb�~���ɶ��y���ҫ����ܮɳq��Angular. �̮ɳ̱`����, ���A�qjQuery, Closure�Ϊ̨�L�w���]�q�@�ǫDAngular�ե�Ϊ̹�{²�檺DOM�ƥ��. �M��NAngular���F���@���ݩʶǻ���A�����O���Ӱ���. 
 
-这也是你期望使用一个作用域的原因之一, 你可以获得三种类型的作用域选项:
+�o�]�O�A����ϥΤ@�ӧ@�ΰ쪺��]���@, �A�i�H��o�T���������@�ΰ�ﶵ:
 
-1. 从指令的DOM元素中获得**现有的作用域**.
-2. 创建一个**新作用域**, 它继承自你闭合的控制器作用域. 这里, 你见过能够访问树上层作用域中的所有值. 这个作用域将会请求这种作用域与你DOM元素中其他任意指令共享它并被用于与它们通信.
-3. 从它的父层**隔离出来的作用域**不带有模型属性. 当你在创建可重用的组件而需要从父作用域中隔离指令操作时, 你将会希望使用这个选项.
+1. �q���O��DOM��������o**�{�����@�ΰ�**.
+2. �إߤ@��**�s�@�ΰ�**, ���~�ӦۧA���X������@�ΰ�. �o��, �A���L����X�ݾ�W�h�@�ΰ줤���Ҧ���. �o�ӧ@�ΰ�N�|�ШD�o�ا@�ΰ�P�ADOM��������L���N���O�@�ɥ��óQ�Ω�P���̳q�H.
+3. �q�������h**�j���X�Ӫ��@�ΰ�**���a���ҫ��ݩ�. ���A�b�إߥi���Ϊ��ե�ӻݭn�q���@�ΰ줤�j�����O�ާ@��, �A�N�|�Ʊ�ϥγo�ӿﶵ.
 
-你可以使用下面的语法来创建这些作用域类型的配置:
+�A�i�H�ϥΤU�����y�k�ӫإ߳o�ǧ@�ΰ��������t�m:
 
 <table>
 	<thead>
@@ -406,7 +406,7 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 	<tbody>
 		<tr>
 			<td>existing scope</td>
-			<td>scope: false(如果不指定将使用这个默认值)
+			<td>scope: false(�p�G�����w�N�ϥγo���q�{��)
 		</tr>
 		<tr>
 			<td>new scope</td>
@@ -419,28 +419,28 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 	<tbody>
 </table>
 
-当你创建一个隔离的作用域时, 默认情况下你不需要访问父作用域中模型中的任何东西. 然而, 你也可以指定你想要的特定属性传递到你的指令中. 你可以认为是吧这些属性名作为参数传递给函数的.
+���A�إߤ@�ӹj�����@�ΰ��, �q�{���p�U�A���ݭn�X�ݤ��@�ΰ줤�ҫ���������F��. �M��, �A�]�i�H���w�A�Q�n���S�w�ݩʶǻ���A�����O��. �A�i�H�{���O�a�o���ݩʦW�@���Ѽƶǻ�����ƪ�.
 
-注意, 虽然隔离的作用域不就成模型属性, 但它们仍然是其副作用域的成员. 就像所有其他作用域一样, 它们都有一个`$parent`属性引用到它们的父级.
+�`�N, ���M�j�����@�ΰ줣�N���ҫ��ݩ�, �����̤��M�O��Ƨ@�ΰ쪺����. �N���Ҧ���L�@�ΰ�@��, ���̳����@��`$parent`�ݩʤޥΨ쥦�̪�����.
 
-你可以通过传递一个指令属性名的映射的方式从父作用域传递特定的属性到隔离的作用域中. 这里有三种合适的方式从父作用域中传递数据. 我们称这些传递数据不同的方式为"绑定策略". 你也可以可选的指定一个局部别名给属性名称.
+�A�i�H�g�Ѷǻ��@�ӫ��O�ݩʦW���M�g���覡�q���@�ΰ�ǻ��S�w���ݩʨ�j�����@�ΰ줤. �o�̦��T�ئX�A���覡�q���@�ΰ줤�ǻ����. �ڭ̺ٳo�Ƕǻ���Ƥ��P���覡��"�j�w����". �A�]�i�H�i�諸���w�@�Ӱϰ�O�W���ݩʦW��.
 
-以下是没有别名的语法:
+�H�U�O�S���O�W���y�k:
 
 	scope: {
 		attributeName1: 'BINDING_STRATEGY',
 		attributeName2: 'BINDING_STRATEGY',...
 	}
 
-以下是使用别名的方式:
+�H�U�O�ϥΧO�W���覡:
 
 	scope: {
 		attributeAlias: 'BINDING_STRATEGY' + 'templateAttributeName',...
 	}
 
-绑定策略被定义为表6-4中的符号:
+�j�w�����Q�w�q����6-4�����Ÿ�:
 
-表6-4 绑定策略
+��6-4 �j�w����
 
 <table>
 	<thead>
@@ -452,34 +452,34 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 	<tbody>
 		<tr>
 			<td>@</td>
-			<td>将属性作为字符串传递. 你也可以通过在属性值中使用插值符号{{}}来从闭合的作用域中绑定数据值.</td>
+			<td>�N�ݩʧ@���r�Ŧ�ǻ�. �A�]�i�H�g�Ѧb�ݩʭȤ��ϥδ��ȲŸ�{{}}�ӱq���X���@�ΰ줤�j�w��ƭ�.</td>
 		</tr>
 		<tr>
 			<td>=</td>
-			<td>使用你的指令的副作用域中的一个属性绑定数据到属性中.</td>
+			<td>�ϥΧA�����O���Ƨ@�ΰ줤���@���ݩʸj�w��ƨ��ݩʤ�.</td>
 		</tr>
 		<tr>
 			<td>&</td>
-			<td>从父作用域中传递到一个函数中, 以后调用.</td>
+			<td>�q���@�ΰ줤�ǻ���@�Ө�Ƥ�, �H��I�s.</td>
 		</tr>
 	</tbody>
 </table>
 
-这些都是相当抽象的概念, 因此让我们来看一个具体的例子上的变化来进行说明. 比方说我们希望创建一个`expander`指令在标题栏被点击时显示额外的内容.
+�o�ǳ��O�۷��⹳������, �]�����ڭ̨Ӭݤ@�Ө��骺�Ҥl�W���ܤƨӶi�满��. ��軡�ڭ̧Ʊ�إߤ@��`expander`���O�b���D��Q�I��������B�~�����e.
 
-收缩时它看起来如图6-2所示.
+���Y�ɥ��ݰ_�Ӧp��6-2�ҥ�.
 
 ![6-2](figure/6-2.png)
 
-图6-2 Expander in closed state
+��6-2 Expander in closed state
 
-展开时它看起来如图6-3所示.
+�i�}�ɥ��ݰ_�Ӧp��6-3�ҥ�.
 
 ![6-3](figure/6-3.png)
 
-图6-3 Expander in open state
+��6-3 Expander in open state
 
-我们会编写如下代码:
+�ڭ̷|�s�g�p�U�N�X:
 
 	<div ng-controller="SomeController">
 		<expander class="expander" expander-title="title">
@@ -487,14 +487,14 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 		</expander>
 	</div>
 
-标题(Cliked me to expand)和文本(Hi there folks...)的值来自于闭合的作用域中. 我们可以像下面这样来设置一个控制器:
+���D(Cliked me to expand)�M��r(Hi there folks...)���ȨӦ۩󳬦X���@�ΰ줤. �ڭ̥i�H���U���o�˨ӳ]�w�@�ӱ��:
 
 	function SomeController($scope) {
 		$scope.title = 'Clicked me to expand';
 		$scope.text = 'Hi there folks, I am the content that was hidden but is now shown.';
 	}
 
-然后我们可以来编写指令:
+�M��ڭ̥i�H�ӽs�g���O:
 
 	angular.module('expanderModule', [])
 		.directive('expander', function(){
@@ -516,7 +516,7 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 			}
 		});
 
-然后编写下面的样式:
+�M��s�g�U�����˦�:
 
 	.expander {
 		border: 1px solid black;
@@ -532,9 +532,9 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 		padding: .1em .3em;
 	}
 
-接下来让我们来看看指令中的每个选项是做什么的, 在表6-5中.
+���U�����ڭ̨Ӭݬݫ��O�����C�ӿﶵ�O������, �b��6-5��.
 
-表6-5 Functions of elements
+��6-5 Functions of elements
 
 <table>
 	<thead>
@@ -546,45 +546,45 @@ Angular加载和查找`ng-app`指令来判定应用程序界限.
 	<tbody>
 		<tr>
 			<td>restrict: EA</td>
-			<td>一个元素或者属性都可以调用这个指令. 也就是说, \<expander ...\>...\</expander\>与\<div expander...\>...\</div\>是等价</td>
+			<td>�@�Ӥ����Ϊ��ݩʳ��i�H�I�s�o�ӫ��O. �]�N�O��, \<expander ...\>...\</expander\>�P\<div expander...\>...\</div\>�O����</td>
 		</tr>
 		<tr>
 			<td>replace:true</td>
-			<td>使用我们提供的模板替换原始元素</td>
+			<td>�ϥΧڭ̴��Ѫ��˪O������l����</td>
 		</tr>
 		<tr>
 			<td>transclude:true</td>
-			<td>将原始元素的内容移动到我们所提供的模板的另外一个位置.</td>
+			<td>�N��l���������e���ʨ�ڭ̩Ҵ��Ѫ��˪O���t�~�@�Ӧ�m.</td>
 		</tr>
 		<tr>
 			<td>scope: {title: =expanderTitle}</td>
-			<td>创建一个称为`title`的局部作用域, 将父作用域的属性数据绑定到声明的`expanderTitle`属性中. 这里, 我们重命名title为更方便的expanderTitle. 我们可以编写`scope: { expanderTitle: '='}`, 那么在模板中我们就要使用`expanderTitle`了. 但是在其他指令也有一个`title`属性的情况下, 在API中消除title的歧义和只是重命名它用于在局部使用是有意义的. 请注意, 这里自定义指令也使用了相同的驼峰式命名方式作为指令名.</td>
+			<td>�إߤ@�Ӻ٬�`title`���ϰ�@�ΰ�, �N���@�ΰ쪺�ݩʸ��ô�����n����`expanderTitle`�ݩʤ�. �o��, �ڭ̭��R�Wtitle�����K��expanderTitle. �ڭ̥i�H�s�g`scope: { expanderTitle: '='}`, ����b�˪O���ڭ̴N�n�ϥ�`expanderTitle`�F. ���O�b��L���O�]���@��`title`�ݩʪ����p�U, �bAPI������title���[�q�M�u�O���R�W���Ω�b�ϰ�ϥάO���N�q��. �Ъ`�N, �o�̦۩w�q���O�]�ϥΤF�ۦP���m�p���R�W�覡�@�����O�W.</td>
 		</tr>
 		<tr>
 			<td>template: \<'div'\>+</td>
-			<td>声明这个指令要插入的模板. 注意我们使用了`ng-click`和`ng-show`来显示和隐藏自身并使用`ng-transclude`声明了原始内容会去哪里. 还要注意的是transcluded的内容能够访问父作用域, 而不是指令闭合中的作用域.</td>
+			<td>�n���o�ӫ��O�n���J���˪O. �`�N�ڭ̨ϥΤF`ng-click`�M`ng-show`����ܩM���æۨ��èϥ�`ng-transclude`�n���F��l���e�|�h����. �٭n�`�N���Otranscluded�����e����X�ݤ��@�ΰ�, �Ӥ��O���O���X�����@�ΰ�.</td>
 		</tr>
 		<tr>
 			<td>link...</td>
-			<td>设置`showMe`模型来检测expander的展开/关闭状态, 同时定义在用于点击`title`这个div的时候调用定义的`toggle()`函数.</td>
+			<td>�]�w`showMe`�ҫ����˴�expander���i�}/�������A, �P�ɩw�q�b�Ω��I��`title`�o��div���ɭԩI�s�w�q��`toggle()`���.</td>
 		</tr>
 	</tbody>
 </table>
 
-如果我们像使用更多有意义的东西来在模板中定义`expander title`而不是在模型中, 我们还可以使用传递通过在作用域声明中使用`@`符号传递一个字符串风格的属性, 就像下面这样:
+�p�G�ڭ̹��ϥΧ�h���N�q���F��Ӧb�˪O���w�q`expander title`�Ӥ��O�b�ҫ���, �ڭ��٥i�H�ϥζǻ��g�Ѧb�@�ΰ��n�����ϥ�`@`�Ÿ��ǻ��@�Ӧr�Ŧꭷ�檺�ݩ�, �N���U���o��:
 
 	scope: { title: '@expanderTitle'},
 
-在模板中我们就可以实现相同的效果:
+�b�˪O���ڭ̴N�i�H��{�ۦP���ĪG:
 
 	<expander class="expander" expander-title="Click mr to expand">
 		{{text}}
 	</expander>
 
-注意, 对于@策略我们仍然可以通过使用插入法将title数据绑定到我们的控制器作用域中:
+�`�N, ���@�����ڭ̤��M�i�H�g�Ѩϥδ��J�k�Ntitle���ô����ڭ̪�����@�ΰ줤:
 
 	<expander class="expander" expander-title="{{title}}">
 		{{text}}
 	</expander>
 
-###操作DOM元素
+###�ާ@DOM����

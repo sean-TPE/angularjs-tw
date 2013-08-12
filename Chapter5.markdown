@@ -1,12 +1,12 @@
-#与服务器通信
+#�P���A���q�H
 
-到现在为止，我们已经看到下面这些内容的主要部分，这些内容是你的Angular应用如何规划设计、不同的AngularJS部件如何装配在一起并正常工作以及AngularJS中的模板代码运行机制的一小部分内容。把这些结合在一起，你就可以搭建一些苗条性感的Web应用，但他们的运作主要还是限制在客户端.在前面第二章,我们看了一点用`$http`服务做服务器端通信的内容,但是在这一章,我们将会深入探讨一下如何在现实世界的应用中使用它(`$http`)
+��{�b����A�ڭ̤w�g�ݨ�U���o�Ǥ��e���D�n�����A�o�Ǥ��e�O�A��Angular���Φp��W���]�p�B���P��AngularJS����p��˰t�b�@�_�å��`�u�@�H��AngularJS�����˪O�N�X�B�����@�p�������e�C��o�ǵ��X�b�@�_�A�A�N�i�H�f�ؤ@�ǭ]���ʷP��Web���ΡA���L�̪��B�@�D�n�٬O����b�Ȥ��.�b�e���ĤG��,�ڭ̬ݤF�@�I��`$http`�A�Ȱ����A���ݳq�H�����e,���O�b�o�@��,�ڭ̱N�|�`�J���Q�@�U�p��b�{��@�ɪ����Τ��ϥΥ�(`$http`)
 
-在这一章，我们将讨论一下AngularJS如何帮你同服务器端通信，这其中包括在最底抽象等级的层面或者用它提供的优雅的封装器。而且我们将会深入探讨AngularJS如何用内建缓存机制来帮你加速你的应用.如果你想用`SocketIO`开发一个实时的Angular应用,那么第八章有一个例子，演示了如何把·SocketIO·封装成一个指令然后如何使用这个指令，在这一章，我们就不涉及这方面内容了.
+�b�o�@���A�ڭ̱N�Q�פ@�UAngularJS�p�����A�P���A���ݳq�H�A�o�䤤�]�A�b�̩��⹳���Ū��h���Ϊ̥Υ����Ѫ��u�����ʸ˾��C�ӥB�ڭ̱N�|�`�J���QAngularJS�p��Τ��ا֨���������A�[�t�A������.�p�G�A�Q��`SocketIO`�}�o�@�ӹ�ɪ�Angular����,����ĤK�����@�ӨҤl�A�t�ܤF�p���PSocketIO�P�ʸ˦��@�ӫ��O�M��p��ϥγo�ӫ��O�A�b�o�@���A�ڭ̴N���A�γo�譱���e�F.
 
-##通过$http进行通行
+##�g��$http�i��q��
 
-从Ajax应用(使用XMLHttpRequests)发动一个请求到服务器的传统方式包括：得到一个XMLHttpRequest对象的引用、发起请求、读取响应、检验错误代码然后最后处理服务器响应。它就是下面这样：
+�qAjax����(�ϥ�XMLHttpRequests)�o�ʤ@�ӽШD����A�����ǲΤ覡�]�A�G�o��@��XMLHttpRequest��H���ޥΡB�o�_�ШD�BŪ���^���B������~�N�X�M��̫�B�z���A���^���C���N�O�U���o�ˡG
     
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -17,15 +17,15 @@
         }
     };
     // Setup connection
-    xmlhttp.open(“GET”, “http://myserver/api”, true);
+    xmlhttp.open(�uGET�v, �uhttp://myserver/api�v, true);
     // Make the request
     xmlhttp.send();
     
-对于这样一个简单、常用且经常重复的任务，上面这个代码量比较大.如果你想重复性地做这件事,你最终可能会做一个封装或者使用现成的库.
+���o�ˤ@��²��B�`�ΥB�g�`���ƪ����ȡA�W���o�ӥN�X�q����j.�p�G�A�Q���Ʃʦa���o���,�A�̲ץi��|���@�ӫʸ˩Ϊ̨ϥβ{�����禡�w.
 
-AngularJS XHR(XMLHttpRequest) API遵循Promise接口.因为XHRs是异步方法调用，服务器响应将会在未来一个不定的时间返回(当然希望是越快越好).Promise接口保证了这样的响应将会如何处理,它允许Promise接口的消费者以一种可预计的方式使用这些响应.
+AngularJS XHR(XMLHttpRequest) API���`Promise���f.�]��XHRs�O�D�P�B��k�I�s�A���A���^���N�|�b���Ӥ@�Ӥ��w���ɶ���^(���M�Ʊ�O�V�ֶV�n).Promise���f�O�ҤF�o�˪��^���N�|�p��B�z,�����\Promise���f�����O�̥H�@�إi�w�p���覡�ϥγo�Ǧ^��.
 
-假设我们想从我们的服务器取回用户的信息.如果接口在/api/user地址可用,并且接受id作为url参数，那么我们的XHR请求就可以像下面这样使用Angular的核心$http服务:
+���]�ڭ̷Q�q�ڭ̪����A�����^�Τ᪺�T��.�p�G���f�b/api/user�a�}�i��,�åB����id�@��url�ѼơA����ڭ̪�XHR�ШD�N�i�H���U���o�˨ϥ�Angular���֤�$http�A��:
     
     $http.get('api/user', {params: {id: '5'}
     }).success(function(data, status, headers, config) {
@@ -34,9 +34,9 @@ AngularJS XHR(XMLHttpRequest) API遵循Promise接口.因为XHRs是异步方法�
     // Handle the error
     });
     
-如果你来自jQuery世界,你可能会注意到：AngularJS和jQuery处理异步需求的方式很相似.
+�p�G�A�Ӧ�jQuery�@��,�A�i��|�`�N��GAngularJS�MjQuery�B�z�D�P�B�ݨD���覡�ܬۦ�.
 
-我们上面例子中使用的$htttp.get方法仅仅是AngularJS核心服务$http提供的众多简便方法之一.类似的，如果你想使用AngularJS向相同URL带一些POST请求数据发起一个POST请求，你可以像下面这样做：
+�ڭ̤W���Ҥl���ϥΪ�$htttp.get��k�ȶȬOAngularJS�֤ߪA��$http���Ѫ����h²�K��k���@.�������A�p�G�A�Q�ϥ�AngularJS�V�ۦPURL�a�@��POST�ШD��Ƶo�_�@��POST�ШD�A�A�i�H���U���o�˰��G
 
     var postData = {text: 'long blob of text'};
     // The next line gets appended to the URL as params
@@ -49,7 +49,7 @@ AngularJS XHR(XMLHttpRequest) API遵循Promise接口.因为XHRs是异步方法�
     // Handle the error
     });
 
-AngularJS为大多数常用请求类型都提供了类似的简便方法，他们包括：
+AngularJS���j�h�Ʊ`�νШD���������ѤF������²�K��k�A�L�̥]�A�G
 
 + GET
 + HEAD
@@ -58,19 +58,19 @@ AngularJS为大多数常用请求类型都提供了类似的简便方法，他�
 + PUT
 + JSONP
 
-###进一步配置你的请求
+###�i�@�B�t�m�A���ШD
 
-有时，工具箱提供的标准请求配置还不够,它可能是因为你想做下面这些事情:
+���ɡA�u��c���Ѫ��зǽШD�t�m�٤���,���i��O�]���A�Q���U���o�ǨƱ�:
 
-+ 你可能想为请求添加权限验证的头信息
-+ 改变请求数据的缓存方式
-+ 在请求被发送或者响应返回时，对数据以一些方式做一定的转换处理
++ �A�i��Q���ШD�K�[�v�����Ҫ��Y�T��
++ ���ܽШD��ƪ��֨��覡
++ �b�ШD�Q�o�e�Ϊ̦^����^�ɡA���ƥH�@�Ǥ覡���@�w���ഫ�B�z
 
-在上面这样的情况之下,你可以进一步配置请求，通过可选的传递进请求的配置对象.在之前的例子中,我们使用配置对象来标明可选的URL参数，即便我们哪儿演示的GET和POST方法是简便方法。内部的原生方法可能看上面像相面这样：
+�b�W���o�˪����p���U,�A�i�H�i�@�B�t�m�ШD�A�g�ѥi�諸�ǻ��i�ШD���t�m�ﹳ.�b���e���Ҥl��,�ڭ̨ϥΰt�m�ﹳ�ӼЩ��i�諸URL�ѼơA�Y�K�ڭ̭���t�ܪ�GET�MPOST��k�O²�K��k�C��������ͤ�k�i��ݤW�����ۭ��o�ˡG
 
     $http(config)
 
-下面演示的是一个调用这个方法的伪代码模板:
+�U���t�ܪ��O�@�өI�s�o�Ӥ�k�����N�X�˪O:
 
     $http({
         method: string,
@@ -85,31 +85,31 @@ AngularJS为大多数常用请求类型都提供了类似的简便方法，他�
         withCredentials: boolean
     });
 
-GET、POST和其它的简便方法已经设置了请求的method类型,所以不需要再设置这个，config配置对象是传给·$http.get·、·$http.post·方法的最后一个参数,所以当你使用任何简便方法的时候，你任何能用这个config配置对象.
+GET�BPOST�M�䥦��²�K��k�w�g�]�w�F�ШD��method����,�ҥH���ݭn�A�]�w�o�ӡAconfig�t�m��H�O�ǵ��P$http.get�P�B�P$http.post�P��k���̫�@�ӰѼ�,�ҥH���A�ϥΥ���²�K��k���ɭԡA�A�����γo��config�t�m�ﹳ.
 
-你也可以通过传入含有下面这些键的属性集config对象来改变已有的request对象
+�A�]�i�H�g�ѶǤJ�t���U���o���䪺�ݩʶ�config�ﹳ�ӧ��ܤw����request�ﹳ
 
-+ method : 一个表示http请求类型的字符串，比如GET,或者POST
-+ url : 一个URL字符串代表要请求资源的绝对或相对URL
-+ params : 一个对象(准确的说是键值映射)包含字符串到字符串内容，它代表了将会转换为URL参数的键值对，比如下面这样：
++ method : �@�Ӫ���http�ШD�������r�Ŧ�A��pGET,�Ϊ�POST
++ url : �@��URL�r�Ŧ�N���n�ШD�귽������ά۹�URL
++ params : �@�ӹﹳ(�ǽT�����O��ȬM�g)�]�t�r�Ŧ��r�Ŧꤺ�e�A���N���F�N�|�ഫ��URL�Ѽƪ���ȹ�A��p�U���o�ˡG
     [{key1: 'value1', key2: 'value2'}]
-它将会被转换为:
+���N�|�Q�ഫ��:
     ?key1=value&key2=value2
-这串字符将会加在URL后面，如果在value的位置你用一个对象取代字符串或数字，那这个对象将会转换为JSON字符串.
-+ data ：一个字符串或一个对象，它将会被作为请求消息数据被发送.
-+ timeout : 这是请求被认定为过期之前所要等待的毫秒数.
+�o��r�űN�|�[�bURL�᭱�A�p�G�bvalue����m�A�Τ@�ӹﹳ���N�r�Ŧ�μƦr�A���o�ӹ�H�N�|�ഫ��JSON�r�Ŧ�.
++ data �G�@�Ӧr�Ŧ�Τ@�ӹ�H�A���N�|�Q�@���ШD������ƳQ�o�e.
++ timeout : �o�O�ШD�Q�{�w���L�����e�ҭn���ݪ��@����.
 
-还有部分另外的选项可以被配置,在下面的章节中，我们将会深度探索这些选项.
+�٦������t�~���ﶵ�i�H�Q�t�m,�b�U�������`���A�ڭ̱N�|�`�ױ����o�ǿﶵ.
 
-###设定HTTP头信息(Headers)
+###�]�wHTTP�Y�T��(Headers)
 
-AngularJS有一个默认的头信息,这个头信息将会对所有的发送请求使用,它包含以下信息:
+AngularJS���@���q�{���Y�T��,�o���Y�T���N�|��Ҧ����o�e�ШD�ϥ�,���]�t�H�U�T��:
     1.Accept: application/json, text/plain, /
     2.X-Requested-With:XMLHttpRequest
 
-如果你想设置任何特定的头信息,这儿有两种方法来做这件事：
+�p�G�A�Q�]�w����S�w���Y�T��,�o�঳��ؤ�k�Ӱ��o��ơG
 
-第一种方法,如果你相对所有的发送请求都使用这些特定头信息,那你需要把特定有信息设置为Angular默认头信息的一部分.可以在`$httpProvider.defaults.headers`配置对象里面设置这个,这个步骤通常会在你的app设置config部分来做.所以如果你想移除"Requested-With"头信息且对所有的GET请求启用"DO NOT TRACK"设置,你可以简单地通过以下代码来做:
+�Ĥ@�ؤ�k,�p�G�A�۹�Ҧ����o�e�ШD���ϥγo�ǯS�w�Y�T��,���A�ݭn��S�w���T���]�w��Angular�q�{�Y�T�����@����.�i�H�b`$httpProvider.defaults.headers`�t�m�ﹳ�̭��]�w�o��,�o�ӨB�J�q�`�|�b�A��app�]�wconfig�����Ӱ�.�ҥH�p�G�A�Q����"Requested-With"�Y�T���B��Ҧ���GET�ШD�ҥ�"DO NOT TRACK"�]�w,�A�i�H²��a�g�ѥH�U�N�X�Ӱ�:
 
     angular.module('MyApp',[]).
         config(function($httpProvider) {
@@ -119,7 +119,7 @@ AngularJS有一个默认的头信息,这个头信息将会对所有的发送请�
             $httpProvider.default.headers.get['DNT'] = '1';
     });
     
-如果你只想对某个特定的请求设置头信息,而不是设置默认头信息.那么你可以通过给$http服务传递包含指定头信息的config对象来做.相同的定制头信息可以作为第二个参数传递给GET请求,第一个参数是URL字符串：
+�p�G�A�u�Q��Y�ӯS�w���ШD�]�w�Y�T��,�Ӥ��O�]�w�q�{�Y�T��.����A�i�H�g�ѵ�$http�A�ȶǻ��]�t���w�Y�T����config�ﹳ�Ӱ�.�ۦP���Ȼs���Y�T���i�H�@���ĤG�ӰѼƶǻ���GET�ШD,�Ĥ@�ӰѼƬOURL�r�Ŧ�G
     
     $http.get('api/user', {
     // Set the Authorization header. In an actual app, you would get the auth
@@ -128,68 +128,68 @@ AngularJS有一个默认的头信息,这个头信息将会对所有的发送请�
     params: {id: 5}
     }).success(function() { // Handle success });
     
-如何在应用中处理权限验证头信息的成熟示例将会在第八章的Cheetsheets示例部分给出.
+�p��b���Τ��B�z�v�������Y�T���������d�ұN�|�b�ĤK����Cheetsheets�d�ҳ������X.
 
-###缓存响应数据
+###�֨��^�����
 
-AngularJS为HTTP GET请求提供了一个开箱即用的简单缓存系统.缺省情况下,它对所有的请求都是禁用的,但是如果你想对你的请求启用缓存系统，你可以使用以下代码:
+AngularJS��HTTP GET�ШD���ѤF�@�Ӷ}�c�Y�Ϊ�²��֨��t��.�ʬٱ��p�U,����Ҧ����ШD���O�T�Ϊ�,���O�p�G�A�Q��A���ШD�ҥΧ֨��t�ΡA�A�i�H�ϥΥH�U�N�X:
 
     $http.get('http://server/myapi', {
         cache: true
     }).success(function() { // Handle success });
 
-这段代码启用了缓存系统，然后AngularJS将会缓存来自Server的响应数据.但对相同的URL的请求第二次发出时,AngularJS将会从缓存里面取出前一次的响应数据作为响应返回.这个缓存系统也很智能,即使你同时对相同URL发出多个请求,只有一个请求会发向Server,这个请求的响应数据将会反馈给所有(同时发起的)请求。
+�o�q�N�X�ҥΤF�֨��t�ΡA�M��AngularJS�N�|�֨��Ӧ�Server���^�����.����ۦP��URL���ШD�ĤG���o�X��,AngularJS�N�|�q�֨��̭����X�e�@�����^����Ƨ@���^����^.�o�ӧ֨��t�Τ]�ܴ���,�Y�ϧA�P�ɹ�ۦPURL�o�X�h�ӽШD,�u���@�ӽШD�|�o�VServer,�o�ӽШD���^����ƱN�|���X���Ҧ�(�P�ɵo�_��)�ШD�C
 
-然而这种做法从可用性的角度看可能是有所冲突的,当一个用户首先看到旧的结果,然后新的结果突然冒出来，比如一个用户可能即将单击一个数据项,而实际上这个数据项后台已经发生了变化.
+�M�ӳo�ذ��k�q�i�Ωʪ����׬ݥi��O���ҽĬ�,���@�ӥΤ᭺���ݨ��ª����G,�M��s�����G��M�_�X�ӡA��p�@�ӥΤ�i��Y�N�����@�Ӹ�ƶ�,�ӹ�ڤW�o�Ӹ�ƶ���x�w�g�o�ͤF�ܤ�.
 
-注意所有响应(即使是从缓存里取出的)本质上仍旧是异步响应.换句话说，期望你的利用缓存响应时的异步代码运行仍旧和他向后台服务器发出请求时的代码运行机制是一样的.
+�`�N�Ҧ��^��(�Y�ϬO�q�֨��̨��X��)����W���¬O�D�P�B�^��.���y�ܻ��A����A���Q�Χ֨��^���ɪ��D�P�B�N�X�B�椴�©M�L�V��x���A���o�X�ШD�ɪ��N�X�B�����O�@�˪�.
 
-###对请求(Request)和响应(Response)的数据所做的转换
+###��ШD(Request)�M�^��(Response)����ƩҰ����ഫ
 
-AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,它们包括:
+AngularJS��Ҧ�`$http`�A�ȵo�_���ШD�M�^�����@�ǰ򥻪��ഫ,���̥]�A:
 
-+ 请求(Request)转换:
-    如果请求的Cofig配置对象的data属性包含一个对象，将会把这个对象序列化为JSON格式.
-+ 响应(Response)转换:
-    如果探测到一个XSRF头,把它剥离掉.如果响应数据被探测为JSON格式,用JSON解析器把它反序列化为JSON对象.
++ �ШD(Request)�ഫ:
+    �p�G�ШD��Cofig�t�m��H��data�ݩʥ]�t�@�ӹ�H�A�N�|��o�ӹ�H�ǦC�Ƭ�JSON�榡.
++ �^��(Response)�ഫ:
+    �p�G������@��XSRF�Y,�⥦������.�p�G�^����ƳQ������JSON�榡,��JSON�ѪR���⥦�ϧǦC�Ƭ�JSON�ﹳ.
 
-如果你需要部分系统默认提供的转换,或者想使用你自己的转换,你可以把你的转换函数作为Config配置对象的一部分传递进去(后面有细述).这些转换函数得到HTTP请求和HTTP响应的数据主体以及它们的头信息.然后把序列化的修改后版本返回出来.在Config对象里面配置这些函数需要使用·transformRequest·键和·transformResponse·键,这些都可以通过使用`$httpProvider·服务在模块的config函数里面配置它.
+�p�G�A�ݭn�����t���q�{���Ѫ��ഫ,�Ϊ̷Q�ϥΧA�ۤv���ഫ,�A�i�H��A���ഫ��Ƨ@��Config�t�m��H���@�����ǻ��i�h(�᭱���ӭz).�o���ഫ��Ʊo��HTTP�ШD�MHTTP�^������ƥD��H�Υ��̪��Y�T��.�M���ǦC�ƪ��ק�᪩����^�X��.�bConfig�ﹳ�̭��t�m�o�Ǩ�ƻݭn�ϥΡPtransformRequest�P��M�PtransformResponse�P��,�o�ǳ��i�H�g�Ѩϥ�`$httpProvider�P�A�Ȧb�Ҳժ�config��ƨ����t�m��.
 
-我们什么时候使用这些哪?让我假设我们有一个服务器，它更习惯于jQuery运行的方式.它可能希望我们的POST数据以`key1=val1&key2=val2`字符串的形式传递，而不是以`{key1:val1,key2:val2}`这样的JSON格式.这个时候，我们可能相对每个请求做这样的转换,或者单个地增加transformRequest转换函数,为了达成这个示例这样的目标,我们将要设置一个通用transformRequet转换函数,以便对所有的发出请求,这个函数都可以把JSON格式转换为键值对字符串,下面代码演示了如何做这个工作:
+�ڭ̤���ɭԨϥγo�ǭ�?���ڰ��]�ڭ̦��@�Ӧ��A���A����ߺD��jQuery�B�檺�覡.���i��Ʊ�ڭ̪�POST��ƥH`key1=val1&key2=val2`�r�Ŧꪺ�Φ��ǻ��A�Ӥ��O�H`{key1:val1,key2:val2}`�o�˪�JSON�榡.�o�ӮɭԡA�ڭ̥i��۹�C�ӽШD���o�˪��ഫ,�Ϊ̳�Ӧa�W�[transformRequest�ഫ���,���F�F���o�ӽd�ҳo�˪��ؼ�,�ڭ̱N�n�]�w�@�ӳq��transformRequet�ഫ���,�H�K��Ҧ����o�X�ШD,�o�Ө�Ƴ��i�H��JSON�榡�ഫ����ȹ�r�Ŧ�,�U���N�X�t�ܤF�p�󰵳o�Ӥu�@:
 
     var module = angular.module('myApp');
     module.config(function ($httpProvider) {
         $httpProvider.defaults.transformRequest = function(data) {
-            // We are using jQuery’s param method to convert our
+            // We are using jQuery�zs param method to convert our
             // JSON data into the string form
             return $.param(data);
        };
     });
 
-##单元测试
+##�椸����
 
-目前为止，我们已经了解如何使用`$http`服务以及如何以可能的方式做你需要的配置.但是如何写一些单元测试来保证这些够真实有效的运行哪?
+�ثe����A�ڭ̤w�g�A�Ѧp��ϥ�`$http`�A�ȥH�Φp��H�i�઺�覡���A�ݭn���t�m.���O�p��g�@�ǳ椸���ըӫO�ҳo�ǰ��u�꦳�Ī��B���?
 
-正如我们曾经三番五次的提到的那样,AngularJS一直以测试为先的原则而设计.所以Angualr有一个模拟服务器后端，在单元测试中,它可以帮你就可以测试你发出的请求是否正确,甚至可以精确控制模拟响应如何得到处理,什么时候得到处理.
+���p�ڭ̴��g�T�f���������쪺����,AngularJS�@���H���լ�������h�ӳ]�p.�ҥHAngualr���@�Ӽ������A����ݡA�b�椸���դ�,���i�H���A�N�i�H���էA�o�X���ШD�O�_���T,�Ʀܥi�H��T��������^���p��o��B�z,����ɭԱo��B�z.
 
-让我们探索一下下面这样的单元测试场景:一个控制向服务器发起请求,从服务器得到数据,把它赋给作用域内的模型,然后以具体的模板格式显示出来.
+���ڭ̱����@�U�U���o�˪��椸���ճ���:�@�ӱ���V���A���o�_�ШD,�q���A���o����,�⥦�ᵹ�@�ΰ줺���ҫ�,�M��H���骺�˪O�榡��ܥX��.
 
-我们的`NameListCtrl`控制器是一个非常简单的控制器.它的存在只有一个目的：访问`names`API接口，然后把得到数据存储在作用域scope模型内.
+�ڭ̪�`NameListCtrl`����O�@�ӫD�`²�檺���.�����s�b�u���@�ӥت��G�X��`names`API���f�A�M���o���Ʀs�x�b�@�ΰ�scope�ҫ���.
 
     function NamesListCtrl($scope, $http) {
-        $http.get('http://server/names', {params: {filter: ‘none’}}).
+        $http.get('http://server/names', {params: {filter: �ynone�z}}).
             success(function(data) {
                 $scope.names = data;
         });
     }
 
-怎样对这个控制器做单元测试？在我们的单元测试中,我们必须保证下面这些条件:
+��˹�o�ӱ�����椸���աH�b�ڭ̪��椸���դ�,�ڭ̥����O�ҤU���o�Ǳ���:
 
-+ `NamesListCtrl`能够找到所有的依赖项(并且正确的得到注入的这些依赖)》
-+ 当控制器加载时尽可能快地立刻发情请求从服务器得到names数据.
-+ 控制器能够正确地把响应数据存储到作用域scope的`names`变量属性中.
++ `NamesListCtrl`������Ҧ����̿ඵ(�åB���T���o��`�J���o�Ǩ̿�)�n
++ ������[���ɺɥi��֦a�ߨ�o���ШD�q���A���o��names���.
++ ���������T�a��^����Ʀs�x��@�ΰ�scope��`names`�ܼ��ݩʤ�.
 
-在我们的单元测试中构造一个控制器时，我们给它注入一个scope作用域和一个伪造的HTTP服务,在构建测试控制器的方式和生产中构建控制器的方式其实是一样的.这是推荐方法，尽管它看上去上有点复杂。让我看一下具体代码：
+�b�ڭ̪��椸���դ��c�y�@�ӱ���ɡA�ڭ̵����`�J�@��scope�@�ΰ�M�@�Ӱ��y��HTTP�A��,�b�c�ش��ձ�����覡�M�Ͳ����c�ر�����覡���O�@�˪�.�o�O���ˤ�k�A���ޥ��ݤW�h�W���I�����C���ڬݤ@�U����N�X�G
     
     describe('NamesListCtrl', function(){
         var scope, ctrl, mockBackend;
@@ -218,48 +218,48 @@ AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,
             // that are in flight.
             mockBackend.flush();
             // Now names should be set on the scope
-            expect(scope.names).toEqual(['Brad', 'Shyam’]);
+            expect(scope.names).toEqual(['Brad', 'Shyam�z]);
         });
     });
 
-##使用RESTful资源
+##�ϥ�RESTful�귽
 
-·$http·服务提供一个比较底层的实现来帮你发起XHR请求,但是同时也给提供了很强的可控性和弹性.在大多数情况下,我们处理的是对象集或者是封装有一定属性和方法的对象模型,比如带有个人资料的自然人对象或者信用卡对象.
+�P$http�P�A�ȴ��Ѥ@�Ӥ�����h����{�����A�o�_XHR�ШD,���O�P�ɤ]�����ѤF�ܱj���i���ʩM�u��.�b�j�h�Ʊ��p�U,�ڭ̳B�z���O�ﹳ���Ϊ̬O�ʸ˦��@�w�ݩʩM��k����H�ҫ�,��p�a���ӤH��ƪ��۵M�H�ﹳ�Ϊ̫H�Υd�ﹳ.
 
-在上面这样的情况下，如果我们自己构建一个JS对象来表示这种较复杂对象模型，那做法就有点不够nice.如果我们仅仅想编辑某个对象的属性、保存或者更新一个对象，那我们如何让这些状态在服务器端持久化.
+�b�W���o�˪����p�U�A�p�G�ڭ̦ۤv�c�ؤ@��JS�ﹳ�Ӫ��ܳo�ظ������ﹳ�ҫ��A�����k�N���I����nice.�p�G�ڭ̶ȶȷQ�s��Y�ӹ�H���ݩʡB�O�s�Ϊ̧�s�@�ӹ�H�A���ڭ̦p�����o�Ǫ��A�b���A���ݫ��[��.
 
-`$resource`正好给你提供这种能力.AngularJS resources可以帮助我们以描述的方式来定义对象模型，可以定义一下这些特征：
+`$resource`���n���A���ѳo�د�O.AngularJS resources�i�H���U�ڭ̥H�y�z���覡�өw�q�ﹳ�ҫ��A�i�H�w�q�@�U�o�ǯS�x�G
 
-+ resource的服务器端URL
-+ 这种请求常用参数的类型
-+ (你可以免费自动得到get、save、query、remove和delete方法),除了那些方法，你可以定义其它的方法，这些方法封装了对象模型的特定功能和业务逻辑(比如信用卡模型的charge()付费方法)
-+ 响应的期望类型(数组或者一个独立对象)
-+ 头信息
++ resource�����A����URL
++ �o�ؽШD�`�ΰѼƪ�����
++ (�A�i�H�K�O�۰ʱo��get�Bsave�Bquery�Bremove�Mdelete��k),���F���Ǥ�k�A�A�i�H�w�q�䥦����k�A�o�Ǥ�k�ʸˤF��H�ҫ����S�w�\��M�~���޿�(��p�H�Υd�ҫ���charge()�I�O��k)
++ �^������������(�ƲթΪ̤@�ӿW�߹ﹳ)
++ �Y�T��
 
 ------------------------------------------------------
-什么时候你可以用Angular Resources组件？
+����ɭԧA�i�H��Angular Resources�ե�H
 
-只有你的服务器端设施是以RESTful方式提供服务的时候，你才应该用Angular resources组件.比如信用卡那个案例,我们将用它作为本章这一部分的例子，他将包括以下内容:
+�u���A�����A���ݳ]�I�O�HRESTful�覡���ѪA�Ȫ��ɭԡA�A�~���ӥ�Angular resources�ե�.��p�H�Υd���Ӯר�,�ڭ̱N�Υ��@�������o�@�������Ҥl�A�L�N�]�A�H�U���e:
 
-1. 给地址`/user/123/card`发送一个GET请求，将会得到用户123的信用卡列表.
-2. 给地址`/user/123/card/15`发送一个GET请求,将会得到用户123本人的ID为15的信用卡信息
-3. 给地址`/user/123/card`发送一个在POST请求数据部分包含信用卡信息的POST请求,将会为用户123新创建一个信用卡
-4. 给地址`/user/123/card/15`发送一个在POST请求数据部分包含信用卡信息的POST请求,将会更新用户123的ID为5的信用卡的信息.
-5. 给地址`/user/123/card/15`一个方法为DELETE类型的请求,将会删除掉用户123的ID为5的信用卡的数据.
+1. ���a�}`/user/123/card`�o�e�@��GET�ШD�A�N�|�o��Τ�123���H�Υd�C��.
+2. ���a�}`/user/123/card/15`�o�e�@��GET�ШD,�N�|�o��Τ�123���H��ID��15���H�Υd�T��
+3. ���a�}`/user/123/card`�o�e�@�ӦbPOST�ШD��Ƴ����]�t�H�Υd�T����POST�ШD,�N�|���Τ�123�s�إߤ@�ӫH�Υd
+4. ���a�}`/user/123/card/15`�o�e�@�ӦbPOST�ШD��Ƴ����]�t�H�Υd�T����POST�ШD,�N�|��s�Τ�123��ID��5���H�Υd���T��.
+5. ���a�}`/user/123/card/15`�@�Ӥ�k��DELETE�������ШD,�N�|�R�����Τ�123��ID��5���H�Υd�����.
 
 -------------------------------------------------------
 
-除了按照你的要求给你提供一个查询服务器端信息的对象,`$resource`还可以让你使用返回的数据对象就像他们是持久化数据模型一样，可以修改他们，还可以把你的修改持久化存储下来.
+���F���ӧA���n�D���A���Ѥ@�Ӭd�ߦ��A���ݰT������H,`$resource`�٥i�H���A�ϥΪ�^����ƹ�H�N���L�̬O���[�Ƹ�Ƽҫ��@�ˡA�i�H�ק�L�̡A�٥i�H��A���ק���[�Ʀs�x�U��.
 
-`ngResource`是一个单独的、可选的模块.要想使用它，你看需要做以下事情：
+`ngResource`�O�@�ӳ�W���B�i�諸�Ҳ�.�n�Q�ϥΥ��A�A�ݻݭn���H�U�Ʊ��G
 
-+ 在你的HTML文件里面引用angular-resource.js的实际地址
-+ 在你的模块依赖里面声明对它的依赖(例如,angular.module('myModule',['ngResource'])).
-+ 在需要的地方，注入$resource这个依赖项.
++ �b�A��HTML���̭��ޥ�angular-resource.js����ڦa�}
++ �b�A���Ҳը̿�̭��n���復���̿�(�Ҧp,angular.module('myModule',['ngResource'])).
++ �b�ݭn���a��A�`�J$resource�o�Ө̿ඵ.
 
-在我们看怎样用ngResource方法创建一个resource资源之前，我们先看一下怎样用基本的$http服务做类似的事情.比如我们的信用卡resource，我们想能够读取、查询、保存信用卡信息，另外还要能为信用卡还款.
+�b�ڭ̬ݫ�˥�ngResource��k�إߤ@��resource�귽���e�A�ڭ̥��ݤ@�U��˥ΰ򥻪�$http�A�Ȱ��������Ʊ�.��p�ڭ̪��H�Υdresource�A�ڭ̷Q���Ū���B�d�ߡB�O�s�H�Υd�T���A�t�~�٭n�ର�H�Υd�ٴ�.
 
-这儿是上述需求一个可能的实现：
+�o��O�W�z�ݨD�@�ӥi�઺��{�G
 
     myAppModule.factory('CreditCard', ['$http', function($http) {
         var baseUrl = '/user/123/card';
@@ -280,7 +280,7 @@ AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,
         };
     }]);
 
-取代以上方式，你也可以轻松创建一个在你的应用中始终如一的Angular资源服务，就像下面代码这样：
+���N�H�W�覡�A�A�]�i�H���P�إߤ@�Ӧb�A�����Τ��l�צp�@��Angular�귽�A�ȡA�N���U���N�X�o�ˡG
     
     myAppModule.factory('CreditCard', ['$resource', function($resource) {
         return $resource('/user/:userId/card/:cardId',
@@ -288,9 +288,9 @@ AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,
             {charge: {method:'POST', params:{charge:true}, isArray:false});
     }]);
 
-做到现在，你就可以任何时候从Angular注入器里面请求一个CreditCard依赖，你就会得到一个Angular资源,默认情况下，这个资源会提供一些初始的可用方法.表格5-1列出了这些初始方法以及他们的运行行为，这样你就可以知道在服务器怎样配置来配合这些方法了.
+����{�b�A�A�N�i�H����ɭԱqAngular�`�J���̭��ШD�@��CreditCard�̿�A�A�N�|�o��@��Angular�귽,�q�{���p�U�A�o�Ӹ귽�|���Ѥ@�Ǫ�l���i�Τ�k.����5-1�C�X�F�o�Ǫ�l��k�H�ΥL�̪��B��欰�A�o�˧A�N�i�H���D�b���A����˰t�m�Ӱt�X�o�Ǥ�k�F.
 
-表格5-1 一个信用卡reource
+����5-1 �@�ӫH�Υdreource
 <table>
 <thead>
  <tr>
@@ -310,13 +310,13 @@ AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,
   <tr>
     <td>CreditCard.save({}, ccard)</td>
     <td>POST</td>
-    <td>/user/123/card with post data “ccard”</td>
+    <td>/user/123/card with post data �uccard�v</td>
     <td>Single JSON</td>
   </tr>
   <tr>
     <td>CreditCard.save({id: 11}, ccard)</td>
     <td>POST</td>
-    <td>/user/123/card/11 with post data “ccard”</td>
+    <td>/user/123/card/11 with post data �uccard�v</td>
     <td>Single JSON</td>
   </tr>
   <tr>
@@ -340,7 +340,7 @@ AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,
 </tbody>
 </table>
 
-让我们看一个信用卡resource使用的代码样例，这样可以让你理解起来觉得更浅显易懂.
+���ڭ̬ݤ@�ӫH�Υdresource�ϥΪ��N�X�˨ҡA�o�˥i�H���A�z�Ѱ_��ı�o��L�����.
 
     // Let us assume that the CreditCard service is injected here
     // We can retrieve a collection from the server which makes the request
@@ -359,37 +359,37 @@ AngularJS对所有`$http`服务发起的请求和响应做一些基本的转换,
         // with data {id:456, number:'1234', name:'J. Smith'}
     });
 
-前面这个样例代码里面发生了很多事情，所以我们将会一个一个地认真讲解其中的重要部分:
+�e���o�Ӽ˨ҥN�X�̭��o�ͤF�ܦh�Ʊ��A�ҥH�ڭ̱N�|�@�Ӥ@�Ӧa�{�u���Ѩ䤤�����n����:
 
-###resource资源的声明
+###resource�귽���n��
 
-声明你自己的`$resource`非常简单，只要调用注入的$resource函数,并给他传入正确的参数即可。(你现在应该已经知道如何注入依赖,对吧?)
+�n���A�ۤv��`$resource`�D�`²��A�u�n�I�s�`�J��$resource���,�õ��L�ǤJ���T���ѼƧY�i�C(�A�{�b���Ӥw�g���D�p��`�J�̿�,��a?)
 
-$resource函数只有一个必须参数,就是提供后台资源数据的URL地址,另外还有两个可选参数:默认request参数信息和其它的想在资源上要配置的动作.
+$resource��ƥu���@�ӥ����Ѽ�,�N�O���ѫ�x�귽��ƪ�URL�a�},�t�~�٦���ӥi��Ѽ�:�q�{request�ѼưT���M�䥦���Q�b�귽�W�n�t�m���ʧ@.
 
-请注意：第一个URL地址参数中的的变量数据是参数化可配置的(:冒号是参数变量的语法符号,比如`:userId`以为这个参数将会被实际的userId参数变量取代(译者注:写过参数化SQL语句的人应该很熟悉),而`:cardId`将会被cardId参数变量的值所取代),如果没有给函数传递这些参数变量,那那个位置将会被空字符取代.
+�Ъ`�N�G�Ĥ@��URL�a�}�ѼƤ������ܼƸ�ƬO�ѼƤƥi�t�m��(:�_���O�Ѽ��ܼƪ��y�k�Ÿ�,��p`:userId`�H���o�ӰѼƱN�|�Q��ڪ�userId�Ѽ��ܼƨ��N(Ķ�̪`:�g�L�ѼƤ�SQL�y�y���H���ӫܼ��x),��`:cardId`�N�|�QcardId�Ѽ��ܼƪ��ȩҨ��N),�p�G�S������ƶǻ��o�ǰѼ��ܼ�,�����Ӧ�m�N�|�Q�Ŧr�Ũ��N.
 
-函数的第二个参数则负责提供所有请求的默认参数变量信息.在这个案例中，我们给userId参数传递一个常量:123,cardId参数则更有意思,我们给cardId参数传递了一个"@id"字符串.这意味着如果我们使用一个从服务器返回的对象而且我们可以调用这个对象的任何方法(比如$save),那么这个对象的id属性将会被取出来赋给cardId字段.
+��ƪ��ĤG�ӰѼƫh�t�d���ѩҦ��ШD���q�{�Ѽ��ܼưT��.�b�o�ӮרҤ��A�ڭ̵�userId�Ѽƶǻ��@�ӱ`�q:123,cardId�Ѽƫh�󦳷N��,�ڭ̵�cardId�Ѽƶǻ��F�@��"@id"�r�Ŧ�.�o�N���ۦp�G�ڭ̨ϥΤ@�ӱq���A����^����H�ӥB�ڭ̥i�H�I�s�o�ӹ�H�������k(��p$save),����o�ӹ�H��id�ݩʱN�|�Q���X�ӽᵹcardId�r�q.
 
-函数的第三个参数是一些我们想要暴露的其它方法，这些方法是对定制资源做操作的方法.在下面的章节，我们将会深度讨论这个话题
+��ƪ��ĤT�ӰѼƬO�@�ǧڭ̷Q�n���S���䥦��k�A�o�Ǥ�k�O��Ȼs�Ƹ귽���ާ@����k.�b�U�������`�A�ڭ̱N�|�`�װQ�׳o�Ӹ��D
 
-###定制方法
+###�Ȼs�Ƥ�k
 
-$resource函数的第三个参数是可选的，主要用来传递要在resource资源上暴露的其它自定义方法。
+$resource��ƪ��ĤT�ӰѼƬO�i�諸�A�D�n�ΨӶǻ��n�bresource�귽�W���S���䥦�۩w�q��k�C
 
-在这个案例中，我们自定义了一个方法charge.这个自定义方法可以通过传递一个对象而被配置上.这个对象里有个键值，表明了此方法的暴露名称.这个配置需要顶一个request请求的方法类型(GET,POST等等)，以及该请求中需要的参数也要被传递(比如charge=true),并且声明返回对象是数组还是单个普通对象。这一切到搞定之后，你就可以在有这个业务实际需要求的时候，自由地调用`CreditCard.charge()`方法.
+�b�o�ӮרҤ��A�ڭ̦۩w�q�F�@�Ӥ�kcharge.�o�Ӧ۩w�q��k�i�H�g�Ѷǻ��@�ӹﹳ�ӳQ�t�m�W.�o�ӹ�H�̦�����ȡA�����F����k�����S�W��.�o�Ӱt�m�ݭn���@��request�ШD����k����(GET,POST����)�A�H�θӽШD���ݭn���ѼƤ]�n�Q�ǻ�(��pcharge=true),�åB�n����^��H�O�Ʋ��٬O��Ӵ��q��H�C�o�@����d�w����A�A�N�i�H�b���o�ӷ~�ȹ�ڻݭn�D���ɭԡA�ۥѦa�I�s`CreditCard.charge()`��k.
 
-###不要使用回调函数机制!(除非你真的需要它们)
+###���n�ϥΦ^�I��ƾ���!(���D�A�u���ݭn����)
 
-第三个需要注意的事情是资源调用的返回类型.让我们再次关注一下`CreditCard.query()`这个函数.你将会看到不是在回调函数中给cards赋值,而是直接把它赋给card变量.在异步服务器请求的情况下唉，这样的代码是如何运作的哪?
+�ĤT�ӻݭn�`�N���Ʊ��O�귽�I�s����^����.���ڭ̦A�����`�@�U`CreditCard.query()`�o�Ө��.�A�N�|�ݨ줣�O�b�^�I��Ƥ���cards���,�ӬO�����⥦�ᵹcard�ܼ�.�b�D�P�B���A���ШD�����p�U���A�o�˪��N�X�O�p��B�@����?
 
-你担心代码是否正常工作是对的，但是代码实际上是可以正常工作的.这里实际发生的是AngularJS赋值了一个引用(是普通对象的还是数组的取决于你期望的返回类型)，这个引用将会在未来服务器请求响应返回时被填充.在这期间，这个引用是个空应用.
+�A��ߥN�X�O�_���`�u�@�O�諸�A���O�N�X��ڤW�O�i�H���`�u�@��.�o�̹�ڵo�ͪ��OAngularJS��ȤF�@�Ӥޥ�(�O���q��H���٬O�Ʋժ����M��A���檺��^����)�A�o�ӤޥαN�|�b���Ӧ��A���ШD�^����^�ɳQ��R.�b�o�����A�o�ӤޥάO�Ӫ�����.
 
-因为在AngularJS应用中的大多数通用过程都是从服务器端取数据，把它赋给一个变量，然后在模版上显示它,而上面这样的简化机制非常优雅.在你的控制器代码中,你所有需要去做的就是发出服务器端请求,把返回值赋给正确的作用域(scope)变量.然后剩下的合适渲染这些数据就由模板系统去操心了.
+�]���bAngularJS���Τ����j�h�Ƴq�ιL�{���O�q���A���ݨ���ơA�⥦�ᵹ�@���ܼơA�M��b�Ҫ��W��ܥ�,�ӤW���o�˪�²�ƾ���D�`�u��.�b�A������N�X��,�A�Ҧ��ݭn�h�����N�O�o�X���A���ݽШD,���^�Ƚᵹ���T���@�ΰ�(scope)�ܼ�.�M��ѤU���X�A��V�o�Ǹ�ƴN�Ѽ˪O�t�Υh�ޤߤF.
 
-如果你想对返回值做一些业务逻辑处理，拿着汇总方法就不能奏效了.在这种情况下，你就得依赖回调函数机制了，比如在Credit.get()调用中使用的那种机制.
+�p�G�A�Q���^�Ȱ��@�Ƿ~���޿�B�z�A���۶��`��k�N���૵�ĤF.�b�o�ر��p�U�A�A�N�o�̿�^�I��ƾ���F�A��p�bCredit.get()�I�s���ϥΪ����ؾ���.
 
-###简化的服务器端操作
+###²�ƪ����A���ݾާ@
 
 
 
