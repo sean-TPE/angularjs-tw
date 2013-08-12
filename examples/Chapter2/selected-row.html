@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" ng-app>
 <head>
 <meta charset="UTF-8">
@@ -30,12 +30,12 @@ function RestaurantTableController($scope) {
 	$scope.directory = [{name:'The Handsome Heifer', cuisine:'BBQ'},
 							{name:'Green\'s Green Greens', cuisine:'Salads'},
 							{name:'House of Fine Fish', cuisine:'Seafood'}];
-	//数据, 渲染表格.
+	//數據, 渲染表格.
 
 	$scope.selectRestaurant = function(row) {
 		$scope.selectedRow = row;
 	};
-	//点击时传入行号索引, 根据行号索引匹配当前行行号, 相等则设置高亮样式
+	//點擊時傳入行號索引, 根據行號索引匹配目前行行號, 相等則設定高亮樣式
 }	
 </script>
 </body>

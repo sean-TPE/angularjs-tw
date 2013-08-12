@@ -6,6 +6,6 @@
 
 ![init](figure1.png)
 
-+ 邮件信息
++ 邮件訊息
 
 ![message](figure2.png)
