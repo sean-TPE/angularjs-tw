@@ -1,71 +1,71 @@
-#�ĤG�� Angular���ε{����R
+﻿#第二章 Angular應用程式剖析
 
-�����嫬���禡�w, �A�ݭn�D��A���w���\��, �bAngular���Ҧ����F�賣�Q�]�p���@�ӥΩ��@���M��. �b�������ڭ̱N�[�\Angular���Ҧ����򥻺c�ض�, �o�˧A�N�i�H�z�Ѧp��N���̲զX�b�@�_. �o�Ƕ����N�b�᭱�����`������ԲӪ��Q��.
+不像典型的函式庫, 你需要挑選你喜歡的功能, 在Angular中所有的東西都被設計成一個用於協作的套件. 在本章中我們將涵蓋Angular中所有的基本構建塊, 這樣你就可以理解如何將它們組合在一起. 這些塊都將在後面的章節中有更詳細的討論.
 
-##�ҥ�Angular
+##啟用Angular
 
-�������ε{�������������ƨӱҥ�Angular:
+任何應用程式都必須做兩件事來啟用Angular:
 
-1. �[��`angular.js`�w
-2. �ϥ�`ng-app`���O�ӧi�DAngular�����Ӻ޲z������DOM
+1. 加載`angular.js`庫
+2. 使用`ng-app`指令來告訴Angular它應該管理哪部分DOM
 
-###�[���}��
+###加載腳本
 
-�[���w��²��, �P�[����L����JavaScript�w���`�P�˪��W�h. �A�i�H�qGoogle�����e���o����(CDN)�����J�}��, �N���o��:
+加載庫很簡單, 與加載其他任何JavaScript庫遵循同樣的規則. 你可以從Google的內容分發網絡(CDN)中載入腳本, 就像這樣:
 ```html
     <script src="http://ajax.google.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
 ```
-���˨ϥ�Google��CDN. Google�����A���ܧ�, �åB�o�Ӹ}���O�����ε{���֨���. �o�N����, �p�G�A���Τᦳ�h�����ε{���ϥ�Angular, ����L�N�u�ݭn�U���}���@��. ���~, �p�G�Τ�X�ݹL��L�ϥ�Google CDN�s��Angular�����I, ����L�b�X�ݧA�����I�ɴN���ݭn�A���U���Ӹ}��.
+推薦使用Google的CDN. Google的伺服器很快, 並且這個腳本是跨應用程式快取的. 這意味著, 如果你的用戶有多個應用程式使用Angular, 那麼他將只需要下載腳本一次. 此外, 如果用戶訪問過其他使用Google CDN連接Angular的站點, 那麼他在訪問你的站點時就不需要再次下載該腳本.
 
-�p�G�A����w���a�D��(�Ϊ̨�L���覡), �A�]�i�H�o�˰�. �u�ݭn�b`src`�����w���T���a�}.
+如果你更喜歡本地主機(或者其他的方式), 你也可以這樣做. 只需要在`src`中指定正確的地址.
 
-###�ϥ�ng-app�n��Angular���ɭ�
+###使用ng-app聲明Angular的界限
 
-> ���OBoundaries, �N��O�n�����ε{�����@�ΰ�, �YAngular���ε{�����@�νd��.
+> 原文是Boundaries, 意思是聲明應用程式的作用域, 即Angular應用程式的作用範圍.
 
-`ng-app`���O�Ω����A�i�DAngular�A���楦�޲z������������. �p�G�A�b�إߤ@�ӧ�����Angular���ε{��, ����A���Ӧb`<html>`���Ҥ��]�t`ng-app`����, �N���o��:
+`ng-app`指令用於讓你告訴Angular你期望它管理頁面的哪部分. 如果你在建立一個完全的Angular應用程式, 那麼你應該在`<html>`標籤中包含`ng-app`部分, 就像這樣:
 ```html
     <html ng-app>
-    �K
+    …
     </html>
 ```
-�o�|�i��Angular�n�޲z���������Ҧ�DOM����. 
+這會告知Angular要管理頁面中的所有DOM元素. 
 
-�p�G�A���@�Ӳ{�������ε{��, �n�D�ϥΨ�L���޳N�Ӻ޲zDOM, �ҦpJava�Ϊ�Rails, �A�i�H�g�ѱN����m�b�������@�Ǥ����Ҧp`<div>`���ӧi�DAngular�u�ݭn�޲z�������@�����Y�i.
+如果你有一個現有的應用程式, 要求使用其他的技術來管理DOM, 例如Java或者Rails, 你可以經由將它放置在頁面的一些元素例如`<div>`中來告訴Angular只需要管理頁面的一部分即可.
 ```html
     <html>
-    �K
+    …
         <div ng-app>
-        �K
+        …
         </div>
-    �K
+    …
     </html>
 ```
-###�ҫ�/����/���
+###模型/視圖/控制器
 
-�b�Ĥ@����, �ڭ̴���Angular����ҫ�/����/��������ε{���]�p����. ���M�b�]�p�A��Angular���ε{���ɦ��ܤj���F����, ���O�`�O�O���@�f������:
+在第一章中, 我們提到Angular支持模型/視圖/控制器的應用程式設計風格. 雖然在設計你的Angular應用程式時有很大的靈活性, 但是總是別有一番風味的:
 
-+ �ҫ��]�t�N���A�����ε{�����e���A�����
-+ ������ܸ��
-+ ����޲z�A���ҫ��M���Ϥ��������Y
++ 模型包含代表你的應用程式當前狀態的資料
++ 視圖顯示資料
++ 控制器管理你的模型和視圖之間的關係
 
-�A�ݭn�ϥιﹳ�ݩʪ��覡�إ߼ҫ�, �Ϊ̥u�]�t��l���������. �o�̨èS���S�w���ҫ��ܼ�. �p�G�A�Ʊ浹�Τ���ܤ@�Ǥ�r, �A�i�H�ϥΤ@�Ӧr�Ŧ�, �N���o��:
+你需要使用對像屬性的方式建立模型, 或者只包含原始類型的資料. 這裡並沒有特定的模型變數. 如果你希望給用戶顯示一些文字, 你可以使用一個字符串, 就像這樣:
 ```js
     var someText = 'You have started your journey';
 ```
-�A�i�H�g�ѽs�g�@�Ӽ˪O�@��HTML����, �ñq�ҫ����X�ָ�ƪ��覡�ӫإߵ���. ���p�ڭ̤w�g�ݹL��, �A�i�H�bDOM�����J�@�Ӧ����, �M��A���o�˳]�w������r:
+你可以經由編寫一個樣板作為HTML頁面, 並從模型中合併資料的方式來建立視圖. 正如我們已經看過的, 你可以在DOM中插入一個佔位符, 然後再像這樣設定它的文字:
 ```html
     <p>{{someText}}</p>
 ```
-�ڭ̩I�s�o�����j�A���y�k�Ӵ��J��, ���N���J�s�����e��@�Ӳ{�����Ҫ���.
+我們呼叫這個雙大括號語法來插入值, 它將插入新的內容到一個現有的模版中.
 
-����N�O�A�s�g�Ω�i�DAngular���ǹﹳ�M��l�Ⱥc���A���ҫ�����, �g�ѱN�o�ǹﹳ�Ϊ̭�l�Ȥ��t��`$scope`�ﹳ�ǻ��챱���.
+控制器就是你編寫用於告訴Angular哪些對像和原始值構成你的模型的類, 經由將這些對像或者原始值分配給`$scope`對像傳遞到控制器中.
 ```js
     function TextController($scope){
         $scope.someText = someText;
     }
 ```
-��L�̩�b�@�_, �ڭ̱o��p�U�N�X:
+把他們放在一起, 我們得到如下代碼:
 ```html
     <html ng-app>
     <body ng-controller="TextController">
@@ -81,15 +81,15 @@
     </body>
     </html>
 ```
-�N�����J���s������, �A�N�|�ݨ�
+將它載入到瀏覽器中, 你就會看到
 
 > 'You have started you journey'
 
-���M�o�ӭ�l���檺�ҫ��u�@�b²�檺���p�U, �M�Ӥj�h�ƪ����ε{���A���Ʊ�إߤ@�Ӽҫ��ﹳ�ӥ]�q�A�����. �ڭ̱N�إߤ@�ӰT���ҫ��ﹳ, �åΥ��Ӧs�x�ڭ̪�`someText`. �]�����O�o�˪�:
+雖然這個原始風格的模型工作在簡單的情況下, 然而大多數的應用程式你都希望建立一個模型對像來包裹你的資料. 我們將建立一個訊息模型對像, 並用它來存儲我們的`someText`. 因此不是這樣的:
 ```js
     var someText = 'You have started your journey';
 ```
-�A���ӳo�˽s�g:
+你應該這樣編寫:
 ```js
     var messages = {};
     messages.someText = 'You have started your journey';
@@ -97,13 +97,13 @@
         $scope.messages = messages;
     }
 ```
-�M��b�A���˪O���o�˨ϥ�:
+然後在你的樣板中這樣使用:
 ```html
     <p>{{messages.someText}}</p>
 ```
-���p�ڭ̫᭱�|�ݨ�, ���ڭ̰Q��`$scope`�ﹳ��, ���o�˫إߤ@�Ӽҫ��ﹳ�N���Q�󨾤�q`$scope`��H���쫬���~�Ӫ��N�~�欰.
+正如我們後面會看到, 當我們討論`$scope`對像時, 像這樣建立一個模型對像將有利於防止從`$scope`對象的原型中繼承的意外行為.
 
-�ڭ̥��b�Q�ת��o�Ǥ�k�q�����ݨӯ�����U�A, �b�W�����Ҥl��, �ڭ̦b����@�ΰ줤�إߤF`TextController`. ���M�o�O�@�ӫܦn���Ҥl, ���O���T�w�q�@�ӱ�������k���ӬO�N���@���Ҳժ��@����, �����A�����ε{���������ѤF�@�өR�W�Ŷ�. ��s���᪺�N�X�ݰ_�����ӬO�U���o��.
+我們正在討論的這些方法從長遠看來能夠幫助你, 在上面的例子中, 我們在全域作用域中建立了`TextController`. 雖然這是一個很好的例子, 但是正確定義一個控制器的做法應該是將它作為模組的一部分, 它給你的應用程式部分提供了一個命名空間. 更新之後的代碼看起來應該是下面這樣.
 ```html
     <html = ng-app="myApp">
     <body ng-controller="TextController">
@@ -123,80 +123,80 @@
     </body>
     </html>
 ```
-�b�o�Ӫ�����, �ڭ��n���Ҳդ�`ng-app`�������W�٬�`myApp`. �M��ڭ̩I�sAngular�ﹳ�إߤF�@�ӦW��myApp���Ҳ�, �M��I�s�Ҳժ�`controller`��k�ñN�ڭ̪������ƶǻ�����.
+在這個版本中, 我們聲明模組中`ng-app`元素的名稱為`myApp`. 然後我們呼叫Angular對像建立了一個名為myApp的模組, 然後呼叫模組的`controller`方法並將我們的控制器函數傳遞給它.
 
-�@�|��ڭ̴N�|���D������, �H�Φp����o�Ҧ����Ҳ�. ���O�{�b, �u�ݭn�O���N�Ҧ����T�����O�s�b���쪺�R�W�Ŷ����O�@��n��, �åB�o�]�O�ڭ̨ϥμҲժ�����.
+一會兒我們就會知道為什麼, 以及如何取得所有的模組. 但是現在, 只需要記住將所有的訊息都保存在全域的命名空間中是一件好事, 並且這也是我們使用模組的機制.
 
-##�˪O�M���ô��
+##樣板和資料繫結
 
-�bAngular���ε{�����˪O�u�OHTML���, �N���ڭ̱q�q�A�Ⱥݸ��J�Ϊ̩w�q�b`<script>`���Ҥ��������L�R�A�귽�@��. �b�A���˪O���w�q�Τ�ɭ�, �i�H�ϥμзǪ�HTML�[Angular���O�өw�q�A�һݭn��UI�ե�.
+在Angular應用程式中樣板只是HTML文件, 就像我們從從服務端載入或者定義在`<script>`標籤中的任何其他靜態資源一樣. 在你的樣板中定義用戶界面, 可以使用標準的HTML加Angular指令來定義你所需要的UI組件.
 
-�@���i�J�s������, Angular�N�|�i�J��A��������ε{�����g�ѦX�ּ˪O�M��ƪ��覡�ӸѪR�o�Ǽ˪O. �b�Ĥ@�����ڭ̤w�g�b�ʪ������Τ��ݹL�F��ܤ@�Ӷ��ئC�����Ҥl.
+一旦進入瀏覽器中, Angular就會進入到你的整個應用程式中經由合併樣板和資料的方式來解析這些樣板. 在第一章中我們已經在購物車應用中看過了顯示一個項目列表的例子.
 ```html
     <div ng-repeat="item in items">
         <span>{{item.title}}</span>
         ...
     </div>
 ```
-�o��, ���u�O�~�h`<div>`���@�Ӱƥ�, �̭��Ҧ����@��, ���@�@����`items`�Ʋդ����C�Ӥ���.
+這裡, 它只是外層`<div>`的一個副本, 裡面所有的一切, 都一一對應`items`數組中的每個元素.
 
-����o�Ǹ�Ʊq���̨�? �b�ڭ̪��ʪ����Ҥl��, �b�ڭ̪��N�X���ڭ̥u�N���w�q���@�ӼƲ�. ���A�}�l�إߤ@��UI�çƱ���ե��O�p��u�@��, �o�O�D�`�X�A��. �M�Ӥj�h�ƪ����ε{��, �N�ϥΤ@�Ǧ��A���W�����[�ʸ��. �b�s�������A�����ε{���s���A�����A��, �Τ�b�����W�ШD�L�̩һݭn���@��, �M��Angular�N��[�ШD�����]�P�A���˪O�X��.
+那麼這些資料從哪裡來? 在我們的購物車例子中, 在我們的代碼中我們只將它定義為一個數組. 對於你開始建立一個UI並希望測試它是如何工作的, 這是非常合適的. 然而大多數的應用程式, 將使用一些伺服器上的持久性資料. 在瀏覽器中你的應用程式連接你的伺服器, 用戶在頁面上請求他們所需要的一切, 然後Angular將它[請求的資料]與你的樣板合併.
 
-�򥻪��B�@�y�{�ݰ_�ӹ��o��:
+基本的運作流程看起來像這樣:
 
-1. �Τ�ШD�A�����ε{�����Ĥ@�ӭ���
-2. �Τ��s�����o�X�@��HTTP�ШD�s����A�����A��, �M��[���]�t�˪O��*index.html*����
-3. Angular���J�쭶����, ���쭶�������[��, �M��d�ߩw�q�b�˪O�d�򤺪�`ng-app`
-4. Angular�M���˪O�ìd�߫��O�M�j�w. �o�N�ɭP���U�ƥ��ť���MDOM�ާ@, �H�αq���A���W���o��l���. �o���u�@���̲׵��G�O�i�����ε{���ñN�˪O�@��DOM�ഫ������.
-5. �s����A�����A���[���A�ݭn�i�ܵ��Τ�һݪ����[���.
+1. 用戶請求你的應用程式的第一個頁面
+2. 用戶瀏覽器發出一個HTTP請求連接到你的伺服器, 然後加載包含樣板的*index.html*頁面
+3. Angular載入到頁面中, 等到頁面完全加載, 然後查詢定義在樣板範圍內的`ng-app`
+4. Angular遍歷樣板並查詢指令和綁定. 這將導致註冊事件監聽器和DOM操作, 以及從伺服器上取得初始資料. 這項工作的最終結果是展示應用程式並將樣板作為DOM轉換為視圖.
+5. 連接到你的伺服器加載你需要展示給用戶所需的附加資料.
 
-��1�B�ܲ�3�B�O�C��Angular���ε{�����з�. ��4�B�M��5�B��A�ӻ��O�i�諸. �o�ǨB�J�i�H�P�B�Ϊ̫D�P�B�o��. �X��ʯ઺�Ҽ{, �A���ε{���һݪ���Ʀb�Ĥ@�ӵ��Ϥ�[����]��ܵ��Τ�, �i�H��֨��קK���ƪ��ШDHTML�˪O.
+第1步至第3步是每個Angular應用程式的標準. 第4步和第5步對你來說是可選的. 這些步驟可以同步或者非同步發生. 出於性能的考慮, 你應用程式所需的資料在第一個視圖中[首屏]顯示給用戶, 可以減少並避免重複的請求HTML樣板.
 
-�g�Ѩϥ�Angular��´�A�����ε{��, �A�i�H�b�A�����ε{���������˪O�M���. �o�˰������G�O�o�Ǽ˪O�O�i�H�֨���. �b�Ĥ@�����J����, ���W�s�������N�u�ݭn�ШD�s����ƤF. ���pJavaScript, �Ϥ�, CSS�H�Ψ�L�귽, �֨��o�Ǽ˪O�i�H���A�����ε{�����ѧ�n���ʯ�.
+經由使用Angular組織你的應用程式, 你可以在你的應用程式中分離樣板和資料. 這樣做的結果是這些樣板是可以快取的. 在第一次載入之後, 實質上瀏覽器中就只需要請求新的資料了. 正如JavaScript, 圖片, CSS以及其他資源, 快取這些樣板可以給你的應用程式提供更好的性能.
 
-###��ܤ�r
+###顯示文字
 
-�A�i�H�ϥ�`ng-bind`���O�b�AUI������a����ܩM��s��r. ������ص������Φ�. �@�جO�ڭ̨��L���j�A���Φ�:
+你可以使用`ng-bind`指令在你UI的任何地方顯示和更新文字. 它有兩種等價的形式. 一種是我們見過的大括號形式:
 ```html
     <p>{{greeting}}</p>
 ```
-�M��N�O�@�ӳQ�٬�`ng-bind`������ݩʪ����O:
+然後就是一個被稱為`ng-bind`的基於屬性的指令:
 ```html
     <p ng-bind="greeting"><p>
 ```
-�o��̪���X�O������. �p�G�ҫ������ܼ�`greeting`�]�w��"Hi, there", Angular�N���ͳo�˪�HTML:
+這兩者的輸出是等價的. 如果模型中的變數`greeting`設定為"Hi, there", Angular將產生這樣的HTML:
 ```html
     <p>Hi, there</p>
 ```
-�s�����N���"Hi, There".
+瀏覽器將顯示"Hi, There".
 
-���򬰤���A�|�ϥΤW�����t�~�@�اΦ�? �ڭ̫إߪ����A�����J�Ȫ��y�kŪ�_�ӧ�[�۵M�åB�u�ݭn��֪���J. ���M��اΦ����ͬۦP����X, ���ϥΤj�A���y�k, �[���A���ε{�����Ĥ@�ӭ���`index.html`��, �bAngular������A��������Ƥ��e, �Τ�i��|�ݨ�@�ӥ���V���˪O. �H�᪺���ϱN���|�g���o�@�I.
+那麼為什麼你會使用上面的另外一種形式? 我們建立的雙括號插入值的語法讀起來更加自然並且只需要更少的輸入. 雖然兩種形式產生相同的輸出, 但使用大括號語法, 加載你應用程式的第一個頁面`index.html`時, 在Angular替換花括號中的資料之前, 用戶可能會看到一個未渲染的樣板. 隨後的視圖將不會經歷這一點.
 
-��]�O�s�����[��HTML����, ��V��, ���쨺��Angular�~�i��ǳƸѪR����.
+原因是瀏覽器加載HTML頁面, 渲染它, 直到那時Angular才可能準備解析它們.
 
-�n�����O�A���M�i�H�b�j�h�Ƽ˪O���ϥ�`{{ }}`. �M��, �b�A��`index.html`�������j�w���, ���Өϥ�`ng-bind`. �o��, �����ƥ[�����A���Τ�N����]�ݤ���.
+好消息是你仍然可以在大多數樣板中使用`{{ }}`. 然而, 在你的`index.html`頁面中綁定資料, 應該使用`ng-bind`. 這樣, 直到資料加載完你的用戶將什麼也看不到.
 
-###�����J
+###表單輸入
 
-�bAngular���B�z���椸���O��²�檺. ���p�ڭ̨��L���X�ӨҤl, �A�i�H�ϥ�`ng-model`�ݩʸj�w��A���ҫ��ݩʤ����W. �o�A�Ω�Ҧ��зǪ����椸��, �Ҧp��r��J��, �����A, �_��ص���.  �ڭ̥i�H���o�˸j�w�@�Ӵ_��ب�@���ݩ�:
+在Angular中處理表單元素是很簡單的. 正如我們見過的幾個例子, 你可以使用`ng-model`屬性綁定到你的模型屬性元素上. 這適用於所有標準的表單元素, 例如文字輸入框, 單選按你, 復選框等等.  我們可以像這樣綁定一個復選框到一個屬性:
 ```html
     <form controller="SomeController">
         <input type="checkbox" ng-model="youCheckedIt">
     </form>
 ```
-�o�N����:
+這意味著:
 
-1. ���Τ��ܴ_���, `SomeController`��`$scope`���@�ӦW��`youCheckedIt`���ݩʱN�ܦ�true. ������ܮɨ�`youCheckedIt`�ܦ�false.
-2. �p�G�A�b`SomeController`���]�w`$scope.youCheckedIt`��true, �o�Ӵ_��ئbUI���|�Q�۰ʿ��. �]�w����false�h�������.
+1. 當用戶選擇復選框, `SomeController`的`$scope`中一個名為`youCheckedIt`的屬性將變成true. 取消選擇時使`youCheckedIt`變成false.
+2. 如果你在`SomeController`中設定`$scope.youCheckedIt`為true, 這個復選框在UI中會被自動選擇. 設定它為false則取消選擇.
 
-�{�b�ڷQ�����O�ڭ̯u���Q�n���O, ���Τᰵ�F�@�Ǥ���Ʊ��ɧ@�X�^��. ����r��J�ؤ���, �A�ϥ�`ng-change`�ݩʨӫ��w�@�ӱ����k, ����L�פ���ɭԥΤ���ܿ�J�ت��Ȯ�, �o�ӱ����k�����ӳQ�I�s. ���ڭ̰��@��²�檺�p�⾹�����U�Τ�ۤv�z�ѥL�̻ݭn�h�ֿ��~��o��Y�ǪF��:
+現在我想說的是我們真正想要的是, 當用戶做了一些什麼事情時作出回應. 對於文字輸入框元素, 你使用`ng-change`屬性來指定一個控制器方法, 那麼無論什麼時候用戶改變輸入框的值時, 這個控制器方法都應該被呼叫. 讓我們做一個簡單的計算器來幫助用戶自己理解他們需要多少錢才能得到某些東西:
 ```html
     <form ng-controller="StartUpController">
         Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
         Recommendation: {{funding.needed}}
     </form>
 ```
-���ڭ̳o��²�檺�Ҥl, ���ڭ̥u�]�w��X�Τ�w��Q������. �ڭ��ٱN�]�w�@���q�{��0���ȨӶ}�l:
+對於我們這個簡單的例子, 讓我們只設定輸出用戶預算十倍的值. 我們還將設定一個默認為0的值來開始:
 ```js
     function StartUpController($scope){
     
@@ -208,11 +208,11 @@
         
     }
 ```
-�M��, �e�����N�X�����@�Ӽ�b���������D. ���D�O���Ω�b��r��J�ؤ���J�ɧڭ̥u�O���s�p��F�һݪ����B. �p�G�o�ӿ�J�إu�b�Τ�b�o�ӯS�w����J�ؤ���J�ɧ�s, �o�u�@�o�ܦn. ���O�p�G��L����J�ؤ]�b�ҫ����j�w�F�o���ݩʷ|��˩O? �p�G���q���A�����o��ƨӧ�s�S�|���?
+然而, 前面的代碼中有一個潛在的策略問題. 問題是當用於在文字輸入框中輸入時我們只是重新計算了所需的金額. 如果這個輸入框只在用戶在這個特定的輸入框中輸入時更新, 這工作得很好. 但是如果其他的輸入框也在模型中綁定了這個屬性會怎樣呢? 如果它從伺服器取得資料來更新又會怎樣?
 
-�L�׳o�Ӧr�q�p���s, �ڭ̭n�ϥΤ@�ӦW��`$watch()`��`$scope`���[$scope��H����k]. �ڭ̱N�b�������᭱�ԲӰQ��`watch`��k. �򥻪��Ϊk�O, �i�H�I�s`$watch()`�õ��L�ǻ��@�Ӻʱ����F���M�@�ӥΩ�^�����F���ܤƪ��^�I���.
+無論這個字段如何更新, 我們要使用一個名為`$watch()`的`$scope`函數[$scope對象的方法]. 我們將在本章的後面詳細討論`watch`方法. 基本的用法是, 可以呼叫`$watch()`並給他傳遞一個監控表達式和一個用於回應表達式變化的回呼函數.
 
-�b�o�ر��p�U, �ڭ̧Ʊ�ʱ�`funding.startEstimate`�H�ΨC�������ܮɩI�s`computeNeeded()`. �M��ڭ̨ϥγo�Ӥ�k���g�F`StartUpController`.
+在這種情況下, 我們希望監控`funding.startEstimate`以及每當它改變時呼叫`computeNeeded()`. 然後我們使用這個方法重寫了`StartUpController`.
 ```js
     function StartUpController($scope){
     
@@ -226,20 +226,20 @@
         
     }
 ```
-�`�N�޸������ʱ����F��. �O��, ���O�@�Ӧr�Ŧ�. �o�Ӧr�Ŧ�O�����Y�ǪF����檺Angular���F��. ���F���i�H�i��²�檺�B��M�X��`$scope`��H���ݩ�. �b�������᭱�ڭ̷|�[�\��h������F�����T��.
+注意引號中的監控表達式. 是的, 它是一個字符串. 這個字符串是評估某些東西價格的Angular表達式. 表達式可以進行簡單的運算和訪問`$scope`對象的屬性. 在本章的後面我們會涵蓋更多關於表達式的訊息.
 
-�A�]�i�H�ʱ��@�Ө�ƪ�^��, ���O���ä��|�ʱ�`funding.startingEstimate`, �]������Ȭ�0, �åB0[��l��]���A�|����.
+你也可以監控一個函數返回值, 但是它並不會監控`funding.startingEstimate`, 因為它賦值為0, 並且0[初始值]不再會改變.
 
-�M��, �ѩ�C���ڭ̪�`funding.statingEstimates`���ܮ�`funding.needed`���|�۰ʧ�s, �ڭ̥i�H���o�˽s�g�@�ӧ�²�檺�˪O.
+然後, 由於每當我們的`funding.statingEstimates`改變時`funding.needed`都會自動更新, 我們可以像這樣編寫一個更簡單的樣板.
 ```html
     <form cn-controller="StartUpController">
         Starting: <input ng-model="funding.startEstimate">
         Recommendation: {{funding.needed}}
     </form>
 ```
-�b�Y�Ǳ��p�U, �A�ä��Ʊ�C�@�ӧ��ܳ��o�ͦ^��, �ۤ�, �A�Ʊ浥��Τ�ӧi�D�A���ǳƦn�F. �Ҧp�i�৹���ʶR�Ϊ̵o�e�@�Ӳ�ѰO��.
+在某些情況下, 你並不希望每一個改變都發生回應, 相反, 你希望等到用戶來告訴你它準備好了. 例如可能完成購買或者發送一個聊天記錄.
 
-�p�G�A�����椤���@�տ�J��, ����A�i�H�b�o�Ӫ���W�ϥ�`ng-submit`���O�������w�@�Ӵ������ɪ��^�I���. �ڭ̥i�H���Τ�g���I���@�ӫ��s�ШD���U�L�̱Ұ����Ϊ��覡���X�R�W�����Ҥl:
+如果你的表單中有一組輸入框, 那麼你可以在這個表單上使用`ng-submit`指令給它指定一個提交表單時的回呼函數. 我們可以讓用戶經由點擊一個按鈕請求幫助他們啟動應用的方式來擴充上面的例子:
 ```html
     <form ng-submit="requestFunding()" ng-controller="StartUpController">
         Starting: <input ng-change="computeNeeded()" ng-model="startingEstimate">
@@ -258,13 +258,13 @@
         };
     }
 ```
-�����մ���o�Ӫ����, `ng-submit`���O�]�|�۰ʪ����s�����B�z���q�{��`POST`�欰.
+當嘗試提交這個表單時, `ng-submit`指令也會自動阻止瀏覽器處理其默認的`POST`行為.
 
-> ��妹�B�����~, ���洣�檺�q�{�欰�O`GET`.
+> 原文此處有錯誤, 表單提交的默認行為是`GET`.
 
-�b�ݭn�B�z��L�ƥ󪺱��p�U, �N�����A�Q�n���ѥ椬�Ӥ��O�������@��, Angular���ѤF�������s������ͨƥ��ݩʪ��ƥ�B�z���O. ���`onclick`, �A���Өϥ�`ng-click`. ���`ondblclick`�A���Өϥ�`ng-dblclick`����.
+在需要處理其他事件的情況下, 就像當你想要提供交互而不是提交表單一樣, Angular提供了類似於瀏覽器原生事件屬性的事件處理指令. 對於`onclick`, 你應該使用`ng-click`. 對於`ondblclick`你應該使用`ng-dblclick`等等.
 
-�ڭ̥i�H���ճ̫�@���X�R�ڭ̪��p�⾹�Ұ�����, �ϥΤ@�ӭ��m���s�Ω�N��J�ت��ȭ��m��0.
+我們可以嘗試最後一次擴充我們的計算器啟動應用, 使用一個重置按鈕用於將輸入框的值重置為0.
 ```html
     <form ng-submit="requestFunding()" ng-controller="StartUpController">
         Starting: <input ng-change="computeNeeded()" ng-model="StartingEstimate">
@@ -289,55 +289,55 @@
     
     }
 ```
-###�����JavaScript���@�Ǹ�
+###不唐突JavaScript的一些話
 
-�b�AJavaScript�}�o�ͲP���Y�Ǯɨ�, ���H�i��|�i�D�A, �A���ӽs�g"�����JavaScript", �b�A��HTML���ϥ�`click`, `mousedown`�H�Ψ�L���������p�ƥ�B�z�{�ǬO���n��. ����L�O���T.
+在你JavaScript開發生涯的某些時刻, 有人可能會告訴你, 你應該編寫"不唐突的JavaScript", 在你的HTML中使用`click`, `mousedown`以及其他類似的內聯事件處理程序是不好的. 那麼他是正確.
 
-�����JavaScript��Q�w�g���ܦh����, ���O��s�X���檺��z�j�P�p�U:
+不唐突的JavaScript思想已經有很多解釋, 但是其編碼風格的原理大致如下:
 
-1. ���O�C�ӤH���s���������JavaScript. ���C�ӤH������ݨ�A�Ҧ������e�M�ϥΧA�����ε{��, �Ӥ��ݭn�b�s����������N�X.
+1. 不是每個人的瀏覽器都支持JavaScript. 讓每個人都能夠看到你所有的內容和使用你的應用程式, 而不需要在瀏覽器中執行代碼.
 
-2. ���ǤH�ϥΪ��s�����u�@�覡���P. ���٤H���ϥΪ��ù��\Ū���M�@�Ǥ���Τ�ä���ϥκ�����JavaScript.
+2. 有些人使用的瀏覽器工作方式不同. 視障人員使用的螢幕閱讀器和一些手機用戶並不能使用網站的JavaScript.
 
-3. JavaScript�b���P�����x�u�@����@��. IE�s�����q�`�O�o���׭�. �A�ݭn�ھ��s���������P�ӨϥΤ��P���ƥ�B�z�N�X.
+3. JavaScript在不同的平台工作機制不一樣. IE瀏覽器通常是罪魁禍首. 你需要根據瀏覽器的不同而使用不同的事件處理代碼.
 
-4. �o�Ǩƥ�B�z�{�ǤޥΥ���R�W�Ŷ��������. ���A���վ�X��L�w�����P�W��Ʈ�, ���|���A�Y�k.
+4. 這些事件處理程序引用全域命名空間中的函數. 當你嘗試整合其他庫中的同名函數時, 它會讓你頭疼.
 
-5. �o�Ǩƥ�B�z�{�ǦX�֤F���c�M�欰. �o�ϧA���N�X��[���H���@, �X�R�M�z��.
+5. 這些事件處理程序合併了結構和行為. 這使你的代碼更加難以維護, 擴充和理解.
 
-�`��Ӭ�, ���A���ӳo�ح���s�gJavaScript�N�X, �@�����ܦn. �M�Ӧ��@��ƨä��O�n��, ���N�O�N�X�������שM�iŪ��. �ä��O�������n���ƥ�B�z�{�Ǥ��_�@��, �A�q�`���o�Ǥ������t�FID, ��o�o�Ǥ������ޥ�, �õ����]�w�F�ƥ�B�z���^�I���. �A�i�H�o���@�ӵ��c�u�Ω�M�����гy���̤��������p, ���j�h�����ε{��������]�w�b�U�B���ƥ�B�z���.
+總體來看, 當你按照這種風格編寫JavaScript代碼, 一切都很好. 然而有一件事並不是好的, 那就是代碼的複雜度和可讀性. 並不是給元素聲明事件處理程序不起作用, 你通常給這些元素分配了ID, 獲得這些元素的引用, 並給它設定了事件處理的回呼函數. 你可以發明一個結構只用於清晰的創造它們之間的關聯, 但大多數應用程式結束於設定在各處的事件處理函數.
 
-�bAngular��, �ڭ̨M�w���s�f���o�Ӱ��D.
+在Angular中, 我們決定重新審視這個問題.
 
-�b�o�Ƿ����ϥͥH�ӥ@�ɴN�w�g���ܤF. ��1�I, �o�����쪺�s��w�g���A���F. �p�G�A�B�檺�s���������JavaScript, ����A���ӥh�ϥ�20�@��90�~�N�إߪ�����. �ܩ��2�I, �{�N���ù��\Ū���w�g��W�ӤF. �H��RAIA�y�q���Ҫ����T�ϥ�,  �A�i�H�гy���X�ݪ��IUI����. �{�b����W�B��JavaScript�P�]��x������۴��ýפF.
+在這些概念誕生以來世界就已經改變了. 第1點, 這類有趣的群體已經不再有了. 如果你運行的瀏覽器不支持JavaScript, 那麼你應該去使用20世紀90年代建立的網站. 至於第2點, 現代的螢幕閱讀器已經跟上來了. 隨著RAIA語義標籤的正確使用,  你可以創造易訪問的富UI應用. 現在手機上運行JavaScript與也能台式機能相提並論了.
 
-�]���{�b�����D�O: ���s��_���p�޳N�ӸѨM�ڭ̲�3�I�M��4�I���iŪ�ʩM²��ʪ����D��? 
+因此現在的問題是: 重新恢復內聯技術來解決我們第3點和第4點的可讀性和簡潔性的問題嗎? 
 
-���p�e���Ҵ��쪺, ���j�h�ƪ����p�ƥ�B�z�{��, Angular�����@�ӵ����Φ���`ng-eventhandler="expression"`�Ӵ��N`click`, `mousedown`, `change`���ƥ�B�z�{��. ���Τ��I���@�Ӥ�����, �p�G�A�Ʊ�o��@�Ӧ^��, �A�u�ݭn²�檺�ϥ�`ng-click`�o�˪����O:
+正如前面所提到的, 對於大多數的內聯事件處理程序, Angular都有一個等價形式的`ng-eventhandler="expression"`來替代`click`, `mousedown`, `change`等事件處理程序. 當用戶點擊一個元素時, 如果你希望得到一個回應, 你只需要簡單的使用`ng-click`這樣的指令:
 ```html
-    <div ng-click="doSomething()">�K</div>
+    <div ng-click="doSomething()">…</div>
 ```
-�A���j���̥i��|��"��, �o�˨ä��n"? �n�����O�A�i�H���P�U��. �o�ǫ��O���P�󥦭̨ƥ�B�z�{�Ǫ��e��(�зǨƥ�B�z�{�Ǫ���l�Φ�):
+你的大腦裡可能會說"不, 這樣並不好"? 好消息是你可以放鬆下來. 這些指令不同於它們事件處理程序的前身(標準事件處理程序的原始形式):
 
-+ �b�C���s���������欰�@�P. Angular�|���A�B�z�n�t��.
++ 在每個瀏覽器中的行為一致. Angular會給你處理好差異.
 
-+ ���|�b����R�W�Ŷ��ާ@. �A�ҫ��w�����F���ȶȯ���X�ݤ�������@�ΰ줺����ƩM���.
++ 不會在全域命名空間操作. 你所指定的表達式僅僅能夠訪問元素控制器作用域內的函數和資料.
 
-�̫�@�Iť�_�ӥi�঳�I����, �]�����ڭ̨Ӭݤ@�ӨҤl. �b�@�Ө嫬�����ε{����, �A�|�إߤ@�Ӿɯ���M�@���H�ۧA�q�ɯ����ܤ��P�����ܤƪ����e��. �ڭ̥i�H�o�˽s�g�����ج[:
+最後一點聽起來可能有點神秘, 因此讓我們來看一個例子. 在一個典型的應用程式中, 你會建立一個導航欄和一個隨著你從導航欄選擇不同選單而變化的內容區. 我們可以這樣編寫它的框架:
 ```html
     <div class="navbar" ng-controller="NavController">
-    �K
+    …
         <li class="menu-item" ng-click="doSomething()">Something</li>
-    �K
+    …
     </div>
     
     <div class="contentArea" ng-controller="ContentAreaController">
-    �K
-        <div ng-click="doSomething()">�K</div>
-    �K
+    …
+        <div ng-click="doSomething()">…</div>
+    …
     <div>
 ```
-�o�̷��Τ��I��navbar����`<li>`�Mconent�Ϥ���`<div>`�ɳ��|�I�s�@�Ӻ٬�`doSomething()`�����. �@���}�o�H��, �A�]�w�Ө�ƩI�s�A����������N�X�ޥ�. ���̥i��O�ۦP�Ϊ̤��P�����:
+這裡當用戶點擊navbar中的`<li>`和conent區中的`<div>`時都會呼叫一個稱為`doSomething()`的函數. 作為開發人員, 你設定該函數呼叫你的控制器中的代碼引用. 它們可能是相同或者不同的函數:
 ```js
     function NavController($scope){
         $scope.doSomething = doA;
@@ -347,23 +347,23 @@
         $scope.doSomething = doB;
     }    
 ```
-�o��, `doA()`�M`doB()`��ƥi��ɬۦP�Ϊ̤��P��, ���M��A�����̪��w�q.
+這裡, `doA()`和`doB()`函數可能時相同或者不同的, 取決於你給它們的定義.
 
-�{�b�ڭ��ٳѤU��5�I, �X�ֵ��c�M�欰. �o�O�@�Ӧ���ĳ�����D, �]���A������X����t�������G, �����P�ڭ̤j���̩ҷQ���X�֪��{¾�d�M���ε{���޿誺�欰�D�`����. ���H�̽ͤ�����аO���c�M�欰�������ɭ�, �o���M�|���t�����v�T.
+現在我們還剩下第5點, 合併結構和行為. 這是一個有爭議的話題, 因為你不能指出任何負面的結果, 但它與我們大腦裡所想的合併表現職責和應用程式邏輯的行為非常類似. 當人們談及關於標記結構和行為分離的時候, 這當然會有負面的影響.
 
-�p�G�ڭ̪��t�έ��{�o�ؽ��X���D��, �o�̦��@��²�檺���եi�H���U�ڭ̧�X��: �ڭ̥i�H���ڭ̪����ε{���޿�إߤ@�ӳ椸����, �Ӥ��ݭnDOM���s�b.
+如果我們的系統面臨這種耦合問題時, 這裡有一個簡單的測試可以幫助我們找出來: 我們可以給我們的應用程式邏輯建立一個單元測試, 而不需要DOM的存在.
 
-�bAngular��, �O��, �ڭ̥i�H�b������u�s�g�]�t�~���޿誺�N�X�Ӥ����ޥ�DOM. �b�ڭ̤��e�s�g��JavaScript��, �o�Ӱ��D�b�ƥ�B�z�{�Ǥ��O���s�b��. �`�N, �b�o�̥H�Φb�o���Ѫ���L�a��, �ثe�ڭ̩ҽs�g�������, ���S���ޥ�DOM�M����DOM�ƥ�B�z�{��. �A�i�H�ܻ��P�إߥX�o�Ǥ��aDOM�����. �Ҧ��������w��M�ƥ�B�z�{�ǳ��o�ͦbAngular��.
+在Angular中, 是的, 我們可以在控制器中只編寫包含業務邏輯的代碼而不必引用DOM. 在我們之前編寫的JavaScript中, 這個問題在事件處理程序中是不存在的. 注意, 在這裡以及在這本書的其他地方, 目前我們所編寫的控制器中, 都沒有引用DOM和任何DOM事件處理程序. 你可以很輕鬆建立出這些不帶DOM的控制器. 所有的元素定位和事件處理程序都發生在Angular中.
 
-���o�Ӱ��D�b�s�g�椸���ծ�. �p�G�A�ݭnDOM, �A�b���դ��إߥ�, �u�|�W�[���յ{�Ǫ�������. ���A�������o���ܤƮ�, �A�ݭn�b�A�����դ�����DOM, �o�˥u�|�a�ӧ�h�����@�u�@. �̫�, �X��DOM�O�ܺC��, ���սw�C�N���ۤ��X���|�ήɥH�γ̲׸ѪR���O�w�C��. Angular��������ըèS���o�ǰ��D. 
+對於這個問題在編寫單元測試時. 如果你需要DOM, 你在測試中建立它, 只會增加測試程序的複雜度. 當你的頁面發生變化時, 你需要在你的測試中改變DOM, 這樣只會帶來更多的維護工作. 最後, 訪問DOM是很慢的, 測試緩慢意味著反饋不會及時以及最終解析都是緩慢的. Angular的控制器測試並沒有這些問題. 
 
-�]���A�i�H�ܻ��P���n���ƥ�B�z�{�Ǫ�²��ʩM�iŪ��, �@�L�o�c�P���H�ϳ̨ι��.
+因此你可以很輕鬆的聲明事件處理程序的簡單性和可讀性, 毫無罪惡感的違反最佳實踐.
 
-###�C��, ����M��L���ƪ�����
+###列表, 表格和其他重複的元素
 
-�̦��Υi��N�OAngular���O, `ng-repeat`��󶰦X�����C�@�����إߤ@���@�դ������@���ƥ�. �A���Ӧb�A�Q�إߦC�����D������a��ϥΥ�.
+最有用可能就是Angular指令, `ng-repeat`對於集合中的每一項都建立一次一組元素的一份副本. 你應該在你想建立列表問題的任何地方使用它.
 
-��p���ڭ̵��Ѯv�s�g�@�Ӿǥͪ�W�U�����ε{��. �ڭ̥i��q���A����o�ǥͪ����, ���O�b�o�ӨҤl��, �ڭ̥u�bJavaScript�N���w�q���@�Ӽҫ�:
+比如說我們給老師編寫一個學生花名冊的應用程式. 我們可能從伺服器獲得學生的資料, 但是在這個例子中, 我們只在JavaScript將它定義為一個模型:
 ```js
     var students = [{name: 'Mary Contrary', id:'1'},
                     {name: 'Jack Sprat', id: '2'},
@@ -373,7 +373,7 @@
         $scope.students = students;
     }
 ```
-�ڭ̥i�H���U���o�˨���ܾǥͦC��:
+我們可以像下面這樣來顯示學生列表:
 ```html
     <ul ng-controller="">
         <li ng-repeat="student in students">
@@ -381,15 +381,15 @@
         </li>
     </ul>
 ```
-`ng-repeat`�N�|�s�@���Ҥ��Ҧ�HTML���ƥ�, �]�A���Ҥ����F��. �o��, �ڭ̱N�ݨ�:
+`ng-repeat`將會製作標籤內所有HTML的副本, 包括標籤內的東西. 這樣, 我們將看到:
 
 + Mary Contrary
 + Jack Sprat
 + Jill Hill
 
-���O�챵��*/student/view/1, /student/view/2, /student/view/3*.
+分別鏈接到*/student/view/1, /student/view/2, /student/view/3*.
 
-���p�ڭ̤��e�Ҩ�, ���ܾǥͼƲձN�|�۰ʧ��ܴ�V�C��. �p�G�ڭ̰��@�ǨҦp���J�@�ӷs���ǥͨ�C�����Ʊ�:
+正如我們之前所見, 改變學生數組將會自動改變渲染列表. 如果我們做一些例如插入一個新的學生到列表的事情:
 ```js
     var students = [{name: 'Mary Contrary', id:'1'},
                     {name: 'Jack Sprat', id: '2'},
@@ -403,7 +403,7 @@
         };
     }
 ```
-�M��b�˪O���K�[�@�ӫ��s�өI�s:
+然後在樣板中添加一個按鈕來呼叫:
 ```html
     <ul ng-controller="">
         <li ng-repeat="student in students">
@@ -412,16 +412,16 @@
     </ul>
     <button ng-click="insertTom()">Insert</button>
 ```
-�{�b�ڭ̥i�H�ݨ�:
+現在我們可以看到:
 
 + Mary Contrary
 + Tom Thumb
 + Jack Sprat
 + Jill Hill
 
-`ng-repeat`���O�ٸg��`$index`���A���ѤF���e����������, �p�G�O���X���Ĥ@�Ӥ���, �������Y�Ӥ���, �Ϊ̬O�̫�@�Ӥ����ϥ�`$first`, `$middle`�M`$last`�|���A���Ѥ@�ӥ�����.
+`ng-repeat`指令還經由`$index`給你提供了當前元素的索引, 如果是集合中第一個元素, 中間的某個元素, 或者是最後一個元素使用`$first`, `$middle`和`$last`會給你提供一個布爾值.
 
-�A�i�H�Q���ϥ�`$index`�ӼаO���椤����. ���w�@�ӳo�˪��˪O:
+你可以想像使用`$index`來標記表格中的行. 給定一個這樣的樣板:
 ```html
     <table ng-controller="AlbumController">
         <tr ng-repeat="track in album">
@@ -431,7 +431,7 @@
         </tr>
     </table>
 ```
-�o�O���:
+這是控制器:
 ```js
     var album = [{name: 'Southwest Serenade', duration: '2:34'},
                  {name: 'Northern Light Waltz', duration: '3:21'},
@@ -441,19 +441,19 @@
         $scope.album = album;
     };
 ```
-�ڭ̱o��p�U���G:
+我們得到如下結果:
 
 1. Southwest Serenade     2:34
 2. Northern Light Waltz   3:21
 3. Eastern Tango         17:45
 
-###���ûP���
+###隱藏與顯示
 
-�����, �W�U��ӷP���u��[*���:context-sensitive tools*]�H�Ψ�L�\�h���p, ��ܩM���ä����O�@�����䪺�S��. ���p�bAngular��, �ڭ̰��ҫ����ܤ�Ĳ�oUI������, �H�θg�ѫ��O�N���ܤϬM��UI��. 
+對於選單, 上下文敏感的工具[*原文:context-sensitive tools*]以及其他許多情況, 顯示和隱藏元素是一個關鍵的特性. 正如在Angular中, 我們基於模型的變化觸發UI的改變, 以及經由指令將改變反映到UI中. 
 
-�o��, `ng-show`�M`ng-hide`�Ω�B�z�o�Ǥu�@. ���̰��ǻ������̪����F��������ܩM���ê��\��. �Y, ���A�ǻ������F����true��`ng-show`�N��ܤ���, ����false�ɫh���ä���. �����F����true��`ng-hide`���ä���, ��false����ܤ���. �o���M��A�ϥέ��ӧ����F���A�N��.
+這裡, `ng-show`和`ng-hide`用於處理這些工作. 它們基於傳遞給它們的表達式提供顯示和隱藏的功能. 即, 當你傳遞的表達式為true時`ng-show`將顯示元素, 當為false時則隱藏元素. 當表達式為true時`ng-hide`隱藏元素, 為false時顯示元素. 這取決於你使用哪個更能表達的你意圖.
 
-�o�ǫ��O�g�ѾA�����]�w�������˦���`display: block`����ܤ���, �]�w�˦���`display: none`�����ä���. ���ڭ̬ݥH�ӥ��b�c�ت�Death Ray����O���������Ҥl:
+這些指令經由適當的設定元素的樣式為`display: block`來顯示元素, 設定樣式為`display: none`來隱藏元素. 讓我們看以個正在構建的Death Ray控制板的虛擬的例子:
 ```html
     <div ng-controller="DeathrayMenuController">
         <p><button ng-click="toggleMenu()">Toggle Menu</button></p>
@@ -475,17 +475,17 @@
         // death ray functions left as exercise to reader
     };
 ```
-###CSS���M�˦�
+###CSS類和樣式
 
-��ө���, �{�b�A�i�H�b�A�����ε{�����g�Ѩϥ�{{ }}���ȲŸ��j�w��ƪ��覡�ʺA���]�w���M�˦�. �ƦܧA�i�H�b�A�����ε{�����զ��ǰt�����W. �Ҧp, �A�Q�ھڱ���T�Τ@�ǿ��, �A�i�H���U���o�˱q��ı�W��ܵ��Τ�.
+顯而易見, 現在你可以在你的應用程式中經由使用{{ }}插值符號綁定資料的方式動態的設定類和樣式. 甚至你可以在你的應用程式中組成匹配的類名. 例如, 你想根據條件禁用一些選單, 你可以像下面這樣從視覺上顯示給用戶.
 
-���p�UCSS:
+有如下CSS:
 ```css
     .menu-disabled-true {
         color: gray;
     }
 ```
-�A�i�H�ϥΤU�����˪O�b�A��DeathRay����`stun`��ƨӸT�άY�Ǥ���:
+你可以使用下面的樣板在你的DeathRay指示`stun`函數來禁用某些元素:
 ```html
     <div ng-controller="DeatrayMenuController">
         <ul>
@@ -494,7 +494,7 @@
         </ul>
     </div>
 ```
-�A�i�H�g�ѱ���A�����]�w`isDisabled`�ݩʪ���:
+你可以經由控制器適當的設定`isDisabled`屬性的值:
 ```js
     function DeathrayMenuController($scope){
         $scope.isDisabled = false;
@@ -505,19 +505,19 @@
         };
     }
 ```
-`stun`��涵��class�N�]�w��`menu-disabled-`�[`$scope.isDisabled`����. �]������l�Ƭ�false, �q�{���p�U���G��`menu-disabled-false`. �Ӧ��ɳo�̨S���PCSS�W�h�ǰt������, �h�S���ĪG. ��`$scope.isDisabled`�]�w��true��, CSS�W�h�N�ܦ�`menu-disabled-true`, ���ɫh�I�s�W�h�Ϥ�r���Ǧ�.
+`stun`選單項的class將設定為`menu-disabled-`加`$scope.isDisabled`的值. 因為它初始化為false, 默認情況下結果為`menu-disabled-false`. 而此時這裡沒有與CSS規則匹配的元素, 則沒有效果. 當`$scope.isDisabled`設定為true時, CSS規則將變成`menu-disabled-true`, 此時則呼叫規則使文字為灰色.
 
-�o�ا޳N�]�P�˾A�Ω�O�J���p�˦�, �Ҧp`style="{{some expression}}"`.
+這種技術也同樣適用於嵌入內聯樣式, 例如`style="{{some expression}}"`.
 
-���M�Q�k�ܦn, ���O�o�̦��@�ӯ��I�N�O���ϥΤF�@�Ӥ������νu�ӲզX�A�����W. ���M�b�o�ӨҤl���ܮe���z��, ���O���i��ܧִN�|�ܱo���H�޲z, �A�������_���\Ū�A���˪O�MJavaScript�ӥ��T���إߧA��CSS�W�h.
+雖然想法很好, 但是這裡有一個缺點就是它使用了一個水平分割線來組合你的類名. 雖然在這個例子中很容易理解, 但是它可能很快就會變得難以管理, 你必須不斷的閱讀你的樣板和JavaScript來正確的建立你的CSS規則.
 
-�]��, Angular���ѤF`ng-class`�M`ng-style`���O. ���̳������@�Ӫ��F��. �o�Ӫ��F�����p�⵲�G�i�H�O�U�C���@:
+因此, Angular提供了`ng-class`和`ng-style`指令. 它們都接受一個表達式. 這個表達式的計算結果可以是下列之一:
 
-+ �@�ӨϥΪŮ�������W���r�Ŧ�
-+ �@�����W�Ʋ�
-+ ���W�쥬���Ȫ��M�g
++ 一個使用空格分割類名的字符串
++ 一個類名數組
++ 類名到布爾值的映射
 
-���ڭ̷Q���@�U, �A�Ʊ�b���ε{���Y�����@�ӼзǦ�m��ܿ��~�Mĵ�i���Τ�. �ϥ�`ng-class`���O, �A�i�H�o�˰�:
+讓我們想像一下, 你希望在應用程式頭部的一個標準位置顯示錯誤和警告給用戶. 使用`ng-class`指令, 你可以這樣做:
 ```css
     .error {
         background-color: red;
@@ -553,15 +553,15 @@
         };
     }
 ```
-�A�Ʀܥi�H���X��}�G���Ʊ�, �Ҧp���G���椤�襤����. ��軡, �ڭ̭n�c�ؤ@���\�U�ؿ��åB�Ʊ氪�G�Τ��I��������.
+你甚至可以做出更漂亮的事情, 例如高亮表格中選中的行. 比方說, 我們要構建一個餐廳目錄並且希望高亮用戶點擊的那行.
 
-�bCSS��, �ڭ̳]�w�@�Ӱ��G�檺�˦�:
+在CSS中, 我們設定一個高亮行的樣式:
 ```css
     .selected {
         background-color: lightgreen;
     }
 ```
-�b�Ҫ���, �ڭ̳]�w`ng-class`��`{selected: $index==selectedRow}`. ���ҫ�����`selectedRow`�ݩʤǰtng-repeat��`$index`�ɳ]�wclass��selected. �ڭ��ٳ]�w�@��`ng-click`�ӳq������Τ��I���F���@��:
+在模版中, 我們設定`ng-class`為`{selected: $index==selectedRow}`. 當模型中的`selectedRow`屬性匹配ng-repeat的`$index`時設定class為selected. 我們還設定一個`ng-click`來通知控制器用戶點擊了哪一行:
 ```html
     <table ng-controller="RestaurantTableController">
         <tr ng-repeat="restaurant in directory" ng-click="selectRestaurant($index)" ng-class="{selected: $index==selectedRow">
@@ -570,7 +570,7 @@
         </tr>
     </table>
 ```
-�b�ڭ̪�JavaScript��, �ڭ̥u�]�w�������\�U�M�إ�`selectRow`���:
+在我們的JavaScript中, 我們只設定虛擬的餐廳和建立`selectRow`函數:
 ```js
     function RestuarantTableController($scope){
         $scope.directory = [{name: 'The Handsome Heifer', cuisine: 'BBQ'},
@@ -581,29 +581,29 @@
         };
     }
 ```
-###`src`�M`href`�ݩʪ`�N�ƶ�
+###`src`和`href`屬性注意事項
 
-�����ô�����@��`<img>`�Ϊ�`<a>`���Ү�, ���W���@�˦b`src`�Ϊ�`href`�ݩʤ��ϥ�{{ }}�B�z���|�N�L�k���`�u�@. �]���b�s�������Ϥ��P��L���e�O�æ�[����, �ҥHAngular�L�k�d�I���ô�����ШD.
+當資料繫結給一個`<img>`或者`<a>`標籤時, 像上面一樣在`src`或者`href`屬性中使用{{ }}處理路徑將無法正常工作. 因為在瀏覽器中圖片與其他內容是並行加載的, 所以Angular無法攔截資料繫結的請求.
 
-���`<img>`�Ө��̩��㪺�y�k�K�O:
+對於`<img>`而言最明顯的語法便是:
 ```html
     <img src="/images/cats/{{favoriteCat}}">
 ```
-�ۤ�, �A���Өϥ�`ng-src`�ݩʨù��U���o�˽s�g�A���˪O:
+相反, 你應該使用`ng-src`屬性並像下面這樣編寫你的樣板:
 ```html
     <img ng-src="/images/cats/{{favoriteCat}}">
 ```
-�P�˪��D�z, ���`<a>`���ҧA���Өϥ�`ng-href`:
+同樣的道理, 對於`<a>`標籤你應該使用`ng-href`:
 ```html
     <a ng-href="/shop/category={{numberOfBalloons}}">some text</a>
 ```
-###���F��
+###表達式
 
-���F���I�᪺��Q�O���A�������b�A���˪O, ���ε{���޿�H�θ�Ƥ����إ߹_�l�ӻP���P�ɨ������ε{���޿谽���N�N���i�J�Ҫ���.
+表達式背後的思想是讓你巧妙的在你的樣板, 應用程式邏輯以及資料之間建立鉤子而與此同時防止應用程式邏輯偷偷摸摸的進入模版中.
 
-����{�b, �ڭ̤@���D�n�O�ޥέ�ͪ���Ƨ@�����F���ǻ���Angular���O. ���O���o�Ǫ��F���i�H����h���Ʊ�. �A�i�H�B�z²�檺�ƾǹB��(+, -, /, *, %), �i����(==, !=, >, <, >=, <=), ���楬���޿�B��(&&, !!, !)�H�Ϋ���B��(\^, &, |). �A�i�H�I�s���S�b�����`$scope`�ﹳ�W�����, �A�٥i�H�ޥθ�ƩM�ﹳ���ܪk([], {}, �K).
+直到現在, 我們一直主要是引用原生的資料作為表達式傳遞給Angular指令. 但是其實這些表達式可以做更多的事情. 你可以處理簡單的數學運算(+, -, /, *, %), 進行比較(==, !=, >, <, >=, <=), 執行布爾邏輯運算(&&, !!, !)以及按位運算(\^, &, |). 你可以呼叫暴露在控制器的`$scope`對像上的函數, 你還可以引用資料和對像表示法([], {}, …).
 
-�U�����O���Ī��F�����Ҥl:
+下面都是有效表達式的例子:
 ```html
     <div ng-controller="SomeController">
         <div>{{recompute() / 10}}<div>
@@ -614,57 +614,57 @@
         </ul>
     </div>
 ```
-�o�̪��Ĥ@�Ӫ��F��`recompute() / 10`�O���Ī�, �O�b�˪O���]�w�޿�ܦn���n�Ҥl, ���O�����קK�o�ؤ覡. �O�����ϩM���������¾�d�����i�H�T�O���̮e���z�ѩM����.
+這裡的第一個表達式`recompute() / 10`是有效的, 是在樣板中設定邏輯很好的好例子, 但是應該避免這種方式. 保持視圖和控制器之間的職責分離可以確保它們容易理解和測試.
 
-���M�A�i�H�ϥΪ��F�����ܦh�Ʊ�, ���̥�Angular�۩w�q�������������p��. �L�̨ä��ϥ�JavaScript��`eval()`����, eval()���۷��h������.
+雖然你可以使用表達式做很多事情, 它們由Angular自定義的解釋器部分計算. 他們並不使用JavaScript的`eval()`執行, eval()有相當多的限制.
 
-�ۤ�, ���̨ϥ�Angular�۱a���۩w�q����������. �b�̭�, �A���|�ݨ�`�����c(for, while����), �y�{����y�y(if-else, throw)�Ϊ̧��ܸ�ƪ��B���(++, --). ���A�ݭn�ϥγo���������B���, �A���Ӧb�A��������ϥΫ��O�i��B�z.
+相反, 它們使用Angular自帶的自定義解釋器執行. 在裡面, 你不會看到循環結構(for, while等等), 流程控制語句(if-else, throw)或者改變資料的運算符(++, --). 當你需要使用這些類型的運算時, 你應該在你的控制器中使用指令進行處理.
 
-���ު��F���b�ܦh�譱��JavaScript��[�Y��, �����̹�`undefined`�M`null`�ä��O���Y��(��e�P). �˪O�u�O²�檺��V�@�ǪF��, �ä��|�ߥX�@��`NullPointerException`�����~. �o�˴N���\�A�w�����ϥμҫ��ӨS������, �åB�u�n���̱o���ƶ�R�N�����̥X�{�b�Τ�ɭ���.
+儘管表達式在很多方面比JavaScript更加嚴格, 但它們對`undefined`和`null`並不是很嚴格(更寬鬆). 樣板只是簡單的渲染一些東西, 並不會拋出一個`NullPointerException`的錯誤. 這樣就允許你安全的使用模型而沒有限制, 並且只要它們得到資料填充就讓它們出現在用戶界面中.
 
-###�����Τ�ɭ�(UI)�M���¾�d
+###分離用戶界面(UI)和控制器職責
 
-�b�A�����ε{����������T��¾�d:
+在你的應用程式中控制器有三個職責:
 
-+ �b�A�����ε{�����ҫ����]�w��ժ��A.[��l�����ε{��]
-+ �g��`$scope`���S�ҫ��M��ƨ���Ϥ�.
-+ �ʱ��ҫ������ܨ�Ĳ�o�欰.
++ 在你的應用程式的模型中設定初試狀態.[初始化應用程式]
++ 經由`$scope`暴露模型和函數到視圖中.
++ 監控模型的改變並觸發行為.
 
-���Ĥ@�I�ĤG�I�b�������w�g�ݹL��h�Ҥl. �y�ԧڭ̷|�Q�׳̫�@�I. �M��, ����䷧���W���ت�, �O���ѥN�X�Ϊ̰���Τ�P���ϥ椬�@�檺�޿�. 
+對於第一點第二點在本章的已經看過更多例子. 稍候我們會討論最後一點. 然而, 控制器其概念上的目的, 是提供代碼或者執行用戶與視圖交互願望的邏輯. 
 
-���F�O��������p���M����޲z, �ڭ̫�ĳ�A�w����Ϫ��C�@�Ӱϰ�إߤ@�ӱ��. �]�N�O��, �p�G�A���@�ӿ��h�إߤ@��`MenuController`. �p�G�A���@���ѥ]�h�ɯ�, �h�s�g�@��`BreadcrumbController`, ����.
+為了保持控制器的小巧和易於管理, 我們建議你針對視圖的每一個區域建立一個控制器. 也就是說, 如果你有一個選單則建立一個`MenuController`. 如果你有一個麵包屑導航, 則編寫一個`BreadcrumbController`, 等等.
 
-�A�i��}�l���F, ���O�ݭn���T���N����j�w��@�ӫ��w��DOM�����Ω�޲z����. ����إD�n���覡���p����PDOM�`�I, �@�ؤ覡�O�b�˪O�����w�@��`ng-controller`�ݩ�, �t�@�ؤ覡�O�g��`route`(����)���p�@�ӰʺA�[����DOM�˪O���q, �]�٧@����.
+你可能開始懂了, 但是需要明確的將控制器綁定到一個指定的DOM塊中用於管理它們. 有兩種主要的方式關聯控制器與DOM節點, 一種方式是在樣板中指定一個`ng-controller`屬性, 另一種方式是經由`route`(路由)關聯一個動態加載的DOM樣板片段, 也稱作視圖.
 
-�ڭ̱N�b�������᭱�A�Q��������ϩM���Ѫ��T��.
+我們將在本章的後面再討論關於視圖和路由的訊息.
 
-�p�G�A��UI�����@�ӽ��������q, �A�i�H�g�ѫإߴO�M�����, �g���~�Ӿ�Ӧ@�ɼҫ��M��ƨӫO���A���N�X�����ʩM�i���@��. �O�M�����²��, �A�i�H²�檺�b�t�@��DOM�����t�@�ӱ����@��DOM����������o�@�I, �N���o��:
+如果你的UI中有一個複雜的片段, 你可以經由建立嵌套的控制器, 經由繼承樹來共享模型和函數來保持你的代碼間接性和可維護性. 嵌套控制器很簡單, 你可以簡單的在另一個DOM中分配一個控制器到一個DOM元素中做到這一點, 就像這樣:
 ```html
     <div ng-controller="ParentController">
-        <div ng-controller="ChildController">�K</div>
+        <div ng-controller="ChildController">…</div>
     </div>
 ```
-���M�ڭ̱N�o�Ӫ��F������O�M, ��ڪ��O�M�o�ͦb�@�ΰ줤($scope�ﹳ��). �ǻ����O�M�����`$scope`�~�Ӧۤ������`$scope`�쫬, �o�N���۶ǻ���`ChildController`��`$scope`�N���v�X�ݶǻ���`ParentController`��`$scope`���Ҧ��ݩ�.
+雖然我們將這個表達為控制器嵌套, 實際的嵌套發生在作用域中($scope對像中). 傳遞給嵌套控制器的`$scope`繼承自父控制器的`$scope`原型, 這意味著傳遞給`ChildController`的`$scope`將有權訪問傳遞給`ParentController`的`$scope`的所有屬性.
 
-###�ϥΧ@�ΰ�o�G�ҫ����
+###使用作用域發佈模型資料
 
-�N`$scope`�ﹳ�ǻ����ڭ̪�����K�O�ڭ̱N�ҫ���Ƽ��S�����Ϫ�����. �i��A�����ε{�����٦���L�����, ��Angular���u����g��scope�X�ݥ��i�H�X�ݪ��ҫ��������ݩ�. �A�i�H�{��scope�N�O�@���@�ӤW�U�����ҥΩ�b�A���ҫ����[���ܤƪ�.
+將`$scope`對像傳遞給我們的控制器便是我們將模型資料暴露給視圖的機制. 可能你的應用程式中還有其他的資料, 但Angular中只能夠經由scope訪問它可以訪問的模型部分的屬性. 你可以認為scope就是作為一個上下文環境用於在你的模型中觀察變化的.
 
-�ڭ̤w�g�ݹL�F�ܦh���T�]�w�@�ΰ쪺�Ҥl, �N��`$scope.count = 5`. �]���@�Ƕ�������k�b�˪O���]�w��ۨ����ҫ�. �A�i�H���U���o�˰�:
+我們已經看過了很多明確設定作用域的例子, 就像`$scope.count = 5`. 也有一些間接的方法在樣板內設定其自身的模型. 你可以像下面這樣做:
 
-1. �g�Ѫ��F��. �ѩ���F���B��b������@�ΰ����p���������W�U�夤, �b���F�����]�w�ݩʻP�b������@�ΰ줤�]�w�@���ݩʤ@��. 
+1. 經由表達式. 由於表達式運行在控制器的作用域關聯的元素的上下文中, 在表達式中設定屬性與在控制器的作用域中設定一個屬性一樣. 
 
-�]�N�O���o��:  
+也就是像這樣:  
 ```html
     <button ng-click="count=3">Set count to three</button>
 ```
-�o�˰��]���ۦP���ĪG:
+這樣做也有相同的效果:
 ```html
     <div ng-controller="CountController">
         <button ng-click="setCount()">Set count to three</button>
     </div>
 ```
-CountController�w�q�p�U:
+CountController定義如下:
 ```js
     function CountController($scope){
         $scope.setCount = function(){
@@ -672,38 +672,38 @@ CountController�w�q�p�U:
         }
     }
 ```
-2. �b���檺��J�ؤ��ϥ�`ng-model`. �b���F����, �ҫ��Q���w��`ng-model`���ѼƤ]�A�Ω󱱨�@�ΰ�d��. ���~, �o�N�b����r�q�M�A���w���ҫ������إߤ@�����V���ô��.
+2. 在表單的輸入框中使用`ng-model`. 在表達式中, 模型被指定為`ng-model`的參數也適用於控制器作用域範圍. 此外, 這將在表單字段和你指定的模型之間建立一個雙向資料繫結.
 
-###�ϥ�$watch�ʱ��ҫ��ܤ�
+###使用$watch監控模型變化
 
-�Ҧ�scope��Ƥ��̱`�Ϊ��i��N�O$watch�F, ���A���ҫ������o���ܤƮɥ��|�q���A. �A�i�H�ʱ���ӹ�H�ݩ�, �]�i�H�ʱ��p�⵲�G(���), �X�G�Ҧ����ƪ����i���@�@���ݩʩΪ̤@��JavaScript�B�����Q�X��. �Ө�ƪ�ñ�W�p�U:
+所有scope函數中最常用的可能就是$watch了, 當你的模型部分發生變化時它會通知你. 你可以監控單個對象屬性, 也可以監控計算結果(函數), 幾乎所有的事物都可當作一個屬性或者一個JavaScript運算能夠被訪問. 該函數的簽名如下:
 ```js
     $watch(watchFn, watchAction, deepWatch);
 ```
-�C�ӰѼƪ��ԲӰT���p�U:
+每個參數的詳細訊息如下:
 
 **watchFn**
 
-> �o�ӰѼƬO�@��Angular�r�Ŧ���F���Ϊ̬O�@�Ӫ�^�A�ҧƱ�ʱ����ҫ����e�Ȫ����. �o�Ӫ��F���|�Q�h������, �]���A�ݭn�T�O�����|���Ƨ@��. �]�N�O��, ���i�H�Q�I�s�h���Ӥ����ܪ��A. �P�˪���], �ʱ����F���]���ӬO�B������קC��(����²�檺�B��). �p�G�A�ǻ��@�Ӧr�Ŧꪺ���F��, ���N�|���I�s��(���檺���F��)�@�ΰ줤�����Ĺﹳ�D��.
+> 這個參數是一個Angular字符串表達式或者是一個返回你所希望監控的模型當前值的函數. 這個表達式會被多次執行, 因此你需要確保它不會有副作用. 也就是說, 它可以被呼叫多次而不改變狀態. 同樣的原因, 監控表達式也應該是運算複雜度低的(執行簡單的運算). 如果你傳遞一個字符串的表達式, 它將會對其呼叫的(執行的表達式)作用域中的有效對像求值.
 
 **watchAction**
 
-> �o�O`watchFn`�c���ܤƮɷ|�Q�I�s����ƩΪ̪��F��. �b��ƧΦ���, ������`watchFn`���s��, �­ȥH�Χ@�ΰ쪺�ޥ�. ��ñ�W�N�O`function(newValue, oldValue, scope)`.
+> 這是`watchFn`繁盛變化時會被呼叫的函數或者表達式. 在函數形式中, 它接受`watchFn`的新值, 舊值以及作用域的引用. 其簽名就是`function(newValue, oldValue, scope)`.
 
 **deepWatch**
 
-> �p�G�]�w��true, �o�ӥi�諸�����ѼƥΩ�i�DAngular�ˬd�Һʱ�����H���C�@���ݩʪ��ܤ�. �p�G�A�Ʊ�ʱ��Ʋժ��ӧO�����Ϊ̹�H���ݩʦӤ��O�@�Ӵ��q����, ����A���ӨϥΥ�. �ѩ�Angular�ݭn�M���ƲթΪ̹ﹳ, �p�G���X(�Ʋդ���/�ﹳ����)�ܤj, ����p�⪺�N���|�D�`��.
+> 如果設定為true, 這個可選的布爾參數用於告訴Angular檢查所監控的對象中每一個屬性的變化. 如果你希望監控數組的個別元素或者對象的屬性而不是一個普通的值, 那麼你應該使用它. 由於Angular需要遍歷數組或者對像, 如果集合(數組元素/對像成員)很大, 那麼計算的代價會非常高.
 
-���A���A�Q�����ܤƳq����, `$watch`��ƱN��^�@�ӵ��P��ť�������.
+當你不再想收到變化通知時, `$watch`函數將返回一個註銷監聽器的函數.
 
-�p�G�ڭ̹��ʱ��@���ݩ�, �M��b�y����P��, �ڭ̱N�ϥΤU�����覡:
+如果我們像監控一個屬性, 然後在稍後註銷它, 我們將使用下面的方式:
 ```js
     ...
     var dereg = $scope.$watch('someModel.someProperty', callbackOnChange);
     ...
     dereg();
 ```
-���ڭ̦^�U�@�U�Ĥ@�������㪺�ʪ����d��. ��軡, ���Τ�b�L���ʪ������K�[�F�W�X100�������ӫ~��, �ڭ̧Ʊ�ӽ�10�������u�f. �ڭ̨ϥΤU�����˪O:
+讓我們回顧一下第一章中完整的購物車範例. 比方說, 當用戶在他的購物車中添加了超出100美元的商品時, 我們希望申請10美元的優惠. 我們使用下面的樣板:
 ```html
     <div ng-controller="CartController">
         <div ng-repeat="item in items">
@@ -717,7 +717,7 @@ CountController�w�q�p�U:
         <div>Subtotal: {{subtotal() | currency}}</div>
     </div>
 ```
-�򱵵۬O`CartController`, ���ݰ_�ӹ��U���o��:
+緊接著是`CartController`, 它看起來像下面這樣:
 ```js
     function CartController($scope){
         $scope.bill = {};
@@ -748,46 +748,46 @@ CountController�w�q�p�U:
         $scope.$watch($scope.totalCart, calculateDiscount);
     }
 ```
-�`�N`CartController`������, �ڭ̵��Ω�p����ʶR�ӫ~�`����`totalCart()`���ȳ]�w�F�@�Ӻʱ�. �C���o�ӭ��ܤƮ�, �ʱ����|�I�s`calculateDiscount()`, �åB�|��discount(�u�f��)�]�w�@�ӾA������. �p�G�`����$100, �ڭ̱N�]�w�u�f��$10. �_�h, �u�f�N��$0.
+注意`CartController`的底部, 我們給用於計算所購買商品總價的`totalCart()`的值設定了一個監控. 每當這個值變化時, 監控都會呼叫`calculateDiscount()`, 並且會給discount(優惠項)設定一個適當的值. 如果總價為$100, 我們將設定優惠為$10. 否則, 優惠就為$0.
 
-�A�i�H�ݨ�o�Ӯi�ܵ��Τ᪺�Ҥl�p��2-1�ҥ�:
+你可以看到這個展示給用戶的例子如圖2-1所示:
 
 ![use-$watch](figure/watch1.png)
 
-��2-1 Shopping cart with discount
+圖2-1 Shopping cart with discount
 
-###watch()�����ʯ�`�N�ƶ�
+###watch()中的性能注意事項
 
-�e���Ҥl�|���T������, ���O�o�̦��@�Ӽ�b���ʯ���D. ���M�ä�����, �p�G�A�b`totalCart()`���]�w�@�Ӱ����_�I, �A�|�o�{�b��V�����ɥ��Q�I�s�F6��. ���M�b�o�����ε{�����A�q�ӨS���`�N�쥦, ���O�b��h���������ε{����, �B�楦6���i��O�@�Ӱ��D.
+前面例子會正確的執行, 但是這裡有一個潛在的性能問題. 雖然並不明顯, 如果你在`totalCart()`中設定一個偵錯斷點, 你會發現在渲染頁面時它被呼叫了6次. 雖然在這個應用程式中你從來沒有注意到它, 但是在更多複雜的應用程式中, 運行它6次可能是一個問題.
 
-������O6��? �䤤3���ڭ̥i�H�ܻ��������ܨ�, �]�������O�b�U���T�ӹL�{���B��@��:
+為什麼是6次? 其中3次我們可以很輕易的跟蹤到, 因為它分別在下面三個過程中運行一次:
 
-+ �b`{{totalCart() | currency}}`�˪O��
-+ `subtotal()`��Ƥ�
-+ `$watch()`��Ƥ�
++ 在`{{totalCart() | currency}}`樣板中
++ `subtotal()`函數中
++ `$watch()`函數中
 
-�M��OAngular�A�B�楦�̤@��, �]�ӱa���ڭ�6���B��. Angular�o�˰��O���F���Ҧb�A���ҫ����ܤƬO�_�����Ǽ��X�h�H�����ҧA���ҫ��O�_í�w. Angular�g���ˬd�@���Һʱ��ݩʪ��ƥ��P���̷��e�Ȥ���ӽT�{���̬O�_����. �ƹ�W, Angular�]�i�H�B�楦�h�F�Q���ӽT�O�O�_�����Ǽ��}. �p�G�o�ͳo�ر��p, �A�i��ݭn�̿�`���ӭ״_��.
+然後是Angular再運行它們一次, 因而帶給我們6次運行. Angular這樣做是為了驗證在你的模型中變化是否完全傳播出去以及驗證你的模型是否穩定. Angular經由檢查一份所監控屬性的副本與它們當前值比較來確認它們是否改變. 事實上, Angular也可以運行它多達十次來確保是否完全傳播開. 如果發生這種情況, 你可能需要依賴循環來修復它.
 
-���M�A�{�b�|��߳o�Ӱ��D, ���O���A�\Ū�����Ѯɥ��i��N���A�O���D�F. �M��Angular���o���bJavaScript����{���ô��, �ڭ̤@���PTC39���H�@�P�V�O��{�@�ө��h����ͪ�`Object.observe()`. �@�����F��, Angular�N�۰ʨϥ�`Object.observe()`�H���H�a�e�{���A�@�ӭ�ͮĲv�����ô��.
+雖然你現在會擔心這個問題, 但是當你閱讀完本書時它可能就不再是問題了. 然而Angular不得不在JavaScript中實現資料繫結, 我們一直與TC39的人共同努力實現一個底層的原生的`Object.observe()`. 一旦有了它, Angular將自動使用`Object.observe()`隨時隨地呈現給你一個原生效率的資料繫結.
 
-> Ķ�`: [TC39](http://www.ecma-international.org/memento/TC39.htm)
+> 譯注: [TC39](http://www.ecma-international.org/memento/TC39.htm)
 
-�b�U�@�����A�|�ݨ�, Angular���@�ӫܦn��Chrome�����X�R�{��(Chrome����)Batarang, ���N�۰ʵ��A��X(���G)���Q�����ô��(�q�ʯ઺���צӨ�, ���ܸ��ô�����覡�ä��O���n���覡).
+在下一章中你會看到, Angular有一個很好的Chrome偵錯擴充程序(Chrome插件)Batarang, 它將自動給你突出(高亮)昂貴的資料繫結(從性能的角度而言, 表示資料繫結的方式並不是較好的方式).
 
-> Ķ�`:
+> 譯注:
 > 
-> + [Batarang](https://chrome.google.com/webstore/detail/ighdmehidhipcmcojjgiloacoafjmpfk) - �o�O�@��Angular�����P�ʯ�ʱ��u��.
+> + [Batarang](https://chrome.google.com/webstore/detail/ighdmehidhipcmcojjgiloacoafjmpfk) - 這是一個Angular偵錯與性能監控工具.
 > + [Batarang-Github](https://github.com/angular/angularjs-batarang)
 
-�{�b�ڭ̪��D�F�o�Ӱ��D, �o�̦��@�Ǥ�k�i�H�ѨM��. �@�ؤ覡�O�bitems�Ʋ��ܤƮɫإ�`$watch`�åB�u���s�p`$scope`��total, discount�Msubtotal�ݩʭ�.
+現在我們知道了這個問題, 這裡有一些方法可以解決它. 一種方式是在items數組變化時建立`$watch`並且只重新計`$scope`的total, discount和subtotal屬性值.
 
-����o�@�I, �ڭ̥u�ݭn�ϥγo���ݩʧ�s�˪O:
+做到這一點, 我們只需要使用這些屬性更新樣板:
 ```html
     <div>Total: {{bill.total | currency}}</div>
     <div>Discount: {{bill.discount | currency}}</div>
     <div>Subtotal: {{bill.subtotal | currency}}</div>
 ```
-�M��, �bJavaScript��, �ڭ̭n�ʱ�items�Ʋ�, �H�ΩI�s�@�Ө�ƨӭp��Ʋե��N���ܪ��`��:
+然後, 在JavaScript中, 我們要監控items數組, 以及呼叫一個函數來計算數組任意改變的總值:
 ```js
     function CartController($scope){
         $scope.bill = {};
@@ -812,9 +812,9 @@ CountController�w�q�p�U:
         $scope.$watch('items', calculateTotals, true);
     }
 ```
-�`�N�o��`$watch`���w�F�@��`items`�r�Ŧ�. �o�i��O�]��`$watch`��ƥi�H�����@�Ө��(���p�ڭ̤��e����)�Ϊ̤@�Ӧr�Ŧ�. �p�G�ǻ��@�Ӧr�Ŧ굹`$watch`���, �b`$scope`�I�s���@�ΰ줤���N�Q���@�@�Ӫ��F��.
+注意這裡`$watch`指定了一個`items`字符串. 這可能是因為`$watch`函數可以接受一個函數(正如我們之前那樣)或者一個字符串. 如果傳遞一個字符串給`$watch`函數, 在`$scope`呼叫的作用域中它將被當作一個表達式.
 
-�o�ش������b�A�����ε{�����i��u�@�o�ܦn. �M��, �ѧںʱ����Oitems�Ʋ�, Angular�N�|�s�@�@�Ӱƥ��H�ѧڭ̶i����. ���@�Ӹ��j��items�M��, �p�G�ڭ̦bAngular�C�@���p�⭶�����G�ɥu���s�p��bill�ݩʭ�, ���i����{�o��n. �ڭ̥i�H�g�ѫإߤ@��`$watch`�Ӱ���o�@�I, ���a���u�Ω󭫷s�p���ݩʪ�`watchFn`���. �N���o��:
+這種測策略在你的應用程式中可能工作得很好. 然而, 由我監控的是items數組, Angular將會製作一個副本以供我們進行比較. 對於一個較大的items清單, 如果我們在Angular每一次計算頁面結果時只重新計算bill屬性值, 它可能表現得更好. 我們可以經由建立一個`$watch`來做到這一點, 它帶有只用於重新計算屬性的`watchFn`函數. 就像這樣:
 ```js
     $scope.$watch(function(){
         var total = 0;
@@ -827,93 +827,93 @@ CountController�w�q�p�U:
         $scope.bill.subtotal = total - $scope.bill.discount;
     });
 ```
-####�h�Ӻʱ�
+####多個監控
 
-�p�G�A�Q�ʱ��h���ݩʩΪ̹ﹳ, �åB�C�����̵o�ͥ����ܤƮɳ�����@�Ө��. �A����Ӱ򥻪����:
+如果你想監控多個屬性或者對像, 並且每當它們發生任何變化時都執行一個函數. 你有兩個基本的選擇:
 
-+ �ʱ��ݩʯ��ޭ�.
-+ �⥦�̩�J�ƲթΪ̹ﹳ�`�åB�N�ǻ���`deepWatch`�]�w��true.
++ 監控屬性索引值.
++ 把它們放入數組或者對像總並且將傳遞的`deepWatch`設定為true.
 
-> Ķ�`: ��夤��ӿﶵ�ƦC�����A��. Ķ�夤�ȥ��F���Ǩõ��X�������T��.
+> 譯注: 原文中兩個選項排列順序顛倒. 譯文中糾正了順序並給出對應的訊息.
 
-�b�Ĥ@�ر��p�U, �p�G�@�ΰ줤���@�ӹﹳ�֦�����ݩ�`a`�M`b`, �åB�Ʊ�b�o���ܤƮɰ���`callMe()`���, �A���ӦP�ɺʱ�����, �N���o��:
+在第一種情況下, 如果作用域中有一個對像擁有兩個屬性`a`和`b`, 並且希望在發生變化時執行`callMe()`函數, 你應該同時監控它們, 就像這樣:
 ```js
-    $scope.$watch('things.a + things.b', callMe(�K));
+    $scope.$watch('things.a + things.b', callMe(…));
 ```
-���M, �ݩ�`a`�M`b`�i��b���P����H��, �u�n�A���w�A�]�i�H�s�@�o�ӦC��. �p�G�C���ܪ�, �A�i�����w�s�g�@�Ӫ�^���ޭȪ���ƦӤ��O�̾a�@���޿���F��.
+當然, 屬性`a`和`b`可能在不同的對象中, 只要你喜歡你也可以製作這個列表. 如果列表很長, 你可能更喜歡編寫一個返回索引值的函數而不是依靠一個邏輯表達式.
 
-�b�ĤG�ر��p�U, �A�i��Ʊ�ʱ�`things`�ﹳ�����Ҧ��ݩ�. �b�o�ر��p�U, �A�i�H�o�˰�:
+在第二種情況下, 你可能希望監控`things`對像中的所有屬性. 在這種情況下, 你可以這樣做:
 ```js
-    $scope.$watch('things' calMe(�K), true);
+    $scope.$watch('things' calMe(…), true);
 ```
-�o��, �g�ѱN�ĤT�ӰѼƳ]�w��`true`�ӭn�DAngular�M��`things`��H���ݩʨæb���̵o�ͥ�����ܮɩI�s`callMe()`. �o�P�˾A�Ω�Ʋ�, �u�O�o�̬O�w��@�ӹﹳ.
+這裡, 經由將第三個參數設定為`true`來要求Angular遍歷`things`對象的屬性並在它們發生任何改變時呼叫`callMe()`. 這同樣適用於數組, 只是這裡是針對一個對像.
 
-##�ϥμҲղ�´�̿�
+##使用模組組織依賴
 
-�b���󤣥��Z�����ε{����, �b�A���N�X��줤�˲M���p���´�\��¾�d�q�`���O�@���}��������. �ڭ̤w�g�ݨ�F����O�p�����ϼ˪O�����ڭ̴��Ѥ@�Ӧs����S���T��ƩM��ƪ��ϰ�. ���O�ڭ̦b���̦w�m������ε{��������L�N�X�O? �̩��㪺�覡�N�O�N���̩�m�b���������Ƥ�.
+在任何不平凡的應用程式中, 在你的代碼領域中弄清楚如何組織功能職責通常都是一項艱巨的任務. 我們已經看到了控制器是如何到視圖樣板中給我們提供一個存放暴露正確資料和函數的區域. 但是我們在哪裡安置支持應用程式的的其他代碼呢? 最明顯的方式就是將它們放置在控制器中的函數中.
 
-���p�����ε{���M�ثe�ڭ̩Ҩ��L���Ҥl�o���覡�u�@�o�ܦn, ���O�b��ڪ����ε{�����N�ܧ��ܱo���H�޲z. ����N������n�@���H�Χڭ̻ݭn������Ʊ����U����. ���̥i������z��, �]�i���������(���H���@).
+對於小型應用程式和目前我們所見過的例子這中方式工作得很好, 但是在實際的應用程式中將很快變得難以管理. 控制器將成為堆積一切以及我們需要做任何事情的垃圾場. 它們可能很難理解, 也可能很難改變(難以維護).
 
-�ޤJ�Ҳ�. �b�A�����ε{���\���, ���̴��ѤF�@�ز�´�̿઺�覡, �H�Τ@�ئ۸ѨM�̿઺����(�]�٬��̿�`�J[*�Ĥ@�����w�g���ФF����O�̿�`�J*]). �@�뱡�p�U, �ڭ̺٤����̿����Y�A��, ���̵��ڭ̪����ε{�����ѯS���A��.
+引入模組. 在你的應用程式功能區, 它們提供了一種組織依賴的方式, 以及一種自解決依賴的機制(也稱為依賴注入[*第一章中已經介紹了什麼是依賴注入*]). 一般情況下, 我們稱之為依賴關係服務, 它們給我們的應用程式提供特殊服務.
 
-��p, �p�G�b�ڭ̪��ʪ�����������ݭn�q���A�����o�@�ӥX�ⶵ�ئC��, �ڭ̻ݭn�@�ǹﹳ--���ڭ̺٤���`Items`--�`�N�o�̬O�q���A�����o������. �ϹL��, `Items`�ﹳ, �ݭn�@�Ǥ覡�g��XHR�Ϊ�WebSockets�P���A���W����Ʈw�q�H.
+比如, 如果在我們的購物網站中控制器需要從伺服器取得一個出售項目列表, 我們需要一些對像--讓我們稱之為`Items`--注意這裡是從伺服器取得的項目. 反過來, `Items`對像, 需要一些方式經由XHR或者WebSockets與伺服器上的資料庫通信.
 
-���A�μҲճB�z�ݰ_�ӹ��o��:
+不適用模組處理看起來像這樣:
 ```js
     function ItemsViewController($scope){
-        // �V���A���o�_�ШD
+        // 向伺服器發起請求
         ...
         
-        // �i�JItems�ﹳ�ѪR�^��
+        // 進入Items對像解析回應
         ...
         
-        // �b$scope���]�wItems�ƲեH�K���ϥi�H��ܥ�
+        // 在$scope中設定Items數組以便視圖可以顯示它
     }
 ```
-�M�ӳo�T�����u�@, ���O���s�b�@�Ǽ�b�����D.
+然而這確實能夠工作, 但是它存在一些潛在的問題.
 
-+ �p�G�@�Ǩ�L������ٻݭn�q���A�����o`Items`, ���ڭ̲{�b�n�ƻs�o�ӥN�X. �o�y���F���@���t��, �p�G�ڭ̲{�b�n�c�y�Ҧ��Ϊ̨�L���ܤ�, �ڭ̥����b�n�X�Ӧa���s�o�ӥN�X.
-+ �Ҽ{���L�]��, �p���A������, �ѪR�����׵���, �o�]�O�������_����ﹳ¾�d�ɭ�����], �N�X�]�����\Ū.
-+ ��o�q�N�X�i��椸����, �ڭ̻ݭn�@�x��ڹB�檺���A���Ϊ̨ϥ�XMLHttpRequest���ɤB��^�������. �B����A���i����ձN�ɭP���իܺC, �t�m���ܵh�W, ���q�`�i�ܤF���դ����H��. �ӥ��ɤB���覡�ѨM�F�t�שM�H�����D, ���O�o�N���ۧA�����O���b���դ��M�z���󤣩w�ﹳ, �o�˴N�a�ӤF�B�~�������שM�ܮz��, �]�������ϧA���w�ǽT���u�W��������Ʈ榡(�C���榡�ܤƮɳ��ݭn��s����).
++ 如果一些其他的控制器還需要從伺服器取得`Items`, 那我們現在要複製這個代碼. 這造成了維護的負擔, 如果我們現在要構造模式或者其他的變化, 我們必須在好幾個地方更新這個代碼.
++ 考慮到其他因素, 如伺服器驗證, 解析複雜度等等, 這也是很難推斷控制器對像職責界限的原因, 代碼也很難閱讀.
++ 對這段代碼進行單元測試, 我們需要一台實際運行的伺服器或者使用XMLHttpRequest打補丁返回模擬資料. 運行伺服器進行測試將導致測試很慢, 配置它很痛苦, 它通常展示了測試中的碎片. 而打補丁的方式解決了速度和碎片問題, 但是這意味著你必須記住在測試中清理任何不定對像, 這樣就帶來了額外的複雜度和脆弱性, 因為它迫使你指定準確的線上版本的資料格式(每當格式變化時都需要更新測試).
 
-���ҲթM�q���̭��̨��o���̿�`�J, �ڭ̴N�i�H�s�g��²�䪺���, ���o��:
+對於模組和從它們哪裡取得的依賴注入, 我們就可以編寫更簡潔的控制器, 像這樣:
 
     function ShoppingController($scope, Items){
         $scope.items = Items.query();
     }
         
-�{�b�A�i��|�ݦۤv, '���M, �o�ݰ_�ӫܻ�, ���O�o��Items�q���̨�?'. �e�����N�X���]�ڭ̤w�g�w�q�F�@���A�Ȫ�`Items`.
+現在你可能會問自己, '當然, 這看起來很酷, 但是這個Items從哪裡來?'. 前面的代碼假設我們已經定義了作為服務的`Items`.
 
-�A�ȬO�@�ӳ�W����H(��ҹﹳ), �����楲�n�����ȨӤ�����ε{�����\��. Angular�۱a�F�ܦh�A��, �Ҧp`$location`, �Ω�P�s���������a�}�椬, `$route`, �Ω����m(URL)���ܤƤ�������, �H��`$http`�Ω�P���A���q�H.
+服務是一個單獨的對象(單例對像), 它執行必要的任務來支持應用程式的功能. Angular自帶了很多服務, 例如`$location`, 用於與瀏覽器中的地址交互, `$route`, 用於基於位置(URL)的變化切換視圖, 以及`$http`用於與伺服器通信.
 
-�A�i�H�]���ӫإߧA�ۤv���A�ȥh�B�z���ε{���Ҧ����S������. �b�ݭn���̮ɪA�ȥi�H�@�ɵ����󱱨. �]��, ���A�ݭn�󱱨�q�H�M�@�ɪ��A�ɨϥΥ��̬O�@�ӫܦn������. Angular�j�w���A�ȳ��H`$`�}�Y, �ҥH�A�]����R�W���̬�����A���w���F��, �o�O�@�ӫܦn���D�N, �H�קK�ϥ�`$`�}�Y�a�Ӫ��R�W�Ĭ���D.
+你可以也應該建立你自己的服務去處理應用程式所有的特殊任務. 在需要它們時服務可以共享給任何控制器. 因此, 當你需要跨控制器通信和共享狀態時使用它們是一個很好的機制. Angular綁定的服務都以`$`開頭, 所以你也能夠命名它們為任何你喜歡的東西, 這是一個很好的主意, 以避免使用`$`開頭帶來的命名衝突問題.
 
-�A�i�H�ϥμҲչ�H��API�өw�q�A��. �o�̦��T�Ө�ƥΩ�إ߳q�ΪA��, ���̳������P�h���������ʩM��O:
+你可以使用模組對象的API來定義服務. 這裡有三個函數用於建立通用服務, 它們都有不同層次的複雜性和能力:
 ```html
 <table>
     <thead>
         <tr>
             <th>Function</th>
-            <th>�w�q(Defines)</td>
+            <th>定義(Defines)</td>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>provider(name, Object/constructor())</td>
-            <td>�@�ӥi�t�m���A��, �a���������إ��޿�. �p�G�A�ǻ��@�ӹﹳ, �����Ӧ��@�ӦW��`$get`�����, �Ω��^�A�Ȫ����. �_�h, Angular�|���]�A�ǻ��F�@�Ӻc�y���, ���I�s���ɫإ߹��.</td>
+            <td>一個可配置的服務, 帶有複雜的建立邏輯. 如果你傳遞一個對像, 它應該有一個名為`$get`的函數, 用於返回服務的實例. 否則, Angular會假設你傳遞了一個構造函數, 當呼叫它時建立實例.</td>
         </tr>
         <tr>
             <td>factory(name, $get Function())</td>
-            <td>�@�Ӥ��i�t�m���A�Ȥ]�a���������إ��޿�. �A���w�@�Ө��, ���I�s��, ��^�A�ȹ��. �A�i�H�{���o�M<code>provider(name, { $get: $getFunction()})</code>�@��</td>
+            <td>一個不可配置的服務也帶有複雜的建立邏輯. 你指定一個函數, 當呼叫時, 返回服務實例. 你可以認為這和<code>provider(name, { $get: $getFunction()})</code>一樣</td>
         </tr>
         <tr>
             <td>service(name, constructor())</td>
-            <td>�@�Ӥ��i�t�m���A��, ��إ��޿�²��. �N��<code>provider</code>���c�y��ƿﶵ, Angular�I�s���ӫإߪA�ȹ��.</td>
+            <td>一個不可配置的服務, 其建立邏輯簡單. 就像<code>provider</code>的構造函數選項, Angular呼叫它來建立服務實例.</td>
         </tr>                
     </tbody>
 </table>
 ```
-�ڭ̵y��A�Ӭ�`provider()`���t�m�ﶵ, �{�b�ڭ̥��Өϥ�`factory()`�Q�׫e����Items�Ҥl. �ڭ̥i�H���o�˽s�g�A��:
+我們稍後再來看`provider()`的配置選項, 現在我們先來使用`factory()`討論前面的Items例子. 我們可以像這樣編寫服務:
 ```js
     // Create a module to support our shopping views.
     var shoppingModule = angular.module('ShoppingModule', []);
@@ -922,7 +922,7 @@ CountController�w�q�p�U:
     shoppingModule.factory('Items', function(){
         var items = {};
         items.query = function(){
-            // In real apps, we'd pull this data from the server�K
+            // In real apps, we'd pull this data from the server…
             return [
                 {title: 'Paint pots', description: 'Pots full of paint', price: 3.95},
                 {title: 'Polka dots', description: 'Dots with polka', price: 2.95},
@@ -933,23 +933,23 @@ CountController�w�q�p�U:
         return items;
     });
 ```
-��Angular�إ�`ShoppingController`��, ���|�N`$scope`�M�ڭ̭�~�w�q���s��Items�A�ȶǻ��i��. �o�O�g�ѰѼƦW�٤ǰt������. �]�N�O��, Angular�|�ݨ�ڭ̪�`ShoppingController`�������ñ�W, �óq����(���)�o�{�@��Items�ﹳ. �ѩ�ڭ̩w�qItems���@�ӪA��, ���|���D�q���̨��o��.
+當Angular建立`ShoppingController`時, 它會將`$scope`和我們剛才定義的新的Items服務傳遞進來. 這是經由參數名稱匹配完成的. 也就是說, Angular會看到我們的`ShoppingController`類的函數簽名, 並通知它(控制器)發現一個Items對像. 由於我們定義Items為一個服務, 它會知道從哪裡取得它.
 
-�H�r�Ŧꪺ�Φ��d�߳o�Ǩ̿൲�G�N���ۧ@���Ѽƪ`�J����ƴN��������c�y��Ƥ@�ˬO���ǵL����. �ä��O�����o��:
+以字符串的形式查詢這些依賴結果意味著作為參數注入的函數就像控制器的構造函數一樣是順序無關的. 並不是必須這樣:
 ```js
     function ShoppingController($scope, Items){...}    
 ```
-�ڭ̤]�i�H�o�˽s�g:
+我們也可以這樣編寫:
 ```js
     function ShoppingController(Items, $scope){...}
 ```
-�̵M�M�ڭ̩ҧƱ檺�\��@��.
+依然和我們所希望的功能一樣.
 
-���F�b�˪O���ϥΥ�, �ڭ̻ݭn�i�D`ng-app`���O�ڭ̪��ҲզW��, �N���U���o��:
+為了在樣板中使用它, 我們需要告訴`ng-app`指令我們的模組名稱, 就像下面這樣:
 ```html
     <html ng-app="ShoppingModule">
 ```
-���F�����o�ӨҤl, �ڭ̥i�H�o�˹�{�˪O����l����:
+為了完成這個例子, 我們可以這樣實現樣板的其餘部分:
 ```html
     <body ng-controller="ShoppingController">
         <h1>Shop!</h1>
@@ -962,39 +962,39 @@ CountController�w�q�p�U:
         </table>
     </body>
 ```
-���Ϊ���^���G�ݰ_�Ӧp��2-2�ҥ�:
+應用的返回結果看起來如圖2-2所示:
 
 ![use-module](figure/useModule.png)
 
-��2-2 Shop items
+圖2-2 Shop items
 
-###�ڭ̻ݭn�h�ּҲ�?
+###我們需要多少模組?
 
-�@���A�ȥ����i�H���̿����Y, Module API���\�A�b���̿त�w�q�̿����Y.
+作為服務本身可以有依賴關係, Module API允許你在的依賴中定義依賴關係.
 
-�b�j�h�����ε{����, �إߤ@�ӳ�@���ҲձN�Ҧ����N�X��J�䤤�ñN�Ҧ����̿�]��b�̭����H�ܦn���u�@. �p�G�A�ϥΨӦ۲ĤT��w���A�ȩΪ̫��O, ���̦۱a����ۨ����Ҳ�. �ѩ�A�����ε{���̿०��, �A�i�H�ޥΥ��̧@���A�����ε{�����̿�.
+在大多數應用程式中, 建立一個單一的模組將所有的代碼放入其中並將所有的依賴也放在裡面足以很好的工作. 如果你使用來自第三方庫的服務或者指令, 它們自帶有其自身的模組. 由於你的應用程式依賴它們, 你可以引用它們作為你的應用程式的依賴.
 
-�|�ӨҤl, �p�G�A�n�]�t(��c��)�Ҳ�SnazzyUIWidgets�MSuperDataSync, ���ε{�����Ҳ��n���ݰ_�ӹ��o��:
+舉個例子, 如果你要包含(虛構的)模組SnazzyUIWidgets和SuperDataSync, 應用程式的模組聲明看起來像這樣:
 ```js
     var appMod = angular.module('app', ['SnazzyUIWidgets', 'SuperDataSync']);
 ```
-##�ϥιL�o���榡�Ƹ��
+##使用過濾器格式化資料
 
-�L�o�����\�A�b�˪O���ϥδ��Ȥ覡�n���p���ഫ��ƨ���ܵ��Τ�. �ϥιL�o�����y�k�p�U:
+過濾器允許你在樣板中使用插值方式聲明如何轉換資料並顯示給用戶. 使用過濾器的語法如下:
 
-    {{expression | filterName : parameter1 : �K parameterN }}
+    {{expression | filterName : parameter1 : … parameterN }}
     
-�䤤���F���O���N��Angular���F��, `filterName`�O�A�Q�ϥΪ��L�o���W��, �L�o�����ѼƨϥΫ_������. �ѼƦۨ��]�i�H�O���N���Ī�Angular���F��.
+其中表達式是任意的Angular表達式, `filterName`是你想使用的過濾器名稱, 過濾器的參數使用冒號分割. 參數自身也可以是任意有效的Angular表達式.
 
-Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
+Angular自帶了幾個過濾器, 像我們已經看到的currency:
 
     {{12.9 | currency}}
     
-�o�q�N�X��ܦp�U:
+這段代碼顯示如下:
 
 > $12.9
 
-�A���ȭ���ϥθj�w���L�o��(Angular���m��), �A�i�H²�檺�s�g�A�ۤv���L�o��. �Ҧp, �p�G�ڭ̷Q�إߤ@�ӹL�o���������D�����r���j�g, �ڭ̥i�H���U���o�˰�:
+你不僅限於使用綁定的過濾器(Angular內置的), 你可以簡單的編寫你自己的過濾器. 例如, 如果我們想建立一個過濾器來讓標題的首字母大寫, 我們可以像下面這樣做:
 ```js
     var homeModule = angular.module('HomeModule', []);
     homeModule.filter('titleCase', function(){
@@ -1009,50 +1009,50 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
         return titleCaseFilter;
     });
 ```
-���@�ӹ��o�˪��˪O:
+有一個像這樣的樣板:
 ```html
     <body ng-app="HomeModule" ng-controller="HomeController">
         <h1>{{pageHeading | titleCase}}</h1>
     </body>
 ```
-�M��g�ѱ�����J`pageHeading`�@���@�Ӽҫ��ܼ�:
+然後經由控制器插入`pageHeading`作為一個模型變數:
 ```js
     function HomeController($scope){
         $scope.pageHeading = 'behold the majesty of you page title';
     }
 ```
-�ڭ̷|�ݨ�p��2-3�ҥܪ��F��:
+我們會看到如圖2-3所示的東西:
 
 ![titleCase](figure/titleCase.png)
 
-��2-3 Title case filter
+圖2-3 Title case filter
 
-##�ϥθ��ѩM$location��s����
+##使用路由和$location更新視圖
 
-����Ajax�q�޳N�W���O�歶���ε{��(�z�פW���̶ȶȦb�Ĥ@���ШD�ɥ[��HTML����, �M��u�ݦbDOM����s�϶�), �ڭ̳q�`�|���h�Ӥl�������ϥΩ�A������ܵ��Τ�Ϊ�����.
+儘管Ajax從技術上講是單頁應用程式(理論上它們僅僅在第一次請求時加載HTML頁面, 然後只需在DOM中更新區塊), 我們通常會有多個子頁面視圖用於適當的顯示給用戶或者隱藏.
 
-�ڭ̥i�H�ϥ�Angular��`$route`�A�Ȩӵ��ڭ̺޲z�o�ӳ���. ���A���w����, ����s�������V���w��URL, Angular�N�[������ܤ@�Ӽ˪O, �åB��ҤƤ@�ӱ�����˪O���ѤW�U������.
+我們可以使用Angular的`$route`服務來給我們管理這個場景. 讓你指定路由, 對於瀏覽器指向給定的URL, Angular將加載並顯示一個樣板, 並且實例化一個控制器給樣板提供上下文環境.
 
-�g�ѩI�s`$routeProvider`�A�Ȫ��\��@���t�m���Ӧb�A�����ε{�����إߵ���. �N���o�˪����N�X:
+經由呼叫`$routeProvider`服務的功能作為配置塊來在你的應用程式中建立視圖. 就像這樣的偽代碼:
 ```js
-    var someModule = angular.module('someModule', [�K Module dependencies �K]);
+    var someModule = angular.module('someModule', [… Module dependencies …]);
     someModule.config(function($routeProvider){
         $routeProvider.
             when('url', {controller: aController, templateUrl: '/path/to/template'}).
-            when(�Kother mappings for your app �K).
-            �K 
-            otherwise(�Kwhat to do if nothing else matches�K);
+            when(…other mappings for your app …).
+            … 
+            otherwise(…what to do if nothing else matches…);
     });
 ```
-�W�����N�X���ܷ��s������URL�ܤƬ����w��URL��, Angular�N�q`/path/to/template`���[���˪O, �èϥ�`aController`���p�o�Ӽ˪O���ڤ���(�N���ڭ̿�J`ng-controller=aController`).
+上面的代碼表示當瀏覽器的URL變化為指定的URL時, Angular將從`/path/to/template`中加載樣板, 並使用`aController`關聯這個樣板的根元素(就像我們輸入`ng-controller=aController`).
 
-�b�̫�@��I�s`otherwise()`�Ω�i�D���Ѧp�G�S����L���ǰt�h�������.
+在最後一行呼叫`otherwise()`用於告訴路由如果沒有其他的匹配則跳到哪裡.
 
-���ڭ̨ӨϥΤ@�U. �ڭ̥��b�c�ؤ@��email���ε{���N���P���Գ�Gmail, Hotmail�H�Ψ�L��. �ڭ̼ȥB�٥���A-mail. �{�b, ���ڭ̱q²�檺�}�l. �ڭ̪����̤���ܤ@�ӥ]�A���, ���D�H�εo�e�̪��l��T���C��. ���A�I���@�ӰT��, �����ӦV�N�l�󪺥���T����ܵ��A.
+讓我們來使用一下. 我們正在構建一個email應用程式將輕鬆的戰勝Gmail, Hotmail以及其他的. 我們暫且稱它為A-mail. 現在, 讓我們從簡單的開始. 我們的首屏中顯示一個包括日期, 標題以及發送者的郵件訊息列表. 當你點擊一個訊息, 它應該向將郵件的正文訊息顯示給你.
 
-> �ѩ��s�������w������, �p�G�A�Q�ۤv���ճo�ǥN�X, �A�ݭn�b�@��Web�A�ȩ_�Ӷi��Ӥ��O�ϥ�`file://`. �p�G�A�w�ˤFPython, �A�i�H�b�A���u�@�ؿ��g�Ѱ���`python -m SimpleHTTPServer 8888`�Өϥγo�ǥN�X.
+> 由於瀏覽器的安全限制, 如果你想自己測試這些代碼, 你需要在一個Web服務奇商進行而不是使用`file://`. 如果你安裝了Python, 你可以在你的工作目錄經由執行`python -m SimpleHTTPServer 8888`來使用這些代碼.
 
-���D�˪O, �ڭ̷|���@�I���P���F��. �Ӥ��O�N�Ҧ����F�賣��b���̨ӥ[��, �ڭ̥u�|�إߤ@�ӥΩ��m���Ϫ����p�˪O. �ڭ̷|����b���Ϥ���m����, ��p���. �b�o�ر��p�U, �ڭ̥u�ݭn��ܤ@�Ӽ��D�]�t���Ϊ��W��. �M��ϥ�`ng-view`���O�ӧi�DAngular�ڭ̧Ʊ���ϥX�{�b����.
+對於主樣板, 我們會做一點不同的東西. 而不是將所有的東西都放在首屏來加載, 我們只會建立一個用於放置視圖的部署樣板. 我們會持續在視圖中放置視圖, 比如選單. 在這種情況下, 我們只需要顯示一個標題包含應用的名稱. 然後使用`ng-view`指令來告訴Angular我們希望視圖出現在哪裡.
 
 ###*index.html*
 ```html
@@ -1067,7 +1067,7 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
         </body>
     </html>
 ```
-�ѩ�ڭ̪����ϼ˪O�N�Q���J����إߪ��e����, �ڭ̥i�H�⥦�̽s�g���ϰ쪺HTML���. ���l��C��, �ڭ̱N�ϥ�`ng-repeat`�ӹM���T���C���ñN���̴�V��@�Ӫ��椤.
+由於我們的視圖樣板將被插入到剛剛建立的容器中, 我們可以把它們編寫為區域的HTML文件. 對於郵件列表, 我們將使用`ng-repeat`來遍歷訊息列表並將它們渲染到一個表格中.
 
 ###*list.html*
 ```html
@@ -1084,9 +1084,9 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
         </tr>
     </table>
 ```
-�`�N�o�̧ڭ̥������Τ�g���I���D�D�N�L�ɯ��ԲӰT����. �ڭ̱NURL���ô����`message.id`�W, �]���I���@��`id=1`�������N�ϥΤ�����`/#/view/1`. �ڭ̱N�g��url�i��ɯ�, �]�٬��`���챵, �b�ԲӰT�����Ϫ������, ���S�w�����������@�ӸԱ�����.
+注意這裡我們打算讓用戶經由點擊主題將他導航到詳細訊息中. 我們將URL資料繫結到`message.id`上, 因此點擊一個`id=1`的消息將使用戶跳轉到`/#/view/1`. 我們將經由url進行導航, 也稱為深度鏈接, 在詳細訊息視圖的控制器中, 讓特定的消息對應一個詳情視圖.
 
-���F�إ߮������Ա�����, �ڭ̱N�إߤ@����ܳ��message�ﹳ�ݩʪ��˪O.
+為了建立消息的詳情視圖, 我們將建立一個顯示單個message對像屬性的樣板.
 
 ###*detail.html*
 ```html
@@ -1100,7 +1100,7 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
     <div>{{message.message}}</div>
     <a href="#/">Back to message list</a>
 ```
-�{�b, �N�o�Ǽ˪O�P�@�Ǳ�����p�_��, �ڭ̱N�t�m`$routeProvider`�PURLs�өI�s����M�˪O.
+現在, 將這些樣板與一些控制器關聯起來, 我們將配置`$routeProvider`與URLs來呼叫控制器和樣板.
 
 ###*controllers.js*
 ```js
@@ -1159,17 +1159,17 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
         $scope.message = messages[$routeParams.id];
     }
 ```
-�ڭ̤w�g�إߤF�@�ӱa���h�ӵ��Ϫ����ε{�����򥻵��c. �ڭ̸g�ѧ���URL�Ӥ�������. �o�N���ۥΤ�]����ϥΫe�i�M��h���s�i��u�@. �Τ�i�H�b�ڭ̪����ε{�����K�[���ҩM�l���챵, �Y�ϥu���@�ӯu����HTML����.
+我們已經建立了一個帶有多個視圖的應用程式的基本結構. 我們經由改變URL來切換視圖. 這意味著用戶也能夠使用前進和後退按鈕進行工作. 用戶可以在我們的應用程式中添加書籤和郵件鏈接, 即使只有一個真正的HTML頁面.
 
-##��ܦ��A��
+##對話伺服器
 
-�n�F, ���ܤֻ�. ��ڪ����ε{���q�`�P�u�������A���q�T. �������ΩM�s����Chrome�ୱ���ε{���i�঳�Ǩҥ~, ���O����L���@��, �A�O�_�Ʊ楦���[�O�s���ݩΪ̻P�Τ��ɥ椬, �A�i��Ʊ�A�����ε{���P���A���q�H.
+好了, 閒話少說. 實際的應用程式通常與真正的伺服器通訊. 移動應用和新興的Chrome桌面應用程式可能有些例外, 但是對於其他的一切, 你是否希望它持久保存雲端或者與用戶實時交互, 你可能希望你的應用程式與伺服器通信.
 
-���o�@�IAngular���ѤF�@�ӦW��`$http`���A��. �����@�ө⹳���s�x���C���ϱo������ܮe���P���A���q�H. ��������q��HTTP, JSONP�H��CORS. �٥]�A����JSON�|�}�MXSRF���w����ĳ. �����A�ܮe���ഫ�ШD�M��Ʀ^��, �Ʀ��ٹ�{�F²�檺�֨�. 
+對於這一點Angular提供了一個名為`$http`的服務. 它有一個抽像的廣泛的列表使得它能夠很容易與伺服器通信. 它支持普通的HTTP, JSONP以及CORS. 還包括防止JSON漏洞和XSRF的安全協議. 它讓你很容易轉換請求和資料回應, 甚至還實現了簡單的快取. 
 
-��軡, �ڭ̧Ʊ�q���A���˯��ʪ����I���ӫ~�Ӥ��O�ڭ̪����s������. �s�g���A�����T���W�X�F���Ѫ��d��, �]�����ڭ̷Q���@�U�ڭ̤w�g�إߤF�@�ӪA��, ���A�c�y�@��`/product`�d�߮�, ����^�@��JSON�Φ������~�C��.
+比方說, 我們希望從伺服器檢索購物站點的商品而不是我們的內存中模擬. 編寫伺服器的訊息超出了本書的範圍, 因此讓我們想像一下我們已經建立了一個服務, 當你構造一個`/product`查詢時, 它返回一個JSON形式的產品列表.
 
-���w�@�Ӧ^��, �ݰ_�ӹ��o��:
+給定一個回應, 看起來像這樣:
 ```json
     [
         {
@@ -1190,10 +1190,10 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
             "description": "Just little rocks, really",
             "price": 6.95
         }
-        �K etc �K     
+        … etc …     
     ]
 ```
-�ڭ̥i�H�o�˽s�g�d��:
+我們可以這樣編寫查詢:
 ```js
     function ShoppingController($scope, $http){
         $http.get('/products').success(function(data, status, headers, config){
@@ -1201,7 +1201,7 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
         });
     }
 ```
-�M�ṳ�o�˦b�˪O���ϥΥ�:
+然後像這樣在樣板中使用它:
 ```html
     <body ng-controller="ShoppingController">
         <h1>Shop!<h1>
@@ -1214,22 +1214,22 @@ Angular�۱a�F�X�ӹL�o��, ���ڭ̤w�g�ݨ쪺currency:
         </table>
     </body>
 ```
-���p�ڭ̤��e�Ҿǲߨ쪺, �q�����Ӭݧڭ̱N�o���u�@�e�U����A���q�H�A�ȤW�i�H�󱱨�@�ɬO������. �ڭ̱N�b��5���Ӭݳo�ӵ��c�M����쪺�Q��`$http`���.
+正如我們之前所學習到的, 從長遠來看我們將這項工作委託到伺服器通信服務上可以跨控制器共享是明智的. 我們將在第5章來看這個結構和全方位的討論`$http`函數.
 
-##�ϥΫ��O��sDOM
+##使用指令更新DOM
 
-���O�X�RHTML�y�k, �]�O�N�欰�PDOM�ഫ���۩w�q�����M�ݩ����p�_�Ӫ��覡. �g�ѥ���, �A�i�H�إߴ_�Ϊ�UI�ե�, �t�m�A�����ε{��, ������A��Q��b�˪O���n�����Ʊ�.
+指令擴充HTML語法, 也是將行為與DOM轉換的自定義元素和屬性關聯起來的方式. 經由它們, 你可以建立復用的UI組件, 配置你的應用程式, 做任何你能想到在樣板中要做的事情.
 
-�A�i�H�ϥ�Angular�۱a�����m���O�s�g����, ���O�A�i��|�Ʊ�B��A�ۤv�ҽs�g�����O�����p. ���A�Ʊ�B�z�s�����ƥ�M�ק�DOM��, �p�G�L�k�g�Ѥ��m���O���, �A�|���D�O�ɭԥ��}���O�W�h�F. �A�ҽs�g���N�X�b���O��, ���O�b�����, �A�Ȥ�, �]���O���ε{������L�a��.
+你可以使用Angular自帶的內置指令編寫應用, 但是你可能會希望運行你自己所編寫的指令的情況. 當你希望處理瀏覽器事件和修改DOM時, 如果無法經由內置指令支持, 你會知道是時候打破指令規則了. 你所編寫的代碼在指令中, 不是在控制器中, 服務中, 也不是應用程式的其他地方.
 
-�P�A�Ȥ@��, �g��module��H��API�I�s����`directive()`��ƨөw�q���O, �䤤`directiveFunction`�O�@�Ӥu�t��ƥΩ�w�q���O���\��(�S��).
+與服務一樣, 經由module對象的API呼叫它的`directive()`函數來定義指令, 其中`directiveFunction`是一個工廠函數用於定義指令的功能(特性).
 ```js
 	var appModule = angular.module('appModule', [...]);
 	appModule.directive('directiveName', directiveFunction);
 ```
-�s�g���O�u�t��ƬO�ܲ`����, �]���b�o���Ѥ��ڭ̱M�����@�ӧ��㪺�@��. �Q�Q�A���G�f, ���L, �ڭ̥��Ӭݤ@��²�檺�Ҥl.
+編寫指令工廠函數是很深奧的, 因此在這本書中我們專門頂一個完整的一章. 吊吊你的胃口, 不過, 我們先來看一個簡單的例子.
 
-HTML5�����@�Ӱ��j���٬�`autofocus`���s�ݩ�, �N��L���J�I���@��input����. �A�i�H�ϥΥ����Τ�Ĥ@�ɶ��g�ѥL�̪���L�P�����椬�Ӥ��ݭn�I��. �o�O�ܦn��, �]�����i�H���A�n�����w�A�Ʊ��s����������ӵL�ݽs�g����JavaScript. ���O�p�G�A�Ʊ�N�J�I���@�ǫDinput�����W, ���챵�Ϊ̥���`div`�W�|���? �p�G�A�Ʊ楦�]��u�@�b�����HTML5���|���? �ڭ̥i�H�ϥΤ@�ӫ��O����o�@�I.
+HTML5中有一個偉大的稱為`autofocus`的新屬性, 將鍵盤的焦點放到一個input元素. 你可以使用它讓用戶第一時間經由他們的鍵盤與元素交互而不需要點擊. 這是很好的, 因為它可以讓你聲明指定你希望瀏覽器做什麼而無需編寫任何JavaScript. 但是如果你希望將焦點放到一些非input元素上, 像鏈接或者任何`div`上會怎樣? 如果你希望它也能工作在不支持HTML5中會怎樣? 我們可以使用一個指令做到這一點.
 ```js
 	var appModule = angular.module('app', []);
 	
@@ -1241,9 +1241,9 @@ HTML5�����@�Ӱ��j���٬�`autofocus`���s�ݩ�, �N��L���J�I���@��input����. �A�i�
 		};
 	});
 ```
-�o��, �ڭ̪�^���O�t�m�ﹳ�a�����w��link���. �o��link��ƨ��o�F�@�ӫʳ����@�ΰ�ޥ�, �@�ΰ줤��DOM����, �ǻ������O�����N�ݩʼƲ�, �H��DOM���������, �p�G���s�b. �o��, �ڭ̶ȶȥu�ݭn���o�����éI�s����`focus()`��k.
+這裡, 我們返回指令配置對像帶有指定的link函數. 這個link函數取得了一個封閉的作用域引用, 作用域中的DOM元素, 傳遞給指令的任意屬性數組, 以及DOM元素的控制器, 如果它存在. 這裡, 我們僅僅只需要取得元素並呼叫它的`focus()`方法.
 
-�M��ڭ̥i�H���o�˦b�@�ӨҤl���ϥΥ�:
+然後我們可以像這樣在一個例子中使用它:
 
 ###*index.html*
 ```html
@@ -1276,25 +1276,25 @@ HTML5�����@�Ӱ��j���٬�`autofocus`���s�ݩ�, �N��L���J�I���@��input����. �A�i�
 
 	var appModule = angular.module('app', ['directives']);
 ```
-�����J������, �Τ�N�ݨ�аO��"I'm very focused!"���s�a�����G�J�I. �V���Ů���Ϊ̦^����N�ɭP�I���éI�s`ng-click`, �N�]�wdiv����r��"focus button clicked". �b�s���������}�o�ӭ���, �ڭ̱N�ݨ�p��2-4�ҥܪ��F��:
+當載入頁面時, 用戶將看到標記為"I'm very focused!"按鈕帶有高亮焦點. 敲擊空格鍵或者回車鍵將導致點擊並呼叫`ng-click`, 將設定div的文字為"focus button clicked". 在瀏覽器中打開這個頁面, 我們將看到如圖2-4所示的東西:
 
 ![foucsed](figure/custom-directive.png)
 
-��2-4 Foucs directive
+圖2-4 Foucs directive
 
-##���ҥΤ��J
+##驗證用戶輸入
 
-Angular�a���X�ӾA�Ω�歶���ε{�����������\��Ӧ۰ʼW�j`<form>`����. �䤤���@�Ӥ������S�ʴN�OAngular���A�b���椺��input���n�����Ҫ��A, �ä��\�b��դ����g�����Ҫ����p�U�~����.
+Angular帶有幾個適用於單頁應用程式的不錯的功能來自動增強`<form>`元素. 其中之一個不錯的特性就是Angular讓你在表單內的input中聲明驗證狀態, 並允許在整組元素經由驗證的情況下才提交.
 
-�Ҧp, �p�G�ڭ̫إߤ@�ӵn������, �ڭ̥�����J�@�ӦW�٩Memail, ���O���@�ӥi�諸�~�֦r�q, �ڭ̥i�H�b�L�̴������A�����e���Ҧh�ӥΤ��J. �p�U�[���o�ӨҤl���s�������N��ܦp��2-5�ҥ�:
+例如, 如果我們建立一個登錄表單, 我們必須輸入一個名稱和email, 但是有一個可選的年齡字段, 我們可以在他們提交到伺服器之前驗證多個用戶輸入. 如下加載這個例子到瀏覽器中將顯示如圖2-5所示:
 
 ![valid](figure/signup.png)
 
-��2-5. Form validation
+圖2-5. Form validation
 
-�ڭ��٧Ʊ�T�O�Τ�b�W�٦r�q��J��r, ��J���T�Φ���email�a�}, �H�ΥL�i�H��J�@�Ӧ~��, ���~�O���Ī�.
+我們還希望確保用戶在名稱字段輸入文字, 輸入正確形式的email地址, 以及他可以輸入一個年齡, 它才是有效的.
 
-�ڭ̥i�H�b�˪O������o�@�I, �ϥ�Angular��`<form>`�X�R�M�U��input����, �N���o��:
+我們可以在樣板中做到這一點, 使用Angular的`<form>`擴充和各個input元素, 就像這樣:
 ```html
 	<h1>Sign Up</h1>
 	<form name='addUserForm'>
@@ -1305,19 +1305,19 @@ Angular�a���X�ӾA�Ω�歶���ε{�����������\��Ӧ۰ʼW�j`<form>`����. �䤤���@�Ӥ
 		<div><button>Submit</button></div>
 	</form>
 ```
-�`�N, �b�Y�Ǧr�q�W�ڭ̨ϥΤFHTML5����`required`�ݩʥH��`email`�M`number`������input�����ӳB�z�ڭ̪�����. �o���Angular�ӻ��O�ܦn��, �b�Ѧ��������HTML5���s����, Angular�N�ϥΧΦ��ۦP¾�d�����O.
+注意, 在某些字段上我們使用了HTML5中的`required`屬性以及`email`和`number`類型的input元素來處理我們的驗證. 這對於Angular來說是很好的, 在老式的不支持HTML5的瀏覽中, Angular將使用形式相同職責的指令.
 
-�M��ڭ̥i�H�g�ѧ��ܤޥΥ����Φ��ӲK�[�@�ӱ���B�z���檺����.
+然後我們可以經由改變引用它的形式來添加一個控制器處理表單的提交.
 ```html
 	<form name='addUserForm' ng-controller="AddUserController">
 ```
-�b����̭�, �ڭ̥i�H�g�Ѥ@�Ӻ٬�`$valid`���ݩʨӳX�ݳo�Ӫ��檺���Ҫ��A. ���Ҧ�������input�g�����Ҫ��ɭ�, Angular�N�]�w��($valid)��true. �ڭ̥i�H�ϥ�`$valid`�ݩʰ��@�Ǯɻ쪺�Ʊ�, ��p�������٨S�������ɸT�δ�����s.
+在控制器裡面, 我們可以經由一個稱為`$valid`的屬性來訪問這個表單的驗證狀態. 當所有的表單input經由驗證的時候, Angular將設定它($valid)為true. 我們可以使用`$valid`屬性做一些時髦的事情, 比如當表單還沒有完成時禁用提交按鈕.
 
-�ڭ̥i�H������洣��i�J�L�Ī��A, �g�ѵ�������s�K�[�@��`ng-disabled`.
+我們可以防止表單提交進入無效狀態, 經由給提交按鈕添加一個`ng-disabled`.
 ```html
 	<button ng-disabled='!addUserForm.$valid'>Submit</button>
 ```
-�̫�, �ڭ̥i��Ʊ汱��i�D�Τ�o�w�g�K�[���\�F. �ڭ̪��̲׼˪O�ݰ_�ӹ��o��:
+最後, 我們可能希望控制器告訴用戶她已經添加成功了. 我們的最終樣板看起來像這樣:
 ```html
 	<h1>Sign Up</h1>
 	<form name='addUserForm' ng-controller="AddUserController">
@@ -1331,7 +1331,7 @@ Angular�a���X�ӾA�Ω�歶���ε{�����������\��Ӧ۰ʼW�j`<form>`����. �䤤���@�Ӥ
 		ng-disabled='!addUserForm.$valid'>Submit</button>
 	</form>
 ```
-���U�ӬO���:
+接下來是控制器:
 ```js
 	function AddUserController($scope) {
 		$scope.message = '';
@@ -1342,6 +1342,6 @@ Angular�a���X�ӾA�Ω�歶���ε{�����������\��Ӧ۰ʼW�j`<form>`����. �䤤���@�Ӥ
 		};
 	}
 ```
-##�p��
+##小結
 
-�b�e�⳹��, �ڭ̬ݨ�FAngular���Ҧ��̱`�Ϊ��\��(�S��). ��C�ӥ\�઺�Q��, �\�h�B�~���Ӹ`�T�����S���л\��. �b�U�@��, �ڭ̱N���A�g�Ѭ�s�@�Ө嫬���u�@�y�{�A�ѧ�h���T��.
+在前兩章中, 我們看到了Angular中所有最常用的功能(特性). 對每個功能的討論, 許多額外的細節訊息都沒有覆蓋到. 在下一章, 我們將讓你經由研究一個典型的工作流程瞭解更多的訊息.

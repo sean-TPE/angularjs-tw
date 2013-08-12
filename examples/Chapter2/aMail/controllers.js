@@ -1,4 +1,4 @@
-// Create a module for our core AMail services
+﻿// Create a module for our core AMail services
 var aMailServices = angular.module('AMail', []);
 
 // Set up our mappings between URLs, templates, and controllers

@@ -1,171 +1,171 @@
-#AngularJS
+﻿#AngularJS
 
 ![AngularJS](figure/angularjs-book.jpg)
 
-"AngularJS"��Ķ�� -�mAngularJS�n
+"AngularJS"中譯本 -《AngularJS》
 
-+ �@��: [Brad Green](https://github.com/bradlygreen)  [Shyam Seshadri](https://github.com/shyamseshadri)
-+ Ķ��: [basecss](mailto:270842722@qq.com) [dhcn](https://github.com/dhcn)
++ 作者: [Brad Green](https://github.com/bradlygreen)  [Shyam Seshadri](https://github.com/shyamseshadri)
++ 譯者: [basecss](mailto:270842722@qq.com) [dhcn](https://github.com/dhcn)
 
-**��֪��N�X, ��h���ֽ�, �W�j���c��Web���ε{�����Ͳ��O**
+**更少的代碼, 更多的樂趣, 增強結構化Web應用程式的生產力**
 
 **************************
 
-#�ؿ�
+#目錄
 
-##��1�� AngularJS²��
+##第1章 AngularJS簡介
 
-+ ����
-  + �Ȥ�ݼ˪O
-  + �ҫ�, ����, ���(MVC)
-  + ���ô��
-  + �̿�`�J
-  + ���O
-+ �d��: �ʪ���
-+ �p��
++ 概念
+  + 客戶端樣板
+  + 模型, 視圖, 控制器(MVC)
+  + 資料繫結
+  + 依賴注入
+  + 指令
++ 範例: 購物車
++ 小結
 
-##��2�� AngularJS���ε{����R
+##第2章 AngularJS應用程式剖析
 
-+ �ޥ�Angular
-  + �[���}��
-  + �ϥ�ng-app�n��Angular�ɭ�
-+ �ҫ�, ����, ���
-+ �˪O�M���ô��
-  + ��ܤ�r
-  + �����J
-  + ���󤣭��JavaScript���@�Ǹ�
-  + �C��, ����M��L���Ƥ���
-  + ��ܩM����
-  + CSS���M�˦�
-  + src�Mhref�ݩʪ`�N�ƶ�
-  + ���F��
-  + �ϥα�������Τ�ɭ�¾�d
-  + �ϥΧ@�ΰ�o�G�ҫ����
-  + �ϥ�$watch�[��ҫ��ܤ�
-  + watch()�����ʯ�`�N�ƶ�
-+ �ϥμҲղ�´�̿�
-  + �ڻݭn�h�ּҲ�?
-+ �ϥιL�o���榡�Ƹ��
-+ �ϥθ��ѩM$location��s����
++ 引用Angular
+  + 加載腳本
+  + 使用ng-app聲明Angular界限
++ 模型, 視圖, 控制器
++ 樣板和資料繫結
+  + 顯示文字
+  + 表單輸入
+  + 關於不唐突JavaScript的一些話
+  + 列表, 表格和其他重複元素
+  + 顯示和隱藏
+  + CSS類和樣式
+  + src和href屬性注意事項
+  + 表達式
+  + 使用控制器分離用戶界面職責
+  + 使用作用域發佈模型資料
+  + 使用$watch觀察模型變化
+  + watch()中的性能注意事項
++ 使用模組組織依賴
+  + 我需要多少模組?
++ 使用過濾器格式化資料
++ 使用路由和$location更新視圖
   + index.html
   + list.html
   + detail.html
   + controller.js
-+ ��ܦ��A��
-+ �ϥΫ��O��sDOM
++ 對話伺服器
++ 使用指令更新DOM
   + index.html
   + controller.js
-+ ���ҥΤ��J
-+ �p��
++ 驗證用戶輸入
++ 小結
 
-##��3�� AngularJS�}�o
+##第3章 AngularJS開發
 
-+ �M�׬[�c
-+ �u��
++ 專案架構
++ 工具
   + IDEs
-+ �B��A�����ε{��
-  + �ϥ�Yeoman
-  + ���ϥ�Yeoman
-+ ����AngularJS
++ 運行你的應用程式
+  + 使用Yeoman
+  + 不使用Yeoman
++ 測試AngularJS
   + Karma
-+ �椸����
-+ �ݨ��/��X����
-+ �sĶ
-+ ��L�u�q�u��
-  + ����
++ 單元測試
++ 端到端/整合測試
++ 編譯
++ 其他優秀工具
+  + 偵錯
   + Batarang
-+ Yeoman: �u�ƧA���u�@�y�{
-  + �w��Yeoman
-  + �Ұʤ@�ӷs��AngularJS����
-  + �B����A��
-  + �K�[�s������, ���ϩM���
-  + ���ժ��G��
-  + �c�ض���
-+ �ϥ�RequireJS��XAngularJS
++ Yeoman: 優化你的工作流程
+  + 安裝Yeoman
+  + 啟動一個新的AngularJS項目
+  + 運行伺服器
+  + 添加新的路由, 視圖和控制器
+  + 測試的故事
+  + 構建項目
++ 使用RequireJS整合AngularJS
 
-##��4�� ���R�@��AngularJS���ε{��
+##第4章 分析一個AngularJS應用程式
 
-+ ���ε{��
-+ �ҫ�, ����M�˪O���������Y
-+ �ҫ�
-+ ���, ���O�M�A��
-  + �A��
-  + ���O
-  + ���
-+ �˪O
-+ ����
-  + �椸����
-  + �}������
++ 應用程式
++ 模型, 控制器和樣板之間的關係
++ 模型
++ 控制器, 指令和服務
+  + 服務
+  + 指令
+  + 控制器
++ 樣板
++ 測試
+  + 單元測試
+  + 腳本測試
     
-##��5�� �P���A���q�H
+##第5章 與伺服器通信
 
-+ $http�q�H
-  + �i�@�B�t�m�ШD
-  + �]�wHTTP�Y
-  + �֨��^��
-  + �ഫ�ШD�M�^��
-+ �椸����
-+ �ϥ�RESTful�귽
-  + �n��
-  + �۩w�q��k
-  + �L�^�I(�p�G�A�u���Ʊ�o��)
-  + ²�ƪA�ȵu�ާ@
-  + ngResource�椸����
-+ $q�MPromise
-+ �I���^��
-+ �w���`�N�ƶ�
-  + JSON�|�}
++ $http通信
+  + 進一步配置請求
+  + 設定HTTP頭
+  + 快取回應
+  + 轉換請求和回應
++ 單元測試
++ 使用RESTful資源
+  + 聲明
+  + 自定義方法
+  + 無回呼(如果你真的希望這樣)
+  + 簡化服務短操作
+  + ngResource單元測試
++ $q和Promise
++ 截取回應
++ 安全注意事項
+  + JSON漏洞
   + XSRF
   
-##��6�� ���O
+##第6章 指令
 
-+ ���O�MHTML����
-+ API�w��
-  + ���A�����O�R�W
-  + ���O�w�q�ﹳ
-  + �sĶ�M�챵�\��
-  + �@�ΰ�
-  + �ާ@DOM����
-  + ���
-+ �p��
++ 指令和HTML驗證
++ API預覽
+  + 為你的指令命名
+  + 指令定義對像
+  + 編譯和鏈接功能
+  + 作用域
+  + 操作DOM元素
+  + 控制器
++ 小結
 
-##��7�� ��L���`
+##第7章 其他關注
 
 + $location
-  + HTML5�Ҧ��MHashbang�Ҧ�
-+ AngularJS�Ҳդ�k
-  + �D��k�b��?
-  + �[���M�̿�
-  + �ֱ���k
-+ $on, $emit�M$broadcast�������@�ΰ�q�H
+  + HTML5模式和Hashbang模式
++ AngularJS模組方法
+  + 主方法在哪?
+  + 加載和依賴
+  + 快捷方法
++ $on, $emit和$broadcast之間的作用域通信
 + Cookies
-+ ��ڤƩM���a��
-  + �bAngularJS�گవ����?
-  + �p����o�Ҧ��u�@?
-  + �`�����D
-+ �b��HTML�M�Ҳ�
++ 國際化和本地化
+  + 在AngularJS我能做什麼?
+  + 如何取得所有工作?
+  + 常見問題
++ 淨化HTML和模組
   + Linky
   
-##��8�� �Ƨѳ�M�Z¬
+##第8章 備忘單和訣竅
 
-+ �]��jQuery Datepicker
++ 包裝jQuery Datepicker
   + ng-model
-  + �j�wselect
-  + �I�sselect
-  + ��L�d��
-+ �ζ��C�����ε{��: �L�o���M����q�H
-  + �j�M��
-  + �զX��
-  + �_���
-  + ����
-+ AngularJS�������W��
-+ �ϥ�Socket.IO
-+ �@��²�檺�����A��
-+ ���A���M�n��
-+ �`��
+  + 綁定select
+  + 呼叫select
+  + 其他範例
++ 團隊列表應用程式: 過濾器和控制器通信
+  + 搜尋框
+  + 組合框
+  + 復選框
+  + 重複
++ AngularJS中的文件上傳
++ 使用Socket.IO
++ 一個簡單的分頁服務
++ 伺服器和登錄
++ 總結
 
 *************
 
-##����
+##索引
 
-> Ķ�̫�: ��Ķ, �p���z�ѿ��~�ٷнФj�a�ȥ�. �i�H����pull request, �]�i�H�bissues�����X�ץ��N��, �P�ɤ]�i�H���ڵo[�l��](mailto:270842722@qq.com)���X�ץ��N��. 
+> 譯者按: 粗譯, 如有理解錯誤還煩請大家糾正. 可以提交pull request, 也可以在issues中提出修正意見, 同時也可以給我發[郵件](mailto:270842722@qq.com)提出修正意見. 
