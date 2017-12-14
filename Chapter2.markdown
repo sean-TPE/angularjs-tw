@@ -785,7 +785,7 @@ CountController定義如下:
 
 做到這一點, 我們只需要使用這些屬性更新樣板:
 ```html
-    <div>Total: {{bill.total | currency}}</div>
+    <div>Total: {{bill.totalCart | currency}}</div>
     <div>Discount: {{bill.discount | currency}}</div>
     <div>Subtotal: {{bill.subtotal | currency}}</div>
 ```
