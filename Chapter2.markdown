@@ -242,15 +242,15 @@
 如果你的表單中有一組輸入框, 那麼你可以在這個表單上使用`ng-submit`指令給它指定一個提交表單時的回呼函數. 我們可以讓用戶經由點擊一個按鈕請求幫助他們啟動應用的方式來擴充上面的例子:
 ```html
     <form ng-submit="requestFunding()" ng-controller="StartUpController">
-        Starting: <input ng-change="computeNeeded()" ng-model="startingEstimate">
-        Recommendation: {{needed}}
+        Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+        Recommendation: {{funding.needed}}
         <button>Fun my startup</button>
     </form>
 ```
 ```js
     function StartUpController($scope){
         $scope.conputedNeeded = function(){
-            $scope.needed = $scope.startingEstimate * 10;  
+            $scope.funding.needed = $scope.funding.startingEstimate * 10;  
         };
         
         $scope.requestFunding = function(){
@@ -266,17 +266,17 @@
 
 我們可以嘗試最後一次擴充我們的計算器啟動應用, 使用一個重置按鈕用於將輸入框的值重置為0.
 ```html
-    <form ng-submit="requestFunding()" ng-controller="StartUpController">
-        Starting: <input ng-change="computeNeeded()" ng-model="StartingEstimate">
-        Recommendation: {{need}}
-        <button>Fund my startup!</button>
+    <form ng-controller="StartUpController">
+        Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+        Recommendation: {{funding.need}}
+        <button ng-click="requestFunding()">Fund my startup!</button>
         <button ng-click="reset()">Reset</button>
     </form>
     
     function StartUpController($scope){
     
         $scope.computeNeeded = function(){
-            $scope.needed = $scope.startEstimate * 10;
+            $scope.funding.needed = $scope.funding.startEstimate * 10;
         };
         
         $scope.requestFunding = function(){
@@ -284,7 +284,7 @@
         };
         
         $scope.reset = function(){
-            $scope.startEstimate = 0;
+            $scope.funding.startEstimate = 0;
         }
     
     }
