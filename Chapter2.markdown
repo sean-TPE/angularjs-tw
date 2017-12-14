@@ -466,7 +466,9 @@
 ```
 ```js
     function DeathrayMenuController($scope){
-        $scope.menuState.show = false;
+    	$scope.menuState = {};
+    
+        $scope.menuState.show = false;
         
         $scope.toggleMenu = function(){
             $scope.menuState.show = !$scope.menuState.show;
