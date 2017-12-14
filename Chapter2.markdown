@@ -566,7 +566,7 @@
 在模版中, 我們設定`ng-class`為`{selected: $index==selectedRow}`. 當模型中的`selectedRow`屬性匹配ng-repeat的`$index`時設定class為selected. 我們還設定一個`ng-click`來通知控制器用戶點擊了哪一行:
 ```html
     <table ng-controller="RestaurantTableController">
-        <tr ng-repeat="restaurant in directory" ng-click="selectRestaurant($index)" ng-class="{selected: $index==selectedRow">
+        <tr ng-repeat="restaurant in directory" ng-click="selectRestaurant($index)" ng-class="{selected: $index==selectedRow}">
             <td>{{restaurant.name}}</td>
             <td>{{restaurant.cuisine}}</td>
         </tr>
