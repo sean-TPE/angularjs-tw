@@ -966,8 +966,11 @@ CountController定義如下:
 ```
 
 > Controller 的寫法?
+>
 >    shoppingModule.controller('ShoppingController', function ($scope, Items) {
+>
 >        $scope.items = Items.query();
+>
 >    });
 
 應用的返回結果看起來如圖2-2所示:
