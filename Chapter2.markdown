@@ -740,7 +740,7 @@ CountController定義如下:
         };
 
         $scope.subtotal = function(){
-            return $scope.totalCart() - $scope.discount;
+            return $scope.totalCart() - $scope.bill.discount;
         };
 
         function calculateDiscount(newValue, oldValue, scope){
