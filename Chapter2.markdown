@@ -965,14 +965,6 @@ CountController定義如下:
     </body>
 ```
 
-> Controller 的部份該怎麼補上?
->
->  shoppingModule.controller('ShoppingController', function ($scope, Items) {
->
->    $scope.items = Items.query();
->
->  });
-
 應用的返回結果看起來如圖2-2所示:
 
 ![use-module](figure/useModule.png)
