@@ -6,7 +6,7 @@
 
 ##應用程式
 
-Guthub是一個簡單的食譜管理應用, 我們設計它用於存儲我們超級沒味的食譜, 同時展示AngularJS應用程式的各個不同的部分. 這個應用程式包含以下內容:
+Guthub是一個簡單的食譜管理應用, 我們設計它用於存儲我們超級美味的食譜, 同時展示AngularJS應用程式的各個不同的部分. 這個應用程式包含以下內容:
 
 + 一個兩欄的部署
 + 在左側有一個導航欄
@@ -90,7 +90,7 @@ Figure 4-1. Guthub: A simple recipe management application
 
 	var services = angular.module('guthub.services', ['ngResource']);
 
-	services.factory('Recipe', ['$resource', function(){
+	services.factory('Recipe', ['$resource', function($resource){
 		return $resource('/recipes/:id', {id: '@id'});
 	}]);
 
@@ -232,7 +232,7 @@ Figure 4-1. Guthub: A simple recipe management application
 
 	directives.directive('butterbar', ['$rootScope', function($rootScope){
 		return {
-			link: function(scope, element attrs){
+			link: function(scope, element, attrs){
 				element.addClass('hide');
 
 				$rootScope.$on('$routeChangeStart', function(){
@@ -256,7 +256,7 @@ Figure 4-1. Guthub: A simple recipe management application
 
 上面所述的指令返回一個對像帶有一個單一的屬性, link. 我們將在第六章深入討論你可以如何建立你自己的指令, 但是現在, 你應該知道下面的所有事情:
 
-1. 指令經由兩個步驟處理. 在第一步中(編譯階段), 所有的指令都被附加到一個被查找到的DOM元素上, 然後處理它. 任何DOM操作否發生在編譯階段(步驟中). 在這個階段結束時, 產生一個連接函數.
+1. 指令經由兩個步驟處理. 在第一步中(編譯階段), 所有的指令都被附加到一個被查找到的DOM元素上, 然後處理它. 任何DOM操作也發生在編譯階段(步驟中). 在這個階段結束時, 連接函數被處理.
 
 2. 在第二步中, 連接階段(我們之前使用的階段), 產生前面的DOM樣板並連接到作用域. 同樣的, 任何觀察者或者監聽器都要根據需要添加, 在作用域和元素之前返回一個活動(雙向)綁定. 因此, 任何關聯到作用域的事情都發生在連接階段.
 
@@ -268,7 +268,7 @@ Figure 4-1. Guthub: A simple recipe management application
 
 它基於前面隱藏的元素, 然後添加兩個監聽器到根作用域中. 當每次一個路由開始改變時, 它就顯示該元素(經由改變它的class[className]), 每次路由成功改變並完成時, 它再一次隱藏`butterbar`.
 
-另一個有趣的事情是注意我們是如何注入`$rootScopr`到指令中的. 所有的指令都直接掛接到AngularJS的依賴注入系統, 因此你可以注入你的服務和其他任何需要的東西到其中.
+另一個有趣的事情是注意我們是如何注入`$rootScope`到指令中的. 所有的指令都直接掛接到AngularJS的依賴注入系統, 因此你可以注入你的服務和其他任何需要的東西到其中.
 
 最後需要注意的是處理元素的API. 使用jQuery的人會很高興, 因為他直到使用的是一個類似jQuery的語法(addClass, removeClass). AngularJS實現了一個呼叫jQuery的自己, 因此, 對於任何AngularJS項目來說, jQuery都是一個可選的依賴項. 如果你最終在你的項目中使用完整的jQuery庫, 你應該直到它使用的是它自己內置的jQlite實現.
 
@@ -282,7 +282,7 @@ Figure 4-1. Guthub: A simple recipe management application
 
 隨著指令和服務的覆蓋, 我們終於可以進入控制器部分了, 我們有五個控制器. 所有的這些控制器都在一個單獨的文件中(`app/scripts/controllers/controllers.js`), 但是我們會一個個來瞭解它們. 讓我們來看第一個控制器, 這是一個列表控制器, 負責顯示系統中所有的食譜列表.
 
-	app.controller('ListCtrl', ['scope', 'recipes', function($scope, recipes){
+	app.controller('ListCtrl', ['$scope', 'recipes', function($scope, recipes){
 		$scope.recipes = recipes;
 	}]);
 
@@ -358,7 +358,7 @@ New控制器幾乎與Edit控制器完全一樣. 實際上, 你可以結合兩個
 		};
 	}]);
 
-到目前為止, 我們看到的所有其他控制器斗魚UI視圖上的相關部分聯繫著. 但是這個Ingredients控制器是特殊的. 它是一個子控制器, 用於在編輯頁面封裝特定的恭喜而不需要在外層(父級)來處理. 有趣的是要注意, 由於它是一個字控制器, 繼承自作用域中的父控制器(在這裡就是Edit/New控制器). 因此, 它可以訪問來自父控制器的`$scope.recipe`.
+到目前為止, 我們看到的所有其他控制器都與UI視圖上的相關部分聯繫著. 但是這個Ingredients控制器是特殊的. 它是一個子控制器, 用於在編輯頁面封裝特定的功能而不需要在外層(父級)來處理. 有趣的是要注意, 由於它是一個子控制器, 繼承自作用域中的父控制器(在這裡就是Edit/New控制器). 因此, 它可以訪問來自父控制器的`$scope.recipe`.
 
 這個控制器本身並沒有什麼有趣或者獨特的地方. 它只是添加一個新的成份到現有的食譜成份數組中, 或者從食譜的成份列表中刪除一個特定的成份.
 
